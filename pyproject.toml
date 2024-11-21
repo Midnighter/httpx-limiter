@@ -156,6 +156,22 @@ exclude = "_version.py"
 # Hatch Environments
 ################################################################################
 
+[tool.hatch.envs.default]
+installer = "uv"
+
+[tool.hatch.envs.dev]
+description = """
+Development environment.
+
+Defining a path is a workaround for PyCharm,
+see https://youtrack.jetbrains.com/issue/PY-60410.
+"""
+extra-dependencies = [
+    "pytest",
+    "pytest-watcher",
+]
+path = ".venv"
+
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
 dependencies = [
@@ -163,6 +179,7 @@ dependencies = [
     "ruff",
 ]
 detached = true
+installer = "uv"
 
 [tool.hatch.envs.style.scripts]
 docstrings = "pydoclint"
@@ -207,6 +224,7 @@ dependencies = [
     "twine",
 ]
 detached = true
+installer = "uv"
 
 [tool.hatch.envs.install.scripts]
 check = [
