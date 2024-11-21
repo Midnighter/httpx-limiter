@@ -1,0 +1,232 @@
+################################################################################
+# Build Configuration
+################################################################################
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling", "hatch-vcs"]
+
+################################################################################
+# Project Configuration
+################################################################################
+
+[project]
+name = "httpx_limiter"
+dynamic = ["version"]
+description = "A lightweight package that provides rate-limited httpx transports."
+authors = [
+    { name = "Moritz E. Beber", email = "midnighter@posteo.net" },
+]
+license = "Apache-2.0"
+readme = {"file" = "README.md", "content-type" = "text/markdown"}
+requires-python = ">=3.9"
+# Please consult https://pypi.org/classifiers/ for a full list.
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Typing :: Typed",
+]
+# TODO: add keywords
+keywords = []
+# TODO: add dependencies
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Midnighter/httpx-limiter"
+Documentation = "https://httpx-limiter.readthedocs.io"
+"Source Code" = "https://github.com/Midnighter/httpx-limiter"
+"Bug Tracker" = "https://github.com/Midnighter/httpx-limiter/issues"
+Download = "https://pypi.org/project/httpx-limiter/#files"
+
+[project.optional-dependencies]
+dev = [
+    "hatch",
+    "pre-commit",
+]
+
+################################################################################
+# Tool Configuration
+################################################################################
+
+[tool.hatch.build]
+only-packages = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/httpx_limiter"]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/httpx_limiter/_version.py"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["raises"]
+
+[tool.coverage.paths]
+source = [
+    "src/httpx_limiter",
+    "*/site-packages/httpx_limiter",
+]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+omit = [
+    "src/httpx_limiter/_version.py",
+]
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover"]
+precision = 2
+
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D107",  # 'Missing docstring in __init__' ignored because pydoclint wants us to document the class instead.
+    "D203",  # '1 blank line required before class docstring' ignored because we want no blank line.
+    "D212",  # 'Multi-line docstring summary should start at the first line' ignored because we want the summary to start on the second line.
+    "D407",  # 'Missing dashed underline after section' ignored because Google style docstrings don't underline.
+    "ANN002",  # 'Missing type annotation for {*args} in method'.
+    "ANN003",  # 'Missing type annotation for {*kwargs} in method'.
+    "ANN101",  # 'Missing type annotation for {self} in method'.
+    "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
+]
+exclude = [
+    "src/httpx_limiter/_version.py",
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"__init__.py" = [
+    "E401",  # 'Multiple imports on one line'
+    "E402",  # 'Module level import not at top of file'
+    "F401",  # 'Imported but unused'
+    "I001",  # 'Import block is un-sorted or un-formatted' ignored because we may have to import in a particular, not-alphabetical order.
+]
+"tests/**/*.py" = [
+    "S101",  # 'Use of assert detected' ignored because we are using pytest.
+    "INP001",  # 'Insecure input' ignored because we are testing.
+    "ANN201",  # 'Missing type annotation for {return}' ignored because all tests return `None`.
+]
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+known-first-party = ["src", "httpx_limiter"]
+lines-after-imports = 1
+
+[tool.pydoclint]
+style = "google"  # TODO: Other styles are possible here, like 'numpy'
+arg-type-hints-in-docstring = false
+check-return-types = false
+check-yield-types = false
+exclude = "_version.py"
+
+# TODO: Adjust mypy configuration.
+#[tool.mypy]
+#plugins = [
+#    "pydantic.mypy",
+#]
+
+# Stop mypy from complaining about missing types from imports.
+#[[tool.mypy.overrides]]
+#module = [
+#    "pandas",
+#]
+#ignore_missing_imports = true
+
+#[tool.pydantic-mypy]
+#init_forbid_extra = true
+#init_typed = true
+#warn_required_dynamic_aliases = true
+
+################################################################################
+# Hatch Environments
+################################################################################
+
+[tool.hatch.envs.style]
+description = """Check the style of the codebase."""
+dependencies = [
+    "pydoclint",
+    "ruff",
+]
+detached = true
+
+[tool.hatch.envs.style.scripts]
+docstrings = "pydoclint"
+code = "ruff check {args}"
+format = "ruff format {args}"
+check = ["docstrings", "code"]
+
+[tool.hatch.envs.audit]
+description = """Check dependencies for security vulnerabilities."""
+extra-dependencies = [
+    "pip-audit",
+]
+
+[tool.hatch.envs.audit.scripts]
+check = ["pip-audit"]
+
+[tool.hatch.envs.types]
+description = """Check the static types of the codebase."""
+dependencies = [
+    "mypy",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy src/httpx_limiter"
+
+[tool.hatch.envs.docs]
+description = """Build or serve the documentation."""
+extra-dependencies = [
+    "mkdocs-material ~=9.5",
+    "mkdocstrings[python] ~=0.24",
+    "mkdocs-awesome-pages-plugin ~=2.9",
+]
+
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build {args:--clean --strict}"
+serve = "mkdocs serve {args}"
+
+[tool.hatch.envs.install]
+description = """Test the installation the package."""
+dependencies = [
+    "pip",
+    "twine",
+]
+detached = true
+
+[tool.hatch.envs.install.scripts]
+check = [
+    "pip check",
+    "hatch build {args:--clean}",
+    "twine check dist/*",
+]
+
+[tool.hatch.envs.test]
+description = """Run the test suite."""
+extra-dependencies = [
+    "pytest",
+    "pytest-cov",
+    "pytest-raises",
+    "pytest-randomly",
+    "pytest-xdist",
+]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.9", "3.12"]
+
+[tool.hatch.envs.test.scripts]
+run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing}"
