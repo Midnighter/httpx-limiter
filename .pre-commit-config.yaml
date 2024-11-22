@@ -32,9 +32,3 @@ repos:
       - id: check-github-workflows
 
       - id: check-readthedocs
-  - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.19
-    hooks:
-      - id: mdformat
-        additional_dependencies:
-          [mdformat-gfm, mdformat-frontmatter, mdformat-footnote]
