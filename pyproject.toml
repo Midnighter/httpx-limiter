@@ -44,7 +44,7 @@ keywords = [
     "rate-limit",
 ]
 dependencies = [
-    "httpx ~=0.27",
+    "httpx ~=0.25",
     "limiter ~=0.5",
 ]
 
