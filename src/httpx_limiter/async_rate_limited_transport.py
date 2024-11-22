@@ -60,7 +60,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         Args:
             rate: The refresh rate per second for bucket tokens.
             capacity: The maximum number of tokens the bucket can contain.
-            kwargs: Additional keyword arguments are used in the construction of an
+            **kwargs: Additional keyword arguments are used in the construction of an
                 `httpx.AsyncHTTPTransport`.
 
         Returns:
@@ -69,7 +69,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         """
         return cls(
             limiter=Limiter(rate=rate, capacity=capacity),
-            transport=httpx.AsyncHTTPTransport(**kwargs),
+            transport=httpx.AsyncHTTPTransport(**kwargs),  # type: ignore[arg-type]
         )
 
     async def handle_async_request(

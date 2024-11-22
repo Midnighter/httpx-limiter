@@ -144,11 +144,11 @@ exclude = "_version.py"
 #]
 
 # Stop mypy from complaining about missing types from imports.
-#[[tool.mypy.overrides]]
-#module = [
-#    "pandas",
-#]
-#ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = [
+    "limiter",
+]
+ignore_missing_imports = true
 
 #[tool.pydantic-mypy]
 #init_forbid_extra = true
