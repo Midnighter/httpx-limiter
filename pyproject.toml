@@ -122,6 +122,7 @@ exclude = [
     "S101",  # 'Use of assert detected' ignored because we are using pytest.
     "INP001",  # 'Insecure input' ignored because we are testing.
     "ANN201",  # 'Missing type annotation for {return}' ignored because all tests return `None`.
+    "PLR2004",  # Magic numbers are okay in tests.
 ]
 
 [tool.ruff.lint.isort]
@@ -169,7 +170,9 @@ Defining a path is a workaround for PyCharm,
 see https://youtrack.jetbrains.com/issue/PY-60410.
 """
 extra-dependencies = [
+    "anyio",
     "pytest",
+    "pytest-httpx",
     "pytest-watcher",
 ]
 path = ".venv"
@@ -238,15 +241,15 @@ check = [
 [tool.hatch.envs.test]
 description = """Run the test suite."""
 extra-dependencies = [
+    "anyio",
     "pytest",
     "pytest-cov",
+    "pytest-httpx",
     "pytest-raises",
-    "pytest-randomly",
-    "pytest-xdist",
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.9", "3.12"]
+python = ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing}"
