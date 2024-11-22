@@ -19,7 +19,7 @@ authors = [
 ]
 license = "Apache-2.0"
 readme = {"file" = "README.md", "content-type" = "text/markdown"}
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 # Please consult https://pypi.org/classifiers/ for a full list.
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
@@ -30,7 +30,6 @@ classifiers = [
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -229,7 +228,6 @@ dependencies = [
     "twine",
 ]
 detached = true
-installer = "uv"
 
 [tool.hatch.envs.install.scripts]
 check = [
@@ -249,7 +247,7 @@ extra-dependencies = [
 ]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.9", "3.10", "3.11", "3.12", "3.13"]
+python = ["3.10", "3.11", "3.12", "3.13"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing}"
