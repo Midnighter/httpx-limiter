@@ -128,7 +128,7 @@ exclude = [
 [tool.ruff.lint.isort]
 case-sensitive = true
 known-first-party = ["src", "httpx_limiter"]
-lines-after-imports = 1
+lines-after-imports = 2
 
 [tool.pydoclint]
 style = "google"  # TODO: Other styles are possible here, like 'numpy'
