@@ -103,8 +103,6 @@ ignore = [
     "D407",  # 'Missing dashed underline after section' ignored because Google style docstrings don't underline.
     "ANN002",  # 'Missing type annotation for {*args} in method'.
     "ANN003",  # 'Missing type annotation for {*kwargs} in method'.
-    "ANN101",  # 'Missing type annotation for {self} in method'.
-    "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
 ]
 exclude = [
     "src/httpx_limiter/_version.py",
