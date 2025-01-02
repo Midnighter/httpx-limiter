@@ -226,6 +226,7 @@ dependencies = [
     "twine",
 ]
 detached = true
+installer = "pip"
 
 [tool.hatch.envs.install.scripts]
 check = [
