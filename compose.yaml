@@ -1,0 +1,54 @@
+networks:
+  public:
+    external: true
+  socket:
+    internal: true
+
+services:
+  socket-proxy:
+    image: tecnativa/docker-socket-proxy:latest
+    networks:
+      - socket
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      NETWORKS: 1
+      CONTAINERS: 1
+
+  gateway:
+    command: >
+      --accessLog=true
+      --api.insecure=true
+      --log.level=INFO
+      --accessLog.format=json
+      --entryPoints.web.address=:80
+      --providers.docker=true
+      --providers.docker.endpoint=tcp://socket-proxy:2375
+      --providers.docker.exposedByDefault=false
+      --providers.docker.network=public
+    image: traefik:3
+    networks:
+      - public
+      - socket
+      - default
+    ports:
+      - target: 80
+        published: 80
+        mode: host
+      - target: 8080
+        published: 8080
+        mode: host
+
+  httpbin:
+    image: kennethreitz/httpbin:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.httpbin.rule=Host(`httpbin.localhost`)"
+      - "traefik.http.routers.httpbin.entrypoints=web"
+      - "traefik.http.services.httpbin.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.httpbin-limiter.ratelimit.average=30"
+      - "traefik.http.middlewares.httpbin-limiter.ratelimit.burst=30"
+      - "traefik.http.routers.httpbin.middlewares=httpbin-limiter@docker"
+    networks:
+      - public
+      - default
