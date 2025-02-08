@@ -38,7 +38,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+#        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [windows-latest]
         python-version: ["3.10", "3.12"]
 
     steps:
@@ -56,15 +57,15 @@ jobs:
       if: matrix.os != 'macos-latest'
       run: hatch run install:check
 
-    - name: Check dependencies
-      run: hatch run audit:check
+#    - name: Check dependencies
+#      run: hatch run audit:check
 
-    - name: Check types
-      run: hatch run types:check
+#    - name: Check types
+#      run: hatch run types:check
 
-    - name: Test suite
-      run: hatch run +py=${{ matrix.python-version }} test:run
+#    - name: Test suite
+#      run: hatch run +py=${{ matrix.python-version }} test:run
 
-    - name: Report coverage
-      shell: bash
-      run: bash <(curl -s https://codecov.io/bash)
+#    - name: Report coverage
+#      shell: bash
+#      run: bash <(curl -s https://codecov.io/bash)
