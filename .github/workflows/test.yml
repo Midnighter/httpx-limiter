@@ -63,7 +63,7 @@ jobs:
       run: hatch run types:check
 
     - name: Test suite
-      run: hatch run +py=${{ matrix.python-version }} test:run
+      run: hatch run +py=${{ matrix.python-version }} unit-tests:run
 
     - name: Report coverage
       shell: bash

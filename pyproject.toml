@@ -128,7 +128,7 @@ known-first-party = ["src", "httpx_limiter"]
 lines-after-imports = 2
 
 [tool.pydoclint]
-style = "google"  # TODO: Other styles are possible here, like 'numpy'
+style = "google"
 arg-type-hints-in-docstring = false
 check-return-types = false
 check-yield-types = false
@@ -234,8 +234,8 @@ check = [
     "twine check dist/*",
 ]
 
-[tool.hatch.envs.test]
-description = """Run the test suite."""
+[tool.hatch.envs.unit-tests]
+description = """Run the unit tests."""
 extra-dependencies = [
     "anyio",
     "pytest",
@@ -244,8 +244,25 @@ extra-dependencies = [
     "pytest-raises",
 ]
 
-[[tool.hatch.envs.test.matrix]]
+[[tool.hatch.envs.unit-tests.matrix]]
 python = ["3.10", "3.11", "3.12", "3.13"]
 
-[tool.hatch.envs.test.scripts]
-run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing}"
+[tool.hatch.envs.unit-tests.scripts]
+run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/unit"
+
+[tool.hatch.envs.acceptance-tests]
+description = """Run the acceptance tests."""
+extra-dependencies = [
+    "anyio",
+    # TODO: Use behave in future.
+    "pytest",
+    "pytest-cov",
+    "pytest-httpx",
+    "pytest-raises",
+]
+
+[[tool.hatch.envs.acceptance-tests.matrix]]
+python = ["3.10", "3.11", "3.12", "3.13"]
+
+[tool.hatch.envs.acceptance-tests.scripts]
+run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/acceptance"
