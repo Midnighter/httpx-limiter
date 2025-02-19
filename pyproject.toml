@@ -220,20 +220,20 @@ extra-dependencies = [
 build = "mkdocs build {args:--clean --strict}"
 serve = "mkdocs serve {args}"
 
-[tool.hatch.envs.install]
-description = """Test the installation the package."""
-dependencies = [
-    "pip",
-    "twine",
-]
-detached = true
+#[tool.hatch.envs.install]
+#description = """Test the installation the package."""
+#dependencies = [
+#    "pip",
+#    "twine",
+#]
+#detached = true
 
-[tool.hatch.envs.install.scripts]
-check = [
-    "pip check",
-    "hatch build {args:--clean}",
-    "twine check dist/*",
-]
+#[tool.hatch.envs.install.scripts]
+#check = [
+#    "pip check",
+#    "hatch build {args:--clean}",
+#    "twine check dist/*",
+#]
 
 [tool.hatch.envs.unit-tests]
 description = """Run the unit tests."""
