@@ -46,8 +46,8 @@ services:
       - "traefik.http.routers.httpbin.rule=Host(`httpbin.localhost`)"
       - "traefik.http.routers.httpbin.entrypoints=web"
       - "traefik.http.services.httpbin.loadbalancer.server.port=80"
-      - "traefik.http.middlewares.httpbin-limiter.ratelimit.average=30"
-      - "traefik.http.middlewares.httpbin-limiter.ratelimit.burst=30"
+      - "traefik.http.middlewares.httpbin-limiter.ratelimit.average=20"
+      - "traefik.http.middlewares.httpbin-limiter.ratelimit.burst=1"
       - "traefik.http.routers.httpbin.middlewares=httpbin-limiter@docker"
     networks:
       - public
