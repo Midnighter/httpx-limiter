@@ -18,7 +18,7 @@
 from __future__ import annotations
 
 import httpx
-from limiter import Limiter, Tokens
+from aiolimiter import AsyncLimiter
 
 
 class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
@@ -26,7 +26,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
     Define the asynchronous rate-limited transport.
 
     This transport consists of a composed transport for handling requests and an
-    implementation of a token bucket algorithm in order to rate-limit the number of
+    implementation of a leaky bucket algorithm in order to rate-limit the number of
     requests.
 
     """
@@ -34,7 +34,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
     def __init__(
         self,
         *,
-        limiter: Limiter,
+        limiter: AsyncLimiter,
         transport: httpx.AsyncBaseTransport,
         **kwargs,
     ) -> None:
@@ -46,20 +46,20 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
     def create(
         cls,
         *,
-        rate: Tokens,
-        capacity: Tokens,
+        rate: float,
+        interval: float = 1.0,
         **kwargs: dict,
     ) -> AsyncRateLimitedTransport:
         """
-        Create an instance of asynchronous limited transport.
+        Create an instance of asynchronous rate-limited transport.
 
         This factory method constructs the instance with an underlying
         `httpx.AsyncHTTPTransport`.
         That transport is passed any additional keyword arguments.
 
         Args:
-            rate: The refresh rate per second for bucket tokens.
-            capacity: The maximum number of tokens the bucket can contain.
+            rate: The maximum rate per interval at which bucket capacity is restored.
+            interval: The time interval in seconds of the rate.
             **kwargs: Additional keyword arguments are used in the construction of an
                 `httpx.AsyncHTTPTransport`.
 
@@ -68,7 +68,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
 
         """
         return cls(
-            limiter=Limiter(rate=rate, capacity=capacity),
+            limiter=AsyncLimiter(max_rate=rate, time_period=interval),
             transport=httpx.AsyncHTTPTransport(**kwargs),  # type: ignore[arg-type]
         )
 
