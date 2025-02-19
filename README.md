@@ -10,7 +10,7 @@ _A lightweight package that provides rate-limited httpx transports._
 
 ## Installation
 
-The package is published on [PyPI](). Install it, for example, with
+The package is published on [PyPI](https://pypi.org/project/httpx-limiter/). Install it, for example, with
 
 ```sh
 pip install httpx-limiter
@@ -27,10 +27,11 @@ for example, use the following:
 import httpx
 from httpx_limiter import AsyncRateLimitedTransport
 
-async with httpx.AsyncClient(
-    transport=AsyncRateLimitedTransport.create(rate=10, capacity=10),
-) as client:
-    ...
+async def main():
+    async with httpx.AsyncClient(
+        transport=AsyncRateLimitedTransport.create(rate=10),
+    ) as client:
+        response = await client.get("https://httpbin.org")
 ```
 
 ## Copyright
