@@ -17,6 +17,7 @@
 
 from __future__ import annotations
 
+<<<<<<< HEAD
 from typing import TYPE_CHECKING
 
 import httpx
@@ -25,6 +26,12 @@ from aiolimiter import AsyncLimiter
 
 if TYPE_CHECKING:  # pragma: no cover
     from .rate import Rate
+=======
+from typing import Literal
+
+import httpx
+from pyrate_limiter import Duration, Limiter, Rate, TimeAsyncClock
+>>>>>>> 1f95e0e (WIP)
 
 
 class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
@@ -71,10 +78,18 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
             A default instance of the class created from the given arguments.
 
         """
+        intervals = {
+            "second": Duration.SECOND,
+            "minute": Duration.MINUTE,
+            "hour": Duration.HOUR,
+            "day": Duration.DAY,
+            "week": Duration.WEEK,
+        }
         return cls(
-            limiter=AsyncLimiter(
-                max_rate=rate.magnitude,
-                time_period=rate.in_seconds(),
+            limiter=Limiter(
+                Rate(limit=rate, interval=intervals[interval]),
+                clock=TimeAsyncClock(),
+                max_delay=Duration.MINUTE,
             ),
             transport=httpx.AsyncHTTPTransport(**kwargs),  # type: ignore[arg-type]
         )
@@ -84,5 +99,5 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         request: httpx.Request,
     ) -> httpx.Response:
         """Handle an asynchronous request with rate limiting."""
-        async with self._limiter:
-            return await self._transport.handle_async_request(request)
+        await self._limiter.try_acquire(str(request))
+        return await self._transport.handle_async_request(request)
