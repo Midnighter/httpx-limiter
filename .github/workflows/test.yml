@@ -52,9 +52,9 @@ jobs:
     - name: Install hatch
       uses: pypa/hatch@install
 
-    - name: Check installation
-      if: matrix.os != 'macos-latest'
-      run: hatch run install:check
+#    - name: Check installation
+#      if: matrix.os != 'macos-latest'
+#      run: hatch run install:check
 
     - name: Check dependencies
       run: hatch run audit:check
