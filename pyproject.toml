@@ -178,14 +178,14 @@ path = ".venv"
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
 dependencies = [
-    "pydoclint",
+    "pydoclint ~=0.6",
     "ruff",
 ]
 detached = true
 installer = "uv"
 
 [tool.hatch.envs.style.scripts]
-docstrings = "pydoclint"
+docstrings = ["pydoclint src", "pydoclint tests"]
 code = "ruff check {args}"
 format = "ruff format {args}"
 check = ["docstrings", "code"]
