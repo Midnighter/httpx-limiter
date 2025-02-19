@@ -13,7 +13,15 @@
 # the License.
 
 
-"""Test the expected functionality of the asynchronous rate-limited transport."""
+"""
+Test the expected behavior of the asynchronous rate-limited transport.
+
+These tests expect the local service stack defined in the `compose.yaml` file to be
+started. The service that we query lies behind a traefik proxy which implements a
+rate limiting middleware (see https://doc.traefik.io/traefik/middlewares/http/ratelimit/)
+that allows an average of twenty requests per second.
+
+"""
 
 from collections import Counter
 
@@ -24,9 +32,9 @@ import pytest
 from httpx_limiter import AsyncRateLimitedTransport
 
 
-async def _record_response(client: httpx.AsyncClient, result: list[int]) -> None:
+async def _record_response(client: httpx.AsyncClient, counter: Counter) -> None:
     response = await client.get("http://httpbin.localhost/status/200")
-    result.append(response.status_code)
+    counter[response.status_code] += 1
 
 
 @pytest.mark.anyio
@@ -34,40 +42,44 @@ async def test_limits():
     """Test that an API's rate limit is maintained."""
     httpx_client = httpx.AsyncClient(
         transport=AsyncRateLimitedTransport.create(
-            rate=29,
-            capacity=30,
+            rate=1,
+            interval=1 / 20,
         ),
     )
 
-    response_codes: list[int] = []
+    response_codes = Counter()
 
     async with anyio.create_task_group() as group:
-        for _ in range(210):
+        for _ in range(100):
             group.start_soon(_record_response, httpx_client, response_codes)
 
-    assert len(response_codes) == 210
-    assert all(code == 200 for code in response_codes)
+    assert response_codes.total() == 100
+    assert response_codes[httpx.codes.OK] == 100
 
 
 @pytest.mark.anyio
 async def test_exceed_limits():
-    """Test that an API's rate limit are exceeded."""
+    """
+    Test that an API's rate limit is exceeded.
+
+    We cannot predict exactly the alignment of the rate at which we make requests and
+    the rate at which requests are accepted. Hence, we allow the response codes to be
+    within a range of expected values.
+
+    """
     httpx_client = httpx.AsyncClient(
         transport=AsyncRateLimitedTransport.create(
-            rate=40,
-            capacity=40,
+            rate=1,
+            interval=1 / 25,
         ),
     )
 
-    response_codes: list[int] = []
+    response_codes = Counter()
 
     async with anyio.create_task_group() as group:
-        for _ in range(280):
+        for _ in range(125):
             group.start_soon(_record_response, httpx_client, response_codes)
 
-    assert len(response_codes) == 280
-
-    codes_counter = Counter(response_codes)
-    assert tuple(code for code, _ in codes_counter.most_common()) == (200, 429)
-    assert codes_counter[200] == 210
-    assert codes_counter[429] == 70
+    assert response_codes.total() == 125
+    assert response_codes[httpx.codes.OK] in range(90, 101)
+    assert response_codes[httpx.codes.TOO_MANY_REQUESTS] in range(25, 36)
