@@ -18,16 +18,16 @@
 import anyio
 import httpx
 import pytest
-from aiolimiter import AsyncLimiter
+from pyrate_limiter import Duration, Limiter, Rate, TimeAsyncClock
 from pytest_httpx import HTTPXMock
 
 from httpx_limiter import AsyncRateLimitedTransport, Rate
 
 
 def test_init():
-    """Test that an asynchronous rate-limited transport can be initialized."""
+    """Test that an asynchronous limited transport can be initialized."""
     AsyncRateLimitedTransport(
-        limiter=AsyncLimiter(10),
+        limiter=Limiter(Rate(1, Duration.SECOND)),
         transport=httpx.AsyncHTTPTransport(),
     )
 
@@ -36,6 +36,15 @@ def test_create():
     """Test that an asynchronous rate-limited transport can be created."""
     transport = AsyncRateLimitedTransport.create(rate=Rate.create())
     assert isinstance(transport, AsyncRateLimitedTransport)
+
+
+@pytest.mark.anyio
+async def test_pyrate_limiter():
+    """Test that an asynchronous limited transport can be created."""
+    limiter = Limiter(Rate(3, Duration.SECOND), clock=TimeAsyncClock())
+    async with anyio.create_task_group() as tg:
+        for idx in range(4):
+            tg.start_soon(limiter.try_acquire, str(idx))
 
 
 @pytest.mark.anyio
