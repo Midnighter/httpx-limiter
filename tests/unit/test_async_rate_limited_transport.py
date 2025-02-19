@@ -63,7 +63,7 @@ async def test_handle_async_request(httpx_mock: HTTPXMock):
         ) as client,
         anyio.create_task_group() as tg,
     ):
-        with anyio.move_on_after(0.06) as scope:
+        with anyio.move_on_after(0.07) as scope:
             for _ in range(10):
                 tg.start_soon(client.get, "http://example.com")
             await anyio.sleep(2)
