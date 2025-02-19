@@ -18,20 +18,23 @@
 import anyio
 import httpx
 import pytest
-from limiter import Limiter
+from aiolimiter import AsyncLimiter
 from pytest_httpx import HTTPXMock
 
 from httpx_limiter import AsyncRateLimitedTransport
 
 
 def test_init():
-    """Test that an asynchronous limited transport can be initialized."""
-    AsyncRateLimitedTransport(limiter=Limiter(), transport=httpx.AsyncHTTPTransport())
+    """Test that an asynchronous rate-limited transport can be initialized."""
+    AsyncRateLimitedTransport(
+        limiter=AsyncLimiter(10),
+        transport=httpx.AsyncHTTPTransport(),
+    )
 
 
 def test_create():
-    """Test that an asynchronous limited transport can be created."""
-    transport = AsyncRateLimitedTransport.create(rate=10, capacity=10)
+    """Test that an asynchronous rate-limited transport can be created."""
+    transport = AsyncRateLimitedTransport.create(rate=10)
     assert isinstance(transport, AsyncRateLimitedTransport)
 
 
@@ -49,16 +52,18 @@ async def test_handle_async_request(httpx_mock: HTTPXMock):
 
     httpx_mock.add_callback(count_responses, is_reusable=True)
 
-    # We configure the bucket to allow a burst of three requests and a refresh rate of
-    # one. We then cancel all outstanding requests after 1.5 seconds, which
-    # means that we only expect four requests to succeed.
+    # We configure the bucket with a rate of two to allow a burst of requests and a
+    # refresh interval of 0.1 seconds. That means, when we create ten requests but then
+    # cancel all outstanding requests after 0.06 seconds, a bit more than half the time
+    # of the interval will have passed, and we expect a capacity of one to be returned.
+    # Consequently, we expect three requests to succeed in total.
     async with (
         httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport.create(rate=1, capacity=3),
+            transport=AsyncRateLimitedTransport.create(rate=2, interval=0.1),
         ) as client,
         anyio.create_task_group() as tg,
     ):
-        with anyio.move_on_after(1.5) as scope:
+        with anyio.move_on_after(0.06) as scope:
             for _ in range(10):
                 tg.start_soon(client.get, "http://example.com")
             await anyio.sleep(2)
@@ -66,4 +71,4 @@ async def test_handle_async_request(httpx_mock: HTTPXMock):
         tg.cancel_scope.cancel()
 
     assert scope.cancelled_caught
-    assert counter == 4
+    assert counter == 3

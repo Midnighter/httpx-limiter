@@ -41,10 +41,11 @@ keywords = [
     "httpx",
     "limiter",
     "rate-limit",
+    "leaky bucket",
 ]
 dependencies = [
     "httpx ~=0.25",
-    "limiter ~=0.5",
+    "aiolimiter ~=1.2",
 ]
 
 [project.urls]
