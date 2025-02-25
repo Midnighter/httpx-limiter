@@ -79,3 +79,11 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         """Handle an asynchronous request with rate limiting."""
         async with self._limiter:
             return await self._transport.handle_async_request(request)
+
+class AsyncDomainRateLimitedTransport(AsyncRateLimitedTransport):
+    async def handle_async_request(
+        self,
+        request: httpx.Request,
+    ) -> httpx.Response:
+        async with self._limiter(bucket=".".join(request.url.host.split(".")[-2:])):
+            return await self._transport.handle_async_request(request)
