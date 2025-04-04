@@ -17,8 +17,14 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import httpx
 from aiolimiter import AsyncLimiter
+
+
+if TYPE_CHECKING:
+    from .rate import Rate
 
 
 class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
@@ -46,8 +52,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
     def create(
         cls,
         *,
-        rate: float,
-        interval: float = 1.0,
+        rate: Rate,
         **kwargs: dict,
     ) -> AsyncRateLimitedTransport:
         """
@@ -59,7 +64,6 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
 
         Args:
             rate: The maximum rate per interval at which bucket capacity is restored.
-            interval: The time interval in seconds of the rate.
             **kwargs: Additional keyword arguments are used in the construction of an
                 `httpx.AsyncHTTPTransport`.
 
@@ -68,7 +72,10 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
 
         """
         return cls(
-            limiter=AsyncLimiter(max_rate=rate, time_period=interval),
+            limiter=AsyncLimiter(
+                max_rate=rate.magnitude,
+                time_period=rate.in_seconds(),
+            ),
             transport=httpx.AsyncHTTPTransport(**kwargs),  # type: ignore[arg-type]
         )
 
