@@ -15,4 +15,5 @@
 
 """Provide top level symbols."""
 
+from .rate import Number, Rate
 from .async_rate_limited_transport import AsyncRateLimitedTransport
