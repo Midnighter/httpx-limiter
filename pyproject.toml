@@ -172,6 +172,7 @@ extra-dependencies = [
     "pytest",
     "pytest-httpx",
     "pytest-watcher",
+    "ruff",
 ]
 path = ".venv"
 
