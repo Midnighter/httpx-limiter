@@ -10,7 +10,8 @@ _A lightweight package that provides rate-limited httpx transports._
 
 ## Installation
 
-The package is published on [PyPI](https://pypi.org/project/httpx-limiter/). Install it, for example, with
+The package is published on [PyPI](https://pypi.org/project/httpx-limiter/).
+Install it, for example, with
 
 ```sh
 pip install httpx-limiter
@@ -18,23 +19,23 @@ pip install httpx-limiter
 
 ## Usage
 
-For situations when you need to make a large number of asynchronous request with a
-controlled number of requests per time, you can apply rate limiting to an HTTPX client
-using the provided transport. If you want to be able to make ten requests per second,
-for example, use the following:
+For situations when you need to make a large number of asynchronous request with
+a controlled number of requests per unit time, you can apply rate limiting to an
+HTTPX client using the provided transport. If you want to be able to make ten
+requests per second, for example, use the following:
 
 ```python
 import httpx
-from httpx_limiter import AsyncRateLimitedTransport
+from httpx_limiter import AsyncRateLimitedTransport, Rate
 
 async def main():
     async with httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport.create(rate=10),
+        transport=AsyncRateLimitedTransport.create(rate=Rate.create(magnitude=10)),
     ) as client:
         response = await client.get("https://httpbin.org")
 ```
 
 ## Copyright
 
-- Copyright © 2024 Moritz E. Beber.
+- Copyright © 2024,2025 Moritz E. Beber.
 - Free software distributed under the [Apache Software License 2.0](./LICENSE).
