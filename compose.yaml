@@ -1,6 +1,5 @@
 networks:
-  public:
-    external: true
+  public: {}
   socket:
     internal: true
 
