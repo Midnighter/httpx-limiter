@@ -21,7 +21,7 @@ import pytest
 from aiolimiter import AsyncLimiter
 from pytest_httpx import HTTPXMock
 
-from httpx_limiter import AsyncRateLimitedTransport
+from httpx_limiter import AsyncRateLimitedTransport, Rate
 
 
 def test_init():
@@ -34,7 +34,7 @@ def test_init():
 
 def test_create():
     """Test that an asynchronous rate-limited transport can be created."""
-    transport = AsyncRateLimitedTransport.create(rate=10)
+    transport = AsyncRateLimitedTransport.create(rate=Rate.create())
     assert isinstance(transport, AsyncRateLimitedTransport)
 
 
@@ -59,7 +59,9 @@ async def test_handle_async_request(httpx_mock: HTTPXMock):
     # Consequently, we expect three requests to succeed in total.
     async with (
         httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport.create(rate=2, interval=0.1),
+            transport=AsyncRateLimitedTransport.create(
+                rate=Rate.create(magnitude=2, duration=0.1),
+            ),
         ) as client,
         anyio.create_task_group() as tg,
     ):

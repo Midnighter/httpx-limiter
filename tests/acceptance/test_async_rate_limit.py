@@ -29,7 +29,7 @@ import anyio
 import httpx
 import pytest
 
-from httpx_limiter import AsyncRateLimitedTransport
+from httpx_limiter import AsyncRateLimitedTransport, Rate
 
 
 async def _record_response(client: httpx.AsyncClient, counter: Counter) -> None:
@@ -42,8 +42,7 @@ async def test_limits():
     """Test that an API's rate limit is maintained."""
     httpx_client = httpx.AsyncClient(
         transport=AsyncRateLimitedTransport.create(
-            rate=1,
-            interval=1 / 20,
+            rate=Rate.create(duration=1 / 20),
         ),
     )
 
@@ -69,8 +68,7 @@ async def test_exceed_limits():
     """
     httpx_client = httpx.AsyncClient(
         transport=AsyncRateLimitedTransport.create(
-            rate=1,
-            interval=1 / 25,
+            rate=Rate.create(duration=1 / 25),
         ),
     )
 
