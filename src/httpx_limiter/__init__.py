@@ -17,3 +17,5 @@
 
 from .rate import Number, Rate
 from .async_rate_limited_transport import AsyncRateLimitedTransport
+from .abstract_rate_limiter_repository import AbstractRateLimiterRepository
+from .async_multi_rate_limited_transport import AsyncMultiRateLimitedTransport
