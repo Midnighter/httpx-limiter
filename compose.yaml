@@ -1,5 +1,6 @@
 networks:
-  public: {}
+  public:
+    name: public
   socket:
     internal: true
 
@@ -50,4 +51,16 @@ services:
       - "traefik.http.routers.httpbin.middlewares=httpbin-limiter@docker"
     networks:
       - public
-      - default
+
+  fast:
+    image: kennethreitz/httpbin:latest
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fast.rule=Host(`fast.localhost`)"
+      - "traefik.http.routers.fast.entrypoints=web"
+      - "traefik.http.services.fast.loadbalancer.server.port=80"
+      - "traefik.http.middlewares.fast-limiter.ratelimit.average=40"
+      - "traefik.http.middlewares.fast-limiter.ratelimit.burst=1"
+      - "traefik.http.routers.fast.middlewares=fast-limiter@docker"
+    networks:
+      - public
