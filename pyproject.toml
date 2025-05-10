@@ -250,7 +250,6 @@ run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/
 description = """Run the acceptance tests."""
 extra-dependencies = [
     "anyio",
-    # TODO: Use behave in future.
     "pytest",
     "pytest-cov",
     "pytest-httpx",
