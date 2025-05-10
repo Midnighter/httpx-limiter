@@ -23,7 +23,7 @@ import httpx
 from aiolimiter import AsyncLimiter
 
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from .rate import Rate
 
 

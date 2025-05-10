@@ -22,7 +22,7 @@ from typing import TYPE_CHECKING
 import httpx
 
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from .abstract_rate_limiter_repository import AbstractRateLimiterRepository
 
 
