@@ -66,26 +66,27 @@ async def _record_response(
 @pytest.mark.anyio
 async def test_limits():
     """Test that an API's rate limit is maintained."""
-    httpx_client = httpx.AsyncClient(
-        transport=AsyncMultiRateLimitedTransport.create(
-            repository=HostRateLimiterRepository(),
-        ),
-    )
-
     slow_rate_codes = Counter()
     fast_rate_codes = Counter()
 
-    async with anyio.create_task_group() as group:
+    async with (
+        httpx.AsyncClient(
+            transport=AsyncMultiRateLimitedTransport.create(
+                repository=HostRateLimiterRepository(),
+            ),
+        ) as client,
+        anyio.create_task_group() as group,
+    ):
         for _ in range(100):
             group.start_soon(
                 _record_response,
-                httpx_client,
+                client,
                 "http://httpbin.localhost/status/200",
                 slow_rate_codes,
             )
             group.start_soon(
                 _record_response,
-                httpx_client,
+                client,
                 "http://fast.localhost/status/200",
                 fast_rate_codes,
             )
