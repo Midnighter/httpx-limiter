@@ -63,9 +63,7 @@ jobs:
       run: hatch run types:check
 
     - name: Run unit tests
-      run: >
-        hatch run +py=${{ matrix.python-version }} unit-tests:run --
-          --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
+      run: hatch run +py=${{ matrix.python-version }} unit-tests:run -- --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
 
     - name: Report coverage
       shell: bash
@@ -96,9 +94,7 @@ jobs:
           compose-file: "compose.yaml"
 
       - name: Run acceptance tests
-        run: >
-          hatch run +py=${{ matrix.python-version }} acceptance-tests:run --
-            --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
+        run: hatch run +py=${{ matrix.python-version }} acceptance-tests:run -- --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
 
       - name: Report coverage
         shell: bash
