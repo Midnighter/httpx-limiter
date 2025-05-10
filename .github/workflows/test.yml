@@ -39,7 +39,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.10", "3.12"]
+        python-version: ["3.10", "3.13"]
 
     steps:
     - uses: actions/checkout@v4
@@ -62,7 +62,15 @@ jobs:
     - name: Check types
       run: hatch run types:check
 
-    - name: Test suite
+    - name: Run unit tests
+      run: hatch run +py=${{ matrix.python-version }} unit-tests:run
+
+    - name: Start rate-limited APIs
+      uses: hoverkraft-tech/compose-action@v2
+      with:
+        compose-file: "compose.yaml"
+
+    - name: Run acceptance tests
       run: hatch run +py=${{ matrix.python-version }} unit-tests:run
 
     - name: Report coverage
