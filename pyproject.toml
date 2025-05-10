@@ -161,12 +161,7 @@ ignore_missing_imports = true
 installer = "uv"
 
 [tool.hatch.envs.dev]
-description = """
-Development environment.
-
-Defining a path is a workaround for PyCharm,
-see https://youtrack.jetbrains.com/issue/PY-60410.
-"""
+description = """Development environment."""
 extra-dependencies = [
     "anyio",
     "pytest",
@@ -174,7 +169,6 @@ extra-dependencies = [
     "pytest-watcher",
     "ruff",
 ]
-path = ".venv"
 
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
