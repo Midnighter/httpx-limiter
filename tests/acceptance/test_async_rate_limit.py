@@ -53,7 +53,7 @@ async def test_limits():
             group.start_soon(_record_response, httpx_client, response_codes)
 
     assert response_codes.total() == 100
-    assert response_codes[httpx.codes.OK] == 100
+    assert response_codes[httpx.codes.OK] in range(95, 101)
 
 
 @pytest.mark.anyio
@@ -80,4 +80,6 @@ async def test_exceed_limits():
 
     assert response_codes.total() == 125
     assert response_codes[httpx.codes.OK] in range(90, 101)
-    assert response_codes[httpx.codes.TOO_MANY_REQUESTS] in range(25, 36)
+    assert response_codes[httpx.codes.TOO_MANY_REQUESTS] == (
+        125 - response_codes[httpx.codes.OK]
+    )

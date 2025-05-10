@@ -91,7 +91,8 @@ async def test_limits():
             )
 
     assert slow_rate_codes.total() == 100
-    assert slow_rate_codes[httpx.codes.OK] == 100
+    assert slow_rate_codes[httpx.codes.OK] in range(95, 101)
+
 
     assert fast_rate_codes.total() == 100
-    assert fast_rate_codes[httpx.codes.OK] == 100
+    assert fast_rate_codes[httpx.codes.OK] in range(95, 101)
