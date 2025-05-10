@@ -40,17 +40,18 @@ async def _record_response(client: httpx.AsyncClient, counter: Counter) -> None:
 @pytest.mark.anyio
 async def test_limits():
     """Test that an API's rate limit is maintained."""
-    httpx_client = httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport.create(
-            rate=Rate.create(duration=1 / 20),
-        ),
-    )
-
     response_codes = Counter()
 
-    async with anyio.create_task_group() as group:
+    async with (
+        httpx.AsyncClient(
+            transport=AsyncRateLimitedTransport.create(
+                rate=Rate.create(duration=1 / 20),
+            ),
+        ) as client,
+        anyio.create_task_group() as group,
+    ):
         for _ in range(100):
-            group.start_soon(_record_response, httpx_client, response_codes)
+            group.start_soon(_record_response, client, response_codes)
 
     assert response_codes.total() == 100
     assert response_codes[httpx.codes.OK] in range(95, 101)
@@ -66,17 +67,18 @@ async def test_exceed_limits():
     within a range of expected values.
 
     """
-    httpx_client = httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport.create(
-            rate=Rate.create(duration=1 / 25),
-        ),
-    )
-
     response_codes = Counter()
 
-    async with anyio.create_task_group() as group:
+    async with (
+        httpx.AsyncClient(
+            transport=AsyncRateLimitedTransport.create(
+                rate=Rate.create(duration=1 / 25),
+            ),
+        ) as client,
+        anyio.create_task_group() as group,
+    ):
         for _ in range(125):
-            group.start_soon(_record_response, httpx_client, response_codes)
+            group.start_soon(_record_response, client, response_codes)
 
     assert response_codes.total() == 125
     assert response_codes[httpx.codes.OK] in range(90, 101)
