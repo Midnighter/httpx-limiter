@@ -1,7 +1,7 @@
 site_name: HTTPX Limiter
 site_description: A lightweight package that provides rate-limited httpx transports.
 site_author: Moritz E. Beber
-site_url: https://httpx-limiter.readthedocs.io/
+site_url: https://midnighter.github.io/httpx-limiter/
 
 markdown_extensions:
   - admonition
