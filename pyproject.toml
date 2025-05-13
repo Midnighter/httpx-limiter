@@ -209,11 +209,13 @@ extra-dependencies = [
     "mkdocs-material ~=9.5",
     "mkdocstrings[python] ~=0.24",
     "mkdocs-awesome-pages-plugin ~=2.9",
+    "mike ~=2.1",
 ]
 
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build {args:--clean --strict}"
 serve = "mkdocs serve {args}"
+deploy = "mike deploy {args}"
 
 #[tool.hatch.envs.install]
 #description = """Test the installation the package."""
