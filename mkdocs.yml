@@ -26,15 +26,15 @@ theme:
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: green
-      accent: light green
+      primary: deep purple
+      accent: teal
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: green
-      accent: light green
+      primary: deep purple
+      accent: teal
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
@@ -47,19 +47,24 @@ plugins:
           paths: [src]
           options:
             show_submodules: true
-            show_category_heading: true
             show_if_no_docstring: true
             show_signature_annotations: true
+            show_root_heading: true
+            show_source: false
       default_handler: python
   - awesome-pages
 
 extra:
+  version:
+    provider: mike
+    default: stable
+    alias: true
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/Midnighter
       name: Moritz E. Beber
 
-copyright: Copyright &copy 2024 Moritz E. Beber
+copyright: Copyright &copy 2024, 2025 Moritz E. Beber
 
 repo_url: https://github.com/Midnighter/httpx-limiter
 repo_name: Midnighter/httpx-limiter
