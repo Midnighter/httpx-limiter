@@ -36,7 +36,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 keywords = ["httpx", "limiter", "rate-limit", "leaky bucket"]
-dependencies = ["httpx ~=0.25", "pyrate-limiter ~=3.7"]
+dependencies = ["httpx ~=0.25", "pyrate-limiter ~=3.9"]
 
 [project.urls]
 Homepage = "https://github.com/Midnighter/httpx-limiter"
