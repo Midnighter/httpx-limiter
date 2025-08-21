@@ -17,7 +17,13 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, TypedDict, Unpack
+from typing import TYPE_CHECKING, Any, TypedDict
+
+
+try:
+    from typing import Unpack
+except ImportError:  # pragma: no cover
+    from typing_extensions import Unpack
 
 from pyrate_limiter import (
     AbstractClock,
