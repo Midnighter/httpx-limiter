@@ -17,21 +17,15 @@
 
 from __future__ import annotations
 
-<<<<<<< HEAD
 from typing import TYPE_CHECKING
 
 import httpx
-from aiolimiter import AsyncLimiter
+
+from .async_limiter import AsyncLimiter
 
 
 if TYPE_CHECKING:  # pragma: no cover
     from .rate import Rate
-=======
-from typing import Literal
-
-import httpx
-from pyrate_limiter import Duration, Limiter, Rate, TimeAsyncClock
->>>>>>> 1f95e0e (WIP)
 
 
 class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
@@ -58,9 +52,8 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
     @classmethod
     def create(
         cls,
-        *,
-        rate: Rate,
-        **kwargs: dict,
+        *rates: Rate,
+        **kwargs,
     ) -> AsyncRateLimitedTransport:
         """
         Create an instance of asynchronous rate-limited transport.
@@ -70,7 +63,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         That transport is passed any additional keyword arguments.
 
         Args:
-            rate: The maximum rate per interval at which bucket capacity is restored.
+            *rates: One or more rate limits to apply.
             **kwargs: Additional keyword arguments are used in the construction of an
                 `httpx.AsyncHTTPTransport`.
 
@@ -78,19 +71,8 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
             A default instance of the class created from the given arguments.
 
         """
-        intervals = {
-            "second": Duration.SECOND,
-            "minute": Duration.MINUTE,
-            "hour": Duration.HOUR,
-            "day": Duration.DAY,
-            "week": Duration.WEEK,
-        }
         return cls(
-            limiter=Limiter(
-                Rate(limit=rate, interval=intervals[interval]),
-                clock=TimeAsyncClock(),
-                max_delay=Duration.MINUTE,
-            ),
+            limiter=AsyncLimiter.create(*rates),
             transport=httpx.AsyncHTTPTransport(**kwargs),  # type: ignore[arg-type]
         )
 
@@ -99,5 +81,5 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         request: httpx.Request,
     ) -> httpx.Response:
         """Handle an asynchronous request with rate limiting."""
-        await self._limiter.try_acquire(str(request))
-        return await self._transport.handle_async_request(request)
+        async with self._limiter:
+            return await self._transport.handle_async_request(request)
