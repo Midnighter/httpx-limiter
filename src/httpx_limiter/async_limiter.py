@@ -17,13 +17,15 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypedDict, Unpack
 
 from pyrate_limiter import (
+    AbstractClock,
     BucketAsyncWrapper,
     Duration,
     InMemoryBucket,
     Limiter,
+    TimeAsyncClock,
 )
 from pyrate_limiter import Rate as PyRate
 
@@ -32,6 +34,16 @@ if TYPE_CHECKING:  # pragma: no cover
     from types import TracebackType
 
     from .rate import Rate
+
+
+class PyRateLimiterKeywordArguments(TypedDict, total=False):
+    """Keyword arguments for the pyrate limiter."""
+
+    clock: AbstractClock
+    raise_when_fail: bool
+    max_delay: int | Duration | None
+    retry_until_max_delay: bool
+    buffer_ms: int
 
 
 class AsyncLimiter:
@@ -51,23 +63,29 @@ class AsyncLimiter:
         self._limiter = limiter
 
     @classmethod
-    def create(cls, *rates: Rate) -> AsyncLimiter:
+    def create(
+        cls,
+        *rates: Rate,
+        **kwargs: Unpack[PyRateLimiterKeywordArguments],
+    ) -> AsyncLimiter:
         """Create an instance of AsyncLimiter."""
         if not rates:
             msg = "At least one rate must be provided."
             raise ValueError(msg)
 
         rate_limits = [
-            PyRate(limit=rate.magnitude, interval=rate.in_microseconds())
+            PyRate(limit=rate.magnitude, interval=rate.in_milliseconds())
             for rate in rates
         ]
         bucket = BucketAsyncWrapper(InMemoryBucket(rate_limits))
 
         limiter = Limiter(
             argument=bucket,
-            raise_when_fail=False,
-            max_delay=Duration.DAY,
-            retry_until_max_delay=True,
+            clock=kwargs.get("clock", TimeAsyncClock()),
+            raise_when_fail=kwargs.get("raise_when_fail", False),
+            max_delay=kwargs.get("max_delay", Duration.HOUR),
+            retry_until_max_delay=kwargs.get("retry_until_max_delay", False),
+            buffer_ms=kwargs.get("buffer_ms", 50),
         )
         return cls(limiter=limiter)
 
@@ -75,7 +93,7 @@ class AsyncLimiter:
         """Acquire a token upon entering the asynchronous context."""
         # Keep trying to acquire, let timeouts be handled externally.
         while not (await self._limiter.try_acquire_async("httpx-limiter")):
-            pass
+            pass  # pragma: no cover
 
         return self
 
