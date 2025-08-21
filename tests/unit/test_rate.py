@@ -24,10 +24,10 @@ from httpx_limiter import Number, Rate
 
 def test_init():
     """Test that the rate is properly initialized."""
-    rate = Rate(magnitude=2.0, duration=timedelta(seconds=1))
+    rate = Rate(magnitude=2, duration=timedelta(seconds=1))
 
-    assert isinstance(rate.magnitude, float)
-    assert rate.magnitude == 2.0
+    assert isinstance(rate.magnitude, int)
+    assert rate.magnitude == 2
 
     assert isinstance(rate.duration, timedelta)
     assert rate.duration == timedelta(seconds=1)
@@ -36,16 +36,16 @@ def test_init():
 @pytest.mark.parametrize(
     ("magnitude", "duration", "expected"),
     [
-        (2, 3, Rate(magnitude=2.0, duration=timedelta(seconds=3))),
-        (4.1, 5.2, Rate(magnitude=4.1, duration=timedelta(seconds=5.2))),
+        (2, 3, Rate(magnitude=2, duration=timedelta(seconds=3))),
+        (4, 5.2, Rate(magnitude=4, duration=timedelta(seconds=5.2))),
         (
-            6.1,
+            6,
             timedelta(microseconds=230),
-            Rate(magnitude=6.1, duration=timedelta(microseconds=230)),
+            Rate(magnitude=6, duration=timedelta(microseconds=230)),
         ),
     ],
 )
-def test_create(magnitude: Number, duration: timedelta | Number, expected: Rate):
+def test_create(magnitude: int, duration: timedelta | Number, expected: Rate):
     """Test that rates are properly created."""
     assert Rate.create(magnitude, duration) == expected
 
