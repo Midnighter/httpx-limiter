@@ -24,6 +24,8 @@ that allows an average of twenty requests per second.
 """
 
 from collections import Counter
+from collections.abc import Sequence
+from time import perf_counter
 
 import anyio
 import httpx
@@ -34,6 +36,7 @@ from httpx_limiter import (
     AsyncMultiRateLimitedTransport,
     Rate,
 )
+from httpx_limiter.async_limiter import PyRateLimiterKeywordArguments
 
 
 class HostRateLimiterRepository(AbstractRateLimiterRepository):
@@ -43,15 +46,23 @@ class HostRateLimiterRepository(AbstractRateLimiterRepository):
         """Return a host-based identifier for testing."""
         return request.url.host
 
-    def get_rate(self, request: httpx.Request) -> Rate:
+    def get_rates(self, request: httpx.Request) -> Sequence[Rate]:
         """Return a host-dependent rate."""
         match self.get_identifier(request):
             case "httpbin.localhost":
-                return Rate.create(duration=1 / 20)
+                return (Rate.create(duration=1 / 20),)
             case "fast.localhost":
-                return Rate.create(duration=1 / 40)
+                return (Rate.create(duration=1 / 40),)
             case _:
-                return Rate.create(1)
+                return (Rate.create(1),)
+
+    def _get_limiter_kwargs(
+        self, request: httpx.Request
+    ) -> PyRateLimiterKeywordArguments:
+        return {
+            "max_delay": 6_000,
+            "buffer_ms": 1,
+        }
 
 
 async def _record_response(
@@ -77,6 +88,8 @@ async def test_limits():
         ) as client,
         anyio.create_task_group() as group,
     ):
+        start = perf_counter()
+
         for _ in range(100):
             group.start_soon(
                 _record_response,
@@ -91,9 +104,13 @@ async def test_limits():
                 fast_rate_codes,
             )
 
+    duration = perf_counter() - start
+    # Making 100 requests at a rate of 20 requests per second should take around
+    # five seconds; at 40 per second it should take around 2.5 seconds.
+    assert 2.5 <= duration < 6, f"Requests took {duration=} seconds."
+
     assert slow_rate_codes.total() == 100
     assert slow_rate_codes[httpx.codes.OK] in range(95, 101)
-
 
     assert fast_rate_codes.total() == 100
     assert fast_rate_codes[httpx.codes.OK] in range(95, 101)
