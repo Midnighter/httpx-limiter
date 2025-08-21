@@ -27,13 +27,13 @@ Number = float | int
 class Rate(NamedTuple):
     """Define the rate."""
 
-    magnitude: float
+    magnitude: int
     duration: timedelta
 
     @classmethod
-    def create(cls, magnitude: Number = 1, duration: timedelta | Number = 1) -> Rate:
+    def create(cls, magnitude: int = 1, duration: timedelta | Number = 1) -> Rate:
         """Create a rate."""
-        magnitude = float(magnitude)
+        magnitude = int(magnitude)
 
         if not isinstance(duration, timedelta):
             duration = timedelta(seconds=float(duration))
