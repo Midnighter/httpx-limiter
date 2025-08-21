@@ -57,8 +57,8 @@ def test_semi_negative_arguments(magnitude: int, duration: int, message: str):
         (4, 5.2, Rate(magnitude=4, duration=timedelta(seconds=5.2))),
         (
             6,
-            timedelta(microseconds=230),
-            Rate(magnitude=6, duration=timedelta(microseconds=230)),
+            timedelta(milliseconds=230),
+            Rate(magnitude=6, duration=timedelta(milliseconds=230)),
         ),
     ],
 )
@@ -70,12 +70,12 @@ def test_create(magnitude: int, duration: timedelta | Number, expected: Rate):
 @pytest.mark.parametrize(
     ("duration", "expected"),
     [
-        (timedelta(milliseconds=500), 500_000),
-        (0.5, 500_000),
-        (0.02, 20_000),
-        (2, 2_000_000),
+        (timedelta(milliseconds=500), 500),
+        (0.5, 500),
+        (0.02, 20),
+        (2, 2000),
     ],
 )
-def test_in_microseconds(duration: timedelta | Number, expected: int):
-    """Test that the duration is correctly converted to microseconds."""
-    assert Rate.create(duration=duration).in_microseconds() == expected
+def test_in_milliseconds(duration: timedelta | Number, expected: int):
+    """Test that the duration is correctly converted to milliseconds."""
+    assert Rate.create(duration=duration).in_milliseconds() == expected
