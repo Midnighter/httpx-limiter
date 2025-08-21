@@ -41,7 +41,7 @@ class AbstractRateLimiterRepository(ABC):
 
     def _get_limiter_kwargs(
         self,
-        request: httpx.Request,
+        request: httpx.Request,  # noqa: ARG002
     ) -> PyRateLimiterKeywordArguments:
         """Return the keyword arguments for creating a rate limiter."""
         return {}

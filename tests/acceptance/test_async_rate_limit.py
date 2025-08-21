@@ -30,7 +30,7 @@ import anyio
 import httpx
 import pytest
 
-from httpx_limiter import AsyncRateLimitedTransport, Rate, AsyncLimiter
+from httpx_limiter import AsyncLimiter, AsyncRateLimitedTransport, Rate
 
 
 async def _record_response(client: httpx.AsyncClient, counter: Counter) -> None:

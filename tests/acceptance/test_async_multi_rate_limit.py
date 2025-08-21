@@ -57,7 +57,8 @@ class HostRateLimiterRepository(AbstractRateLimiterRepository):
                 return (Rate.create(1),)
 
     def _get_limiter_kwargs(
-        self, request: httpx.Request
+        self,
+        request: httpx.Request,  # noqa: ARG002
     ) -> PyRateLimiterKeywordArguments:
         return {
             "max_delay": 6_000,
