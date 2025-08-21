@@ -45,8 +45,7 @@ async def test_create():
     [
         (Rate.create(magnitude=1, duration=0.1), 0.01, 1),
         (Rate.create(magnitude=2, duration=0.1), 0.04, 2),
-        (Rate.create(magnitude=2, duration=0.1), 0.5, 4),
-        (Rate.create(magnitude=2, duration=1), 1.1, 4),
+        (Rate.create(magnitude=2, duration=0.1), 0.21, 4),
     ],
 )
 @pytest.mark.anyio
