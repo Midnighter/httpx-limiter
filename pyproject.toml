@@ -151,6 +151,10 @@ extra-dependencies = [
     "ruff",
 ]
 
+[tool.hatch.envs.dev.env-vars]
+PYTHONDEVMODE = "1"
+PYTHONASYNCIODEBUG = "1"
+
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
 dependencies = ["pydoclint", "ruff"]
@@ -210,6 +214,10 @@ extra-dependencies = [
     "pytest-raises",
 ]
 
+[tool.hatch.envs.unit-tests.env-vars]
+PYTHONDEVMODE = "1"
+PYTHONASYNCIODEBUG = "1"
+
 [[tool.hatch.envs.unit-tests.matrix]]
 python = ["3.10", "3.11", "3.12", "3.13"]
 
@@ -225,6 +233,10 @@ extra-dependencies = [
     "pytest-httpx",
     "pytest-raises",
 ]
+
+[tool.hatch.envs.acceptance-tests.env-vars]
+PYTHONDEVMODE = "1"
+PYTHONASYNCIODEBUG = "1"
 
 [[tool.hatch.envs.acceptance-tests.matrix]]
 python = ["3.10", "3.11", "3.12", "3.13"]
