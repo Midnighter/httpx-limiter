@@ -35,8 +35,16 @@ class Rate(NamedTuple):
         """Create a rate."""
         magnitude = int(magnitude)
 
+        if not (magnitude > 0):
+            msg = f"Magnitude must be strictly positive (provided {magnitude=})."
+            raise ValueError(msg)
+
         if not isinstance(duration, timedelta):
             duration = timedelta(seconds=float(duration))
+
+        if not (duration > timedelta(seconds=0)):
+            msg = f"Duration must be strictly positive (provided {duration=})."
+            raise ValueError(msg)
 
         return cls(magnitude=magnitude, duration=duration)
 

@@ -34,6 +34,23 @@ def test_init():
 
 
 @pytest.mark.parametrize(
+    ("magnitude", "duration", "message"),
+    [
+        (0, 1, "Magnitude must be strictly positive"),
+        (1, 0, "Duration must be strictly positive"),
+        (0, 0, "Magnitude must be strictly positive"),
+        (-1, 1, "Magnitude must be strictly positive"),
+        (1, -1, "Duration must be strictly positive"),
+        (-1, -1, "Magnitude must be strictly positive"),
+    ],
+)
+def test_semi_negative_arguments(magnitude: int, duration: int, message: str):
+    """Test that the factory rejects semi-negative arguments."""
+    with pytest.raises(ValueError, match=message):
+        Rate.create(magnitude=magnitude, duration=duration)
+
+
+@pytest.mark.parametrize(
     ("magnitude", "duration", "expected"),
     [
         (2, 3, Rate(magnitude=2, duration=timedelta(seconds=3))),
