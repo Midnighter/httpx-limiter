@@ -16,10 +16,11 @@
 """Provide an abstract repository for rate limiters."""
 
 from abc import ABC, abstractmethod
+from collections.abc import Sequence
 
 import httpx
-from aiolimiter import AsyncLimiter
 
+from .async_limiter import AsyncLimiter
 from .rate import Rate
 
 
@@ -35,19 +36,14 @@ class AbstractRateLimiterRepository(ABC):
         """Return a request-specific identifier."""
 
     @abstractmethod
-    def get_rate(self, request: httpx.Request) -> Rate:
-        """Return a request-specific rate."""
+    def get_rates(self, request: httpx.Request) -> Sequence[Rate]:
+        """Return one or more request-specific rates."""
 
     def get(self, request: httpx.Request) -> AsyncLimiter:
         """Return a request-specific rate limiter."""
         identifier = self.get_identifier(request)
 
         if identifier not in self._limiters:
-            rate = self.get_rate(request)
-            self._limiters[identifier] = AsyncLimiter(
-                max_rate=rate.magnitude,
-                time_period=rate.in_seconds(),
-            )
+            self._limiters[identifier] = AsyncLimiter.create(*self.get_rates(request))
 
         return self._limiters[identifier]
-

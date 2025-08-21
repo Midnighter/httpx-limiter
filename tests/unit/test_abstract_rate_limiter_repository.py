@@ -15,10 +15,12 @@
 
 """Test the expected functionality of the rate limiter repository."""
 
-import httpx
-from aiolimiter import AsyncLimiter
+from collections.abc import Sequence
 
-from httpx_limiter import AbstractRateLimiterRepository, Rate
+import httpx
+import pytest
+
+from httpx_limiter import AbstractRateLimiterRepository, AsyncLimiter, Rate
 
 
 class ConcreteRateLimiterRepository(AbstractRateLimiterRepository):
@@ -33,9 +35,9 @@ class ConcreteRateLimiterRepository(AbstractRateLimiterRepository):
         """Return a predefined identifier for testing."""
         return self._identifier
 
-    def get_rate(self, _: httpx.Request) -> Rate:
+    def get_rates(self, _: httpx.Request) -> Sequence[Rate]:
         """Return a predefined rate for testing."""
-        return self._rate
+        return (self._rate,)
 
 
 class MethodRateLimiterRepository(AbstractRateLimiterRepository):
@@ -45,12 +47,13 @@ class MethodRateLimiterRepository(AbstractRateLimiterRepository):
         """Return a method-based identifier for testing."""
         return request.method
 
-    def get_rate(self, _: httpx.Request) -> Rate:
+    def get_rates(self, _: httpx.Request) -> Sequence[Rate]:
         """Return a constant rate."""
-        return Rate.create(1)
+        return (Rate.create(1),)
 
 
-def test_get_identifier():
+@pytest.mark.anyio
+async def test_get_identifier():
     """Test that get_identifier is called and returns the expected value."""
     repo = ConcreteRateLimiterRepository(identifier="test_id", rate=Rate.create(1))
 
@@ -59,15 +62,18 @@ def test_get_identifier():
     assert result == "test_id"
 
 
-def test_get_rate():
+@pytest.mark.anyio
+async def test_get_rate():
     """Test that get_rate is called and returns the expected value."""
     repo = ConcreteRateLimiterRepository(identifier="test_id", rate=Rate.create(9))
 
-    result = repo.get_rate(httpx.Request(method="GET", url="http://test.com"))
+    result = repo.get_rates(httpx.Request(method="GET", url="http://test.com"))
 
-    assert result.magnitude == 9
+    assert result[0].magnitude == 9
 
-def test_get_new_limiter():
+
+@pytest.mark.anyio
+async def test_get_new_limiter():
     """Test that get creates and returns a new limiter when needed."""
     repo = ConcreteRateLimiterRepository(identifier="test_id", rate=Rate.create(1))
 
@@ -75,7 +81,9 @@ def test_get_new_limiter():
 
     assert isinstance(result, AsyncLimiter)
 
-def test_get_existing_limiter():
+
+@pytest.mark.anyio
+async def test_get_existing_limiter():
     """Test that get returns an existing limiter if available."""
     repo = ConcreteRateLimiterRepository(identifier="test_id", rate=Rate.create(1))
 
@@ -84,7 +92,9 @@ def test_get_existing_limiter():
 
     assert second_limiter is first_limiter
 
-def test_multiple_identifiers():
+
+@pytest.mark.anyio
+async def test_multiple_identifiers():
     """Test that different identifiers create different limiters."""
     repo = MethodRateLimiterRepository()
 
