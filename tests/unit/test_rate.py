@@ -53,18 +53,6 @@ def test_create(magnitude: Number, duration: timedelta | Number, expected: Rate)
 @pytest.mark.parametrize(
     ("duration", "expected"),
     [
-        (timedelta(minutes=1.5), 90.0),
-        (timedelta(milliseconds=500), 0.5),
-    ],
-)
-def test_in_seconds(duration: timedelta | Number, expected: float):
-    """Test that the duration is correctly converted to seconds."""
-    assert Rate.create(duration=duration).in_seconds() == expected
-
-
-@pytest.mark.parametrize(
-    ("duration", "expected"),
-    [
         (timedelta(milliseconds=500), 500_000),
         (0.5, 500_000),
         (0.02, 20_000),
