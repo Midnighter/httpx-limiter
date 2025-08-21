@@ -46,7 +46,7 @@ class AsyncLimiter:
 
     """
 
-    def __init__(self, limiter: Limiter, **kwargs: dict[str, Any]) -> None:
+    def __init__(self, *, limiter: Limiter, **kwargs: dict[str, Any]) -> None:
         super().__init__(**kwargs)
         self._limiter = limiter
 

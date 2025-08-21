@@ -18,41 +18,51 @@
 import anyio
 import httpx
 import pytest
-from pyrate_limiter import Duration, Limiter, Rate, TimeAsyncClock
 from pytest_httpx import HTTPXMock
 
-from httpx_limiter import AsyncRateLimitedTransport, Rate
+from httpx_limiter import AsyncLimiter, AsyncRateLimitedTransport, Rate
 
 
-def test_init():
+@pytest.mark.anyio
+async def test_init():
     """Test that an asynchronous limited transport can be initialized."""
     AsyncRateLimitedTransport(
-        limiter=Limiter(Rate(1, Duration.SECOND)),
+        limiter=AsyncLimiter.create(Rate.create(1)),
         transport=httpx.AsyncHTTPTransport(),
     )
 
 
-def test_create():
+@pytest.mark.anyio
+async def test_create():
     """Test that an asynchronous rate-limited transport can be created."""
-    transport = AsyncRateLimitedTransport.create(rate=Rate.create())
+    transport = AsyncRateLimitedTransport.create(Rate.create())
+
     assert isinstance(transport, AsyncRateLimitedTransport)
 
 
+@pytest.mark.parametrize(
+    ("rate", "interrupt_seconds", "expected_count"),
+    [
+        (Rate.create(magnitude=1, duration=0.1), 0.01, 1),
+        (Rate.create(magnitude=2, duration=0.1), 0.04, 2),
+        (Rate.create(magnitude=2, duration=0.1), 0.5, 4),
+        (Rate.create(magnitude=2, duration=1), 1.1, 4),
+    ],
+)
 @pytest.mark.anyio
-async def test_pyrate_limiter():
-    """Test that an asynchronous limited transport can be created."""
-    limiter = Limiter(Rate(3, Duration.SECOND), clock=TimeAsyncClock())
-    async with anyio.create_task_group() as tg:
-        for idx in range(4):
-            tg.start_soon(limiter.try_acquire, str(idx))
-
-
-@pytest.mark.anyio
-async def test_handle_async_request(httpx_mock: HTTPXMock):
+async def test_handle_async_request(
+    rate: Rate,
+    interrupt_seconds: float,
+    expected_count: int,
+    httpx_mock: HTTPXMock,
+):
     """Test that handled requests are rate-limited."""
+    max_requests: int = 10
+    sleep_seconds: float = 2.0
+
     counter = 0
 
-    async def count_responses(request: httpx.Request) -> httpx.Response:  # noqa: ARG001
+    async def count_responses(_request: httpx.Request) -> httpx.Response:
         nonlocal counter
 
         counter += 1
@@ -68,18 +78,16 @@ async def test_handle_async_request(httpx_mock: HTTPXMock):
     # Consequently, we expect three requests to succeed in total.
     async with (
         httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport.create(
-                rate=Rate.create(magnitude=2, duration=0.1),
-            ),
+            transport=AsyncRateLimitedTransport.create(rate),
         ) as client,
         anyio.create_task_group() as tg,
     ):
-        with anyio.move_on_after(0.07) as scope:
-            for _ in range(10):
+        with anyio.move_on_after(interrupt_seconds) as scope:
+            for _ in range(max_requests):
                 tg.start_soon(client.get, "http://example.com")
-            await anyio.sleep(2)
+            await anyio.sleep(sleep_seconds)
 
         tg.cancel_scope.cancel()
 
-    assert scope.cancelled_caught
-    assert counter == 3
+    assert scope.cancelled_caught, "Expected the scope to be cancelled."
+    assert counter == expected_count
