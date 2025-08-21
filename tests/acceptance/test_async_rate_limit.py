@@ -24,12 +24,13 @@ that allows an average of twenty requests per second.
 """
 
 from collections import Counter
+from time import perf_counter
 
 import anyio
 import httpx
 import pytest
 
-from httpx_limiter import AsyncRateLimitedTransport, Rate
+from httpx_limiter import AsyncRateLimitedTransport, Rate, AsyncLimiter
 
 
 async def _record_response(client: httpx.AsyncClient, counter: Counter) -> None:
@@ -44,14 +45,26 @@ async def test_limits():
 
     async with (
         httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport.create(
-                rate=Rate.create(duration=1 / 20),
+            transport=AsyncRateLimitedTransport(
+                limiter=AsyncLimiter.create(
+                    Rate.create(duration=1 / 20),
+                    max_delay=6_000,
+                    buffer_ms=1,
+                ),
+                transport=httpx.AsyncHTTPTransport(),
             ),
         ) as client,
         anyio.create_task_group() as group,
     ):
+        start = perf_counter()
+
         for _ in range(100):
             group.start_soon(_record_response, client, response_codes)
+
+    duration = perf_counter() - start
+    # Making 100 requests at a rate of 20 requests per second should take around
+    # five seconds.
+    assert 5 < duration < 6, f"Requests took {duration=} seconds."
 
     assert response_codes.total() == 100
     assert response_codes[httpx.codes.OK] in range(95, 101)
@@ -71,14 +84,26 @@ async def test_exceed_limits():
 
     async with (
         httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport.create(
-                rate=Rate.create(duration=1 / 25),
+            transport=AsyncRateLimitedTransport(
+                limiter=AsyncLimiter.create(
+                    Rate.create(duration=1 / 25),
+                    max_delay=6_000,
+                    buffer_ms=1,
+                ),
+                transport=httpx.AsyncHTTPTransport(),
             ),
         ) as client,
         anyio.create_task_group() as group,
     ):
+        start = perf_counter()
+
         for _ in range(125):
             group.start_soon(_record_response, client, response_codes)
+
+    duration = perf_counter() - start
+    # Making 125 requests at a rate of 25 requests per second should take around
+    # five seconds.
+    assert 5 < duration < 6, f"Requests took {duration=} seconds."
 
     assert response_codes.total() == 125
     assert response_codes[httpx.codes.OK] in range(90, 101)
