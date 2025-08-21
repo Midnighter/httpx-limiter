@@ -55,6 +55,7 @@ class AsyncLimiter:
 
     Args:
         limiter: An instance of an asynchronous pyrate limiter.
+        **kwargs: Additional keyword arguments for the parent classes.
 
     """
 
@@ -89,7 +90,7 @@ class AsyncLimiter:
         )
         return cls(limiter=limiter)
 
-    async def __aenter__(self) -> AsyncLimiter:
+    async def __aenter__(self) -> AsyncLimiter:  # noqa: PYI034
         """Acquire a token upon entering the asynchronous context."""
         # Keep trying to acquire, let timeouts be handled externally.
         while not (await self._limiter.try_acquire_async("httpx-limiter")):
