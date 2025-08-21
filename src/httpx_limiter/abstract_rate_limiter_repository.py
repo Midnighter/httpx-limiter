@@ -17,7 +17,6 @@
 
 from abc import ABC, abstractmethod
 from collections.abc import Sequence
-from typing import Unpack
 
 import httpx
 
@@ -40,18 +39,21 @@ class AbstractRateLimiterRepository(ABC):
     def get_rates(self, request: httpx.Request) -> Sequence[Rate]:
         """Return one or more request-specific rates."""
 
-    def get(
+    def _get_limiter_kwargs(
         self,
         request: httpx.Request,
-        **kwargs: Unpack[PyRateLimiterKeywordArguments],
-    ) -> AsyncLimiter:
+    ) -> PyRateLimiterKeywordArguments:
+        """Return the keyword arguments for creating a rate limiter."""
+        return {}
+
+    def get(self, request: httpx.Request) -> AsyncLimiter:
         """Return a request-specific rate limiter."""
         identifier = self.get_identifier(request)
 
         if identifier not in self._limiters:
             self._limiters[identifier] = AsyncLimiter.create(
                 *self.get_rates(request),
-                **kwargs,
+                **self._get_limiter_kwargs(request),
             )
 
         return self._limiters[identifier]
