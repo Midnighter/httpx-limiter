@@ -24,6 +24,7 @@ import httpx
 
 if TYPE_CHECKING:  # pragma: no cover
     from .abstract_rate_limiter_repository import AbstractRateLimiterRepository
+    from .types import HTTPXAsyncHTTPTransportKeywordArguments
 
 
 class AsyncMultiRateLimitedTransport(httpx.AsyncBaseTransport):
@@ -40,7 +41,7 @@ class AsyncMultiRateLimitedTransport(httpx.AsyncBaseTransport):
         *,
         repository: AbstractRateLimiterRepository,
         transport: httpx.AsyncBaseTransport,
-        **kwargs,
+        **kwargs: dict[str, object],
     ) -> None:
         super().__init__(**kwargs)
         self._repo = repository
@@ -51,7 +52,7 @@ class AsyncMultiRateLimitedTransport(httpx.AsyncBaseTransport):
         cls,
         *,
         repository: AbstractRateLimiterRepository,
-        **kwargs: dict,
+        **kwargs: HTTPXAsyncHTTPTransportKeywordArguments,
     ) -> AsyncMultiRateLimitedTransport:
         """
         Create an instance of an asynchronous multiple rate-limited transport.

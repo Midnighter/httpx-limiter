@@ -27,7 +27,7 @@ from .rate import Rate
 class AbstractRateLimiterRepository(ABC):
     """Define the abstract repository for rate limiters."""
 
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, **kwargs: dict[str, object]) -> None:
         super().__init__(**kwargs)
         self._limiters: dict[str, AsyncLimiter] = {}
 

@@ -17,7 +17,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, TypedDict
+from typing import TYPE_CHECKING, TypedDict
 
 
 try:
@@ -65,7 +65,7 @@ class AsyncLimiter:
 
     """
 
-    def __init__(self, *, limiter: Limiter, **kwargs: dict[str, Any]) -> None:
+    def __init__(self, *, limiter: Limiter, **kwargs: dict[str, object]) -> None:
         super().__init__(**kwargs)
         self._limiter = limiter
 

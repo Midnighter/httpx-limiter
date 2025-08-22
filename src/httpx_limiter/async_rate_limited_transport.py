@@ -26,6 +26,7 @@ from .async_limiter import AsyncLimiter
 
 if TYPE_CHECKING:  # pragma: no cover
     from .rate import Rate
+    from .types import HTTPXAsyncHTTPTransportKeywordArguments
 
 
 class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
@@ -43,7 +44,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         *,
         limiter: AsyncLimiter,
         transport: httpx.AsyncBaseTransport,
-        **kwargs,
+        **kwargs: dict[str, object],
     ) -> None:
         super().__init__(**kwargs)
         self._limiter = limiter
@@ -53,7 +54,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
     def create(
         cls,
         *rates: Rate,
-        **kwargs,
+        **kwargs: HTTPXAsyncHTTPTransportKeywordArguments,
     ) -> AsyncRateLimitedTransport:
         """
         Create an instance of asynchronous rate-limited transport.
