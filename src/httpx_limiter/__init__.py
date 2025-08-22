@@ -15,8 +15,9 @@
 
 """Provide top level symbols."""
 
+from .types import HTTPXAsyncHTTPTransportKeywordArguments
 from .rate import Number, Rate
-from .async_limiter import AsyncLimiter
+from .async_limiter import AsyncLimiter, PyRateLimiterKeywordArguments
 from .async_rate_limited_transport import AsyncRateLimitedTransport
 from .abstract_rate_limiter_repository import AbstractRateLimiterRepository
 from .async_multi_rate_limited_transport import AsyncMultiRateLimitedTransport
