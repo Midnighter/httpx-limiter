@@ -15,7 +15,7 @@ from httpx_limiter import AsyncRateLimitedTransport, Rate
 
 async def main():
     async with httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport.create(rate=Rate.create(magnitude=20)),
+        transport=AsyncRateLimitedTransport.create(Rate.create(magnitude=20)),
     ) as client:
         response = await client.get("https://httpbin.org")
 ```
@@ -36,7 +36,6 @@ async def main():
     ```python
     Rate.create(magnitude=1, duration=1/20)
     ```
-
 
 ### Multiple Rate Limits
 
@@ -97,10 +96,10 @@ class DayNightRateLimiterRepository(AbstractRateLimiterRepository):
 
         return "night"
 
-    def get_rate(self, _: httpx.Request) -> Rate:
+    def get_rates(self, _: httpx.Request) -> Sequence[Rate]:
         """Apply different rate limits during the day or night."""
         if self.get_identifier(_) == "day":
-            return Rate.create(magnitude=10)
+            return [Rate.create(magnitude=10)]
 
-        return Rate.create(magnitude=100)
+        return [Rate.create(magnitude=100)]
 ```

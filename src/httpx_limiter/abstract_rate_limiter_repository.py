@@ -25,7 +25,22 @@ from .rate import Rate
 
 
 class AbstractRateLimiterRepository(ABC):
-    """Define the abstract repository for rate limiters."""
+    """
+    Define the abstract repository for rate limiters.
+
+    This abstract base class provides a framework for managing rate limiters
+    based on HTTP requests. It maintains a cache of rate limiters and provides
+    methods to retrieve request-specific identifiers, rates, and limiters.
+
+    Subclasses must implement methods to determine how requests are identified
+    and what rate limits should be applied to them.
+
+    Methods:
+        get_identifier: Return a request-specific identifier.
+        get_rates: Return one or more request-specific rates.
+        get: Return a request-specific rate limiter.
+
+    """
 
     def __init__(self, **kwargs: dict[str, object]) -> None:
         super().__init__(**kwargs)
