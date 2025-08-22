@@ -17,7 +17,14 @@
 
 from __future__ import annotations
 
+import sys
 from typing import TYPE_CHECKING
+
+
+if sys.version_info < (3, 11):
+    from typing_extensions import Unpack
+else:
+    from typing import Unpack
 
 import httpx
 
@@ -54,7 +61,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
     def create(
         cls,
         *rates: Rate,
-        **kwargs: HTTPXAsyncHTTPTransportKeywordArguments,
+        **kwargs: Unpack[HTTPXAsyncHTTPTransportKeywordArguments],
     ) -> AsyncRateLimitedTransport:
         """
         Create an instance of asynchronous rate-limited transport.
