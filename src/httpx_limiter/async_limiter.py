@@ -17,13 +17,14 @@
 
 from __future__ import annotations
 
+import sys
 from typing import TYPE_CHECKING, TypedDict
 
 
-try:
-    from typing import Unpack
-except ImportError:  # pragma: no cover
+if sys.version_info < (3, 11):
     from typing_extensions import Unpack
+else:
+    from typing import Unpack
 
 from pyrate_limiter import (
     AbstractClock,

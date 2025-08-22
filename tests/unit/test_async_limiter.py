@@ -15,8 +15,9 @@
 
 """Test the AsyncLimiter class."""
 
-import pytest
 from datetime import timedelta
+
+import pytest
 
 from httpx_limiter import AsyncLimiter, Rate
 
