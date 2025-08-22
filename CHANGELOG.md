@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - (2025-08-22)
+
 ### Added
 
 -   It is now possible to enforce multiple rate limits, for example, 10 per
@@ -15,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 -   Replaced the `aiolimiter` dependency with `pyrate-limiter`.
+-   Modified some types and method signatures to be compatible with the new
+    `pyrate-limiter` dependency.
 
 ### Fixed
 
