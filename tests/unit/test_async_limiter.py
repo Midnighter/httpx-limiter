@@ -16,6 +16,7 @@
 """Test the AsyncLimiter class."""
 
 import pytest
+from datetime import timedelta
 
 from httpx_limiter import AsyncLimiter, Rate
 
@@ -28,7 +29,18 @@ from httpx_limiter import AsyncLimiter, Rate
             marks=pytest.mark.raises(exception=ValueError, message="At least one rate"),
         ),
         [Rate.create(1)],
-        [Rate.create(1), Rate.create(2)],
+        [
+            Rate.create(1),
+            Rate.create(10, timedelta(hours=1)),
+            Rate.create(100, timedelta(days=1)),
+        ],
+        pytest.param(
+            [Rate.create(1, timedelta(hours=1)), Rate.create(2)],
+            marks=pytest.mark.raises(
+                exception=ValueError,
+                message="Invalid ordering of rates provided",
+            ),
+        ),
     ],
 )
 @pytest.mark.anyio

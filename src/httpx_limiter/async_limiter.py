@@ -32,6 +32,7 @@ from pyrate_limiter import (
     InMemoryBucket,
     Limiter,
     TimeAsyncClock,
+    validate_rate_list,
 )
 from pyrate_limiter import Rate as PyRate
 
@@ -84,10 +85,16 @@ class AsyncLimiter:
             PyRate(limit=rate.magnitude, interval=rate.in_milliseconds())
             for rate in rates
         ]
-        bucket = BucketAsyncWrapper(InMemoryBucket(rate_limits))
+        if not validate_rate_list(rates=rate_limits):
+            url = "https://pyratelimiter.readthedocs.io/en/latest/#defining-rate-limits-and-buckets"
+            msg = (
+                f"Invalid ordering of rates provided {rate_limits}. Please read "
+                f"{url} for more information."
+            )
+            raise ValueError(msg)
 
         limiter = Limiter(
-            argument=bucket,
+            argument=BucketAsyncWrapper(InMemoryBucket(rate_limits)),
             clock=kwargs.get("clock", TimeAsyncClock()),
             raise_when_fail=kwargs.get("raise_when_fail", False),
             max_delay=kwargs.get("max_delay", Duration.HOUR),
