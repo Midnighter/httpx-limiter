@@ -16,7 +16,6 @@
 """Test the expected functionality of the rate limiter repository."""
 
 from abc import abstractmethod
-from collections.abc import Sequence
 
 import httpx
 import pytest
