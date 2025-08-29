@@ -28,11 +28,9 @@ else:
 
 import httpx
 
-from .async_limiter import AsyncLimiter
-
 
 if TYPE_CHECKING:  # pragma: no cover
-    from .rate import Rate
+    from .abstract_async_limiter import AbstractAsyncLimiter
     from .types import HTTPXAsyncHTTPTransportKeywordArguments
 
 
@@ -49,7 +47,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
     def __init__(
         self,
         *,
-        limiter: AsyncLimiter,
+        limiter: AbstractAsyncLimiter,
         transport: httpx.AsyncBaseTransport,
         **kwargs: dict[str, object],
     ) -> None:
@@ -60,7 +58,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
     @classmethod
     def create(
         cls,
-        *rates: Rate,
+        limiter: AbstractAsyncLimiter,
         **kwargs: Unpack[HTTPXAsyncHTTPTransportKeywordArguments],
     ) -> AsyncRateLimitedTransport:
         """
@@ -71,7 +69,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         That transport is passed any additional keyword arguments.
 
         Args:
-            *rates: One or more rate limits to apply.
+            limiter: A concrete instance of an asynchronous limiter.
             **kwargs: Additional keyword arguments are used in the construction of an
                 `httpx.AsyncHTTPTransport`.
 
@@ -80,8 +78,8 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
 
         """
         return cls(
-            limiter=AsyncLimiter.create(*rates),
-            transport=httpx.AsyncHTTPTransport(**kwargs),  # type: ignore[arg-type]
+            limiter=limiter,
+            transport=httpx.AsyncHTTPTransport(**kwargs),
         )
 
     async def handle_async_request(
