@@ -37,11 +37,13 @@ from pyrate_limiter import (
 )
 from pyrate_limiter import Rate as PyRate
 
+from httpx_limiter.abstract_async_limiter import AbstractAsyncLimiter
+
 
 if TYPE_CHECKING:  # pragma: no cover
     from types import TracebackType
 
-    from .rate import Rate
+    from httpx_limiter.rate import Rate
 
 
 class PyRateLimiterKeywordArguments(TypedDict, total=False):
@@ -54,7 +56,7 @@ class PyRateLimiterKeywordArguments(TypedDict, total=False):
     buffer_ms: int
 
 
-class AsyncLimiter:
+class PyrateAsyncLimiter(AbstractAsyncLimiter):
     """
     Define an asynchronous limiter that composes the pyrate limiter.
 
@@ -76,8 +78,8 @@ class AsyncLimiter:
         cls,
         *rates: Rate,
         **kwargs: Unpack[PyRateLimiterKeywordArguments],
-    ) -> AsyncLimiter:
-        """Create an instance of AsyncLimiter."""
+    ) -> PyrateAsyncLimiter:
+        """Create an instance of PyrateAsyncLimiter."""
         if not rates:
             msg = "At least one rate must be provided."
             raise ValueError(msg)
@@ -94,17 +96,18 @@ class AsyncLimiter:
             )
             raise ValueError(msg)
 
+        # Cast kwargs to proper types for internal use
         limiter = Limiter(
             argument=BucketAsyncWrapper(InMemoryBucket(rate_limits)),
             clock=kwargs.get("clock", TimeAsyncClock()),
             raise_when_fail=kwargs.get("raise_when_fail", False),
             max_delay=kwargs.get("max_delay", Duration.HOUR),
-            retry_until_max_delay=kwargs.get("retry_until_max_delay", False),
+            retry_until_max_delay=kwargs.get("retry_until_max_delay", True),
             buffer_ms=kwargs.get("buffer_ms", 50),
         )
         return cls(limiter=limiter)
 
-    async def __aenter__(self) -> AsyncLimiter:  # noqa: PYI034
+    async def __aenter__(self) -> PyrateAsyncLimiter:  # noqa: PYI034
         """Acquire a token upon entering the asynchronous context."""
         # Keep trying to acquire, let timeouts be handled externally.
         while not (await self._limiter.try_acquire_async("httpx-limiter")):
