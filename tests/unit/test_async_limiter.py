@@ -19,8 +19,8 @@ from datetime import timedelta
 
 import pytest
 
-from httpx_limiter import Rate
-from httpx_limiter.abstract_async_limiter import AbstractAsyncLimiter
+from httpx_limiter import AbstractAsyncLimiter, Rate
+from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
@@ -33,7 +33,8 @@ from httpx_limiter.pyrate import PyrateAsyncLimiter
         ),
         [Rate.create(1)],
         [
-            Rate.create(1),
+            Rate.create(1, 0.01),
+            Rate.create(2),
             Rate.create(10, timedelta(hours=1)),
             Rate.create(100, timedelta(days=1)),
         ],
@@ -52,7 +53,21 @@ async def test_async_limiter_init(rates: list[Rate]):
     PyrateAsyncLimiter.create(*rates)
 
 
-@pytest.fixture(scope="module", params=[PyrateAsyncLimiter])
+@pytest.mark.parametrize(
+    "rate",
+    [
+        Rate.create(1),
+        Rate.create(1, 0.01),
+        Rate.create(1, 20),
+    ],
+)
+@pytest.mark.anyio
+async def test_aiolimiter_async_limiter_init(rate: Rate):
+    """Test the aiolimiter-based AsyncLimiter factory class method."""
+    AiolimiterAsyncLimiter.create(rate)
+
+
+@pytest.fixture(scope="module", params=[PyrateAsyncLimiter, AiolimiterAsyncLimiter])
 async def limiter(
     anyio_backend: tuple[str, dict[str, bool]],  # noqa: ARG001
     request: pytest.FixtureRequest,

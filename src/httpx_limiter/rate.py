@@ -48,6 +48,10 @@ class Rate(NamedTuple):
 
         return cls(magnitude=magnitude, duration=duration)
 
+    def in_seconds(self) -> float:
+        """Return the duration in unit seconds."""
+        return self.duration.total_seconds()
+
     def in_milliseconds(self) -> int:
         """Return the duration in unit milliseconds."""
         return int(self.duration.total_seconds() * 1_000)

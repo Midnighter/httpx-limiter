@@ -38,7 +38,6 @@ classifiers = [
 keywords = ["httpx", "limiter", "rate-limit", "leaky bucket"]
 dependencies = [
     "httpx ~=0.25",
-    "pyrate-limiter ~=3.9",
     "typing-extensions ~=4.6; python_version < '3.11'",
 ]
 
@@ -48,6 +47,10 @@ Documentation = "https://httpx-limiter.readthedocs.io"
 "Source Code" = "https://github.com/Midnighter/httpx-limiter"
 "Bug Tracker" = "https://github.com/Midnighter/httpx-limiter/issues"
 Download = "https://pypi.org/project/httpx-limiter/#files"
+
+[project.optional-dependencies]
+aiolimiter = ["aiolimiter ~=1.2"]
+pyrate = ["pyrate-limiter ~=3.9"]
 
 ################################################################################
 # Tool Configuration
@@ -144,6 +147,7 @@ ignore_missing_imports = true
 
 [tool.hatch.envs.default]
 installer = "uv"
+features = ["aiolimiter", "pyrate"]
 
 [tool.hatch.envs.dev]
 description = """Development environment."""
@@ -180,7 +184,7 @@ check = ["pip-audit"]
 
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
-dependencies = ["mypy"]
+extra-dependencies = ["mypy"]
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/httpx_limiter"
