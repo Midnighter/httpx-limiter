@@ -19,7 +19,9 @@ from datetime import timedelta
 
 import pytest
 
-from httpx_limiter import AsyncLimiter, Rate
+from httpx_limiter import Rate
+from httpx_limiter.abstract_async_limiter import AbstractAsyncLimiter
+from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
 @pytest.mark.parametrize(
@@ -46,16 +48,25 @@ from httpx_limiter import AsyncLimiter, Rate
 )
 @pytest.mark.anyio
 async def test_async_limiter_init(rates: list[Rate]):
-    """Test the AsyncLimiter factory class method."""
-    AsyncLimiter.create(*rates)
+    """Test the pyrate-based AsyncLimiter factory class method."""
+    PyrateAsyncLimiter.create(*rates)
+
+
+@pytest.fixture(scope="module", params=[PyrateAsyncLimiter])
+async def limiter(
+    anyio_backend: tuple[str, dict[str, bool]],  # noqa: ARG001
+    request: pytest.FixtureRequest,
+) -> AbstractAsyncLimiter:
+    """Fixture for creating concrete asynchronous limiter instances."""
+    return request.param.create(Rate.create(1, duration=0.01))
 
 
 @pytest.mark.anyio
-async def test_async_limiter_context():
+async def test_async_limiter_context(limiter: AbstractAsyncLimiter):
     """Test that we can use the limiter to manage a context."""
     count = 0
 
-    async with AsyncLimiter.create(Rate.create(1, duration=0.01)):
+    async with limiter:
         count += 1
 
     assert count == 1
