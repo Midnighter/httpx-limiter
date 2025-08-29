@@ -35,7 +35,7 @@ from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
-async def _record_response(client: httpx.AsyncClient, counter: Counter) -> None:
+async def _record_response(client: httpx.AsyncClient, counter: Counter[int]) -> None:
     response = await client.get("http://httpbin.localhost/status/200")
     counter[response.status_code] += 1
 
@@ -56,7 +56,7 @@ async def slower(request: pytest.FixtureRequest) -> AbstractAsyncLimiter:
 @pytest.mark.anyio
 async def test_limits(slower: AbstractAsyncLimiter):
     """Test that an API's rate limit is maintained."""
-    response_codes = Counter()
+    response_codes: Counter[int] = Counter()
 
     start = perf_counter()
 
@@ -101,7 +101,7 @@ async def test_exceed_limits(faster: AbstractAsyncLimiter):
     within a range of expected values.
 
     """
-    response_codes = Counter()
+    response_codes: Counter[int] = Counter()
 
     start = perf_counter()
 
