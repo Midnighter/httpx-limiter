@@ -74,7 +74,11 @@ class MethodRateLimiterRepository(AbstractRateLimiterRepository):
 
 
 @pytest.mark.anyio
-@pytest.mark.parametrize("repository", [AiolimiterRepository, PyrateRepository])
+@pytest.mark.parametrize(
+    "repository",
+    [AiolimiterRepository, PyrateRepository],
+    ids=["aiolimiter", "pyrate"],
+)
 async def test_get_identifier(repository: type[ConcreteRepository]):
     """Test that get_identifier is called and returns the expected value."""
     repo = repository(identifier="test_id", rate=Rate.create(1))
@@ -85,7 +89,11 @@ async def test_get_identifier(repository: type[ConcreteRepository]):
 
 
 @pytest.mark.anyio
-@pytest.mark.parametrize("repository", [AiolimiterRepository, PyrateRepository])
+@pytest.mark.parametrize(
+    "repository",
+    [AiolimiterRepository, PyrateRepository],
+    ids=["aiolimiter", "pyrate"],
+)
 async def test_create(repository: type[ConcreteRepository]):
     """Test that create is called and returns the expected value."""
     repo = repository(identifier="test_id", rate=Rate.create(9))
@@ -96,7 +104,11 @@ async def test_create(repository: type[ConcreteRepository]):
 
 
 @pytest.mark.anyio
-@pytest.mark.parametrize("repository", [AiolimiterRepository, PyrateRepository])
+@pytest.mark.parametrize(
+    "repository",
+    [AiolimiterRepository, PyrateRepository],
+    ids=["aiolimiter", "pyrate"],
+)
 async def test_get_existing_limiter(repository: type[ConcreteRepository]):
     """Test that get returns an existing limiter if available."""
     repo = repository(identifier="test_id", rate=Rate.create(1))

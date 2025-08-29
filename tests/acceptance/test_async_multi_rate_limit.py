@@ -81,18 +81,24 @@ class PyrateRepository(HostBasedRepository):
 async def _record_response(
     client: httpx.AsyncClient,
     url: str,
-    counter: Counter,
+    counter: Counter[int],
 ) -> None:
     response = await client.get(url)
     counter[response.status_code] += 1
 
 
 @pytest.mark.anyio
-@pytest.mark.parametrize("repository", [AiolimiterRepository(), PyrateRepository()])
+@pytest.mark.parametrize(
+    "repository",
+    [AiolimiterRepository(), PyrateRepository()],
+    ids=["aiolimiter", "pyrate"],
+)
 async def test_limits(repository: HostBasedRepository):
     """Test that an API's rate limit is maintained."""
-    slow_rate_codes = Counter()
-    fast_rate_codes = Counter()
+    slow_rate_codes: Counter[int] = Counter()
+    fast_rate_codes: Counter[int] = Counter()
+
+    start = perf_counter()
 
     async with (
         httpx.AsyncClient(
@@ -100,8 +106,6 @@ async def test_limits(repository: HostBasedRepository):
         ) as client,
         anyio.create_task_group() as group,
     ):
-        start = perf_counter()
-
         for _ in range(100):
             group.start_soon(
                 _record_response,
