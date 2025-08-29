@@ -10,33 +10,89 @@ _A lightweight package that provides rate-limited httpx transports._
 
 ## Installation
 
-The package is published on [PyPI](https://pypi.org/project/httpx-limiter/).
-Install it, for example, with
+The package is published on [PyPI](https://pypi.org/project/httpx-limiter/). Install it,
+for example, with the aiolimiter backend.
 
 ```sh
-pip install httpx-limiter
+pip install 'httpx-limiter[aiolimiter]'
+```
+
+There is also a pyrate-limiter backend available.
+
+```sh
+pip install 'httpx-limiter[pyrate]'
+```
+
+## Rate Limiter Backends
+
+This package provides two different asynchronous rate limiter implementations to choose
+from:
+
+1. [aiolimiter](https://aiolimiter.readthedocs.io)
+2. [pyrate-limiter](https://pyratelimiter.readthedocs.io)
+
+> [!IMPORTANT]
+> While both implementations fulfill similar purposes, there are significant differences
+> between them. Please read the descriptions below to make an informed decision about
+> which one best suits your needs.
+
+### 1. aiolimiter
+
+-   **Single rate limit only**: Supports only one rate limit at a time
+-   **Lightweight**: Minimal dependencies and simpler configuration
+-   **Linear token refresh rate**: As an example, if you set a rate of 2 per second,
+    roughly one token will be added every 500 milliseconds
+
+```python
+from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+
+limiter = AiolimiterAsyncLimiter.create(Rate.create(magnitude=20))
+```
+
+### 2. pyrate-limiter
+
+-   **Multiple rate limits**: Support for multiple concurrent rate limits, for example,
+    10 requests per second _and_ 100 requests per minute
+-   **Flexible configuration**: Comprehensive configuration options
+-   **Multiprocessing dependency**: Current implementation depends on `multiprocessing`
+    which may not be available in all environments, such as pyodide
+-   **Stepwise token refresh rate**: As an example, if you set a rate of 2 per second,
+    two token will be added every second
+
+```python
+from httpx_limiter.pyrate import PyrateAsyncLimiter
+
+# Single rate limit
+limiter = PyrateAsyncLimiter.create(Rate.create(magnitude=20))
+
+# Multiple rate limits
+limiter = PyrateAsyncLimiter.create(
+    Rate.create(magnitude=10),  # 10 per second
+    Rate.create(magnitude=100, duration=60),  # 100 per minute
+)
 ```
 
 ## Tutorial
 
-You can limit the number of requests made by an HTTPX client using the
-transports provided in this package. That is useful in situations when you need
-to make a large number of asynchronous requests against endpoints that implement
-a rate limit.
+You can limit the number of requests made by an HTTPX client using the transports
+provided in this package. That is useful in situations when you need to make a large
+number of asynchronous requests against endpoints that implement a rate limit.
 
 ### Single Rate Limit
 
-The simplest use case is to apply a single rate limit to all requests. If you
-want to be able to make twenty requests per second, for example, use the
-following code:
+The simplest use case is to apply a single rate limit to all requests. If you want to be
+able to make twenty requests per second, for example, use the following code:
 
 ```python
 import httpx
 from httpx_limiter import AsyncRateLimitedTransport, Rate
+from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 async def main():
+    limiter = PyrateAsyncLimiter.create(Rate.create(magnitude=20))
+
     async with httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport.create(Rate.create(magnitude=20)),
+        transport=AsyncRateLimitedTransport.create(limiter=limiter),
     ) as client:
         response = await client.get("https://httpbin.org")
 ```
@@ -57,11 +113,11 @@ async def main():
 
 ### Multiple Rate Limits
 
-For more advanced use cases, you can apply different rate limits based on a
-concrete implementation of the `AbstractRateLimiterRepository`. There are two
-relevant methods that both get passed the current request. One method needs to
-identify which rate limit to apply, and the other method sets the rate limit
-itself. See the following example:
+For more advanced use cases, you can apply different rate limits based on a concrete
+implementation of the `AbstractRateLimiterRepository`. There are two relevant methods
+that both get passed the current request. One method needs to return an identifier for
+which rate limiter to choose, and the other method creates a rate limiter. See the
+following example:
 
 ```python
 import httpx
@@ -70,6 +126,7 @@ from httpx_limiter import (
     AsyncMultiRateLimitedTransport,
     Rate
 )
+from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 
 class DomainBasedRateLimiterRepository(AbstractRateLimiterRepository):
     """Apply different rate limits based on the domain being requested."""
@@ -78,9 +135,9 @@ class DomainBasedRateLimiterRepository(AbstractRateLimiterRepository):
         """Return the domain as the identifier for rate limiting."""
         return request.url.host
 
-    def get_rate(self, request: httpx.Request) -> Rate:
-        """Apply the same, but independent rate limit to each domain."""
-        return Rate.create(magnitude=25)
+    def create(self, request: httpx.Request) -> PyrateAsyncLimiter:
+        """Create a rate limiter for the domain."""
+        return AiolimiterAsyncLimiter.create(Rate.create(magnitude=25))
 
 client = httpx.AsyncClient(
     transport=AsyncMultiRateLimitedTransport.create(
@@ -95,27 +152,27 @@ client = httpx.AsyncClient(
 
 ```python
 from datetime import datetime, timezone
-from collections.abc import Sequence
 
 import httpx
 from httpx_limiter import AbstractRateLimiterRepository, Rate
+from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 class DayNightRateLimiterRepository(AbstractRateLimiterRepository):
     """Apply different rate limits based on the time of day."""
 
-    def get_identifier(self, _: httpx.Request) -> str:
+    def get_identifier(self, request: httpx.Request) -> str:
         """Identify whether it is currently day or night."""
         if 6 <= datetime.now(tz=timezone.utc).hour < 18:
             return "day"
 
         return "night"
 
-    def get_rates(self, _: httpx.Request) -> Sequence[Rate]:
-        """Apply different rate limits during the day or night."""
-        if self.get_identifier(_) == "day":
-            return [Rate.create(magnitude=10)]
+    def create(self, request: httpx.Request) -> PyrateAsyncLimiter:
+        """Create a rate limiter based on the time of day."""
+        if self.get_identifier(request) == "day":
+            return PyrateAsyncLimiter.create(Rate.create(magnitude=10))
 
-        return [Rate.create(magnitude=100)]
+        return PyrateAsyncLimiter.create(Rate.create(magnitude=100))
 ```
 
 ## Copyright
