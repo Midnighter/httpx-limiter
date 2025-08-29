@@ -37,7 +37,7 @@ from pyrate_limiter import (
 )
 from pyrate_limiter import Rate as PyRate
 
-from httpx_limiter.abstract_async_limiter import AbstractAsyncLimiter
+from httpx_limiter import AbstractAsyncLimiter
 
 
 if TYPE_CHECKING:  # pragma: no cover
