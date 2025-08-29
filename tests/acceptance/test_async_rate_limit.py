@@ -30,7 +30,9 @@ import anyio
 import httpx
 import pytest
 
-from httpx_limiter import AsyncLimiter, AsyncRateLimitedTransport, Rate
+from httpx_limiter import AbstractAsyncLimiter, AsyncRateLimitedTransport, Rate
+from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
 async def _record_response(client: httpx.AsyncClient, counter: Counter) -> None:
@@ -38,40 +40,59 @@ async def _record_response(client: httpx.AsyncClient, counter: Counter) -> None:
     counter[response.status_code] += 1
 
 
+@pytest.fixture(params=[AiolimiterAsyncLimiter, PyrateAsyncLimiter])
+async def slower(request: pytest.FixtureRequest) -> AbstractAsyncLimiter:
+    """Fixture for a slower rate limiter."""
+    if request.param is AiolimiterAsyncLimiter:
+        return AiolimiterAsyncLimiter.create(Rate.create(duration=1 / 20))
+
+    return PyrateAsyncLimiter.create(
+        Rate.create(duration=1 / 20),
+        max_delay=6_000,
+        buffer_ms=1,
+    )
+
+
 @pytest.mark.anyio
-async def test_limits():
+async def test_limits(slower: AbstractAsyncLimiter):
     """Test that an API's rate limit is maintained."""
     response_codes = Counter()
 
+    start = perf_counter()
+
     async with (
         httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport(
-                limiter=AsyncLimiter.create(
-                    Rate.create(duration=1 / 20),
-                    max_delay=6_000,
-                    buffer_ms=1,
-                ),
-                transport=httpx.AsyncHTTPTransport(),
-            ),
+            transport=AsyncRateLimitedTransport.create(limiter=slower),
         ) as client,
         anyio.create_task_group() as group,
     ):
-        start = perf_counter()
-
         for _ in range(100):
             group.start_soon(_record_response, client, response_codes)
 
     duration = perf_counter() - start
     # Making 100 requests at a rate of 20 requests per second should take around
     # five seconds.
-    assert 5 < duration < 6, f"Requests took {duration=} seconds."
+    assert 5 <= duration < 6, f"Requests took {duration=} seconds."
 
     assert response_codes.total() == 100
     assert response_codes[httpx.codes.OK] in range(95, 101)
 
 
+@pytest.fixture(params=[AiolimiterAsyncLimiter, PyrateAsyncLimiter])
+async def faster(request: pytest.FixtureRequest) -> AbstractAsyncLimiter:
+    """Fixture for a faster rate limiter."""
+    if request.param is AiolimiterAsyncLimiter:
+        return AiolimiterAsyncLimiter.create(Rate.create(duration=1 / 25))
+
+    return PyrateAsyncLimiter.create(
+        Rate.create(duration=1 / 25),
+        max_delay=6_000,
+        buffer_ms=1,
+    )
+
+
 @pytest.mark.anyio
-async def test_exceed_limits():
+async def test_exceed_limits(faster: AbstractAsyncLimiter):
     """
     Test that an API's rate limit is exceeded.
 
@@ -82,28 +103,21 @@ async def test_exceed_limits():
     """
     response_codes = Counter()
 
+    start = perf_counter()
+
     async with (
         httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport(
-                limiter=AsyncLimiter.create(
-                    Rate.create(duration=1 / 25),
-                    max_delay=6_000,
-                    buffer_ms=1,
-                ),
-                transport=httpx.AsyncHTTPTransport(),
-            ),
+            transport=AsyncRateLimitedTransport.create(limiter=faster),
         ) as client,
         anyio.create_task_group() as group,
     ):
-        start = perf_counter()
-
         for _ in range(125):
             group.start_soon(_record_response, client, response_codes)
 
     duration = perf_counter() - start
     # Making 125 requests at a rate of 25 requests per second should take around
     # five seconds.
-    assert 5 < duration < 6, f"Requests took {duration=} seconds."
+    assert 5 <= duration < 6, f"Requests took {duration=} seconds."
 
     assert response_codes.total() == 125
     assert response_codes[httpx.codes.OK] in range(90, 101)

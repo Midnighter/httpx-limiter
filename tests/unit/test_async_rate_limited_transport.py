@@ -20,36 +20,63 @@ import httpx
 import pytest
 from pytest_httpx import HTTPXMock
 
-from httpx_limiter import AsyncLimiter, AsyncRateLimitedTransport, Rate
+from httpx_limiter import AbstractAsyncLimiter, AsyncRateLimitedTransport, Rate
+from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
 @pytest.mark.anyio
-async def test_init():
+async def test_aiolimiter_init():
     """Test that an asynchronous limited transport can be initialized."""
     AsyncRateLimitedTransport(
-        limiter=AsyncLimiter.create(Rate.create(1)),
+        limiter=AiolimiterAsyncLimiter.create(Rate.create()),
         transport=httpx.AsyncHTTPTransport(),
     )
 
 
 @pytest.mark.anyio
-async def test_create():
+async def test_pyrate_init():
+    """Test that an asynchronous limited transport can be initialized."""
+    AsyncRateLimitedTransport(
+        limiter=PyrateAsyncLimiter.create(Rate.create()),
+        transport=httpx.AsyncHTTPTransport(),
+    )
+
+
+@pytest.mark.anyio
+async def test_aiolimiter_create():
     """Test that an asynchronous rate-limited transport can be created."""
-    transport = AsyncRateLimitedTransport.create(Rate.create())
+    transport = AsyncRateLimitedTransport.create(
+        limiter=AiolimiterAsyncLimiter.create(Rate.create()),
+    )
+
+    assert isinstance(transport, AsyncRateLimitedTransport)
+
+
+@pytest.mark.anyio
+async def test_pyrate_create():
+    """Test that an asynchronous rate-limited transport can be created."""
+    transport = AsyncRateLimitedTransport.create(
+        limiter=PyrateAsyncLimiter.create(Rate.create()),
+    )
 
     assert isinstance(transport, AsyncRateLimitedTransport)
 
 
 @pytest.mark.parametrize(
-    ("rate", "interrupt_seconds", "expected_count"),
+    ("limiter", "rate", "interrupt_seconds", "expected_count"),
     [
-        (Rate.create(magnitude=1, duration=0.1), 0.01, 1),
-        (Rate.create(magnitude=2, duration=0.1), 0.04, 2),
-        (Rate.create(magnitude=2, duration=0.1), 0.21, 4),
+        (AiolimiterAsyncLimiter, Rate.create(magnitude=1, duration=0.1), 0.01, 1),
+        (AiolimiterAsyncLimiter, Rate.create(magnitude=2, duration=0.1), 0.04, 2),
+        (AiolimiterAsyncLimiter, Rate.create(magnitude=2, duration=0.1), 0.22, 6),
+        (PyrateAsyncLimiter, Rate.create(magnitude=1, duration=0.1), 0.01, 1),
+        (PyrateAsyncLimiter, Rate.create(magnitude=2, duration=0.1), 0.04, 2),
+        (PyrateAsyncLimiter, Rate.create(magnitude=2, duration=0.1), 0.23, 4),
     ],
 )
 @pytest.mark.anyio
 async def test_handle_async_request(
+    limiter: type[AbstractAsyncLimiter],
     rate: Rate,
     interrupt_seconds: float,
     expected_count: int,
@@ -77,7 +104,7 @@ async def test_handle_async_request(
     # Consequently, we expect three requests to succeed in total.
     async with (
         httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport.create(rate),
+            transport=AsyncRateLimitedTransport.create(limiter=limiter.create(rate)),
         ) as client,
         anyio.create_task_group() as tg,
     ):
