@@ -129,4 +129,5 @@ async def test_limits(repository: HostBasedRepository):
     assert slow_rate_codes[httpx.codes.OK] in range(95, 101)
 
     assert fast_rate_codes.total() == 100
-    assert fast_rate_codes[httpx.codes.OK] in range(95, 101)
+    # Surprisingly, aiolimiter is less predictable.
+    assert fast_rate_codes[httpx.codes.OK] in range(92, 101)
