@@ -15,29 +15,48 @@
 
 """Test the expected functionality of the rate limiter repository."""
 
+from abc import abstractmethod
 from collections.abc import Sequence
 
 import httpx
 import pytest
 
-from httpx_limiter import AbstractRateLimiterRepository, AsyncLimiter, Rate
+from httpx_limiter import AbstractAsyncLimiter, AbstractRateLimiterRepository, Rate
+from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
-class ConcreteRateLimiterRepository(AbstractRateLimiterRepository):
-    """A concrete implementation of the abstract repository for testing."""
+class ConcreteRepository(AbstractRateLimiterRepository):
+    """A concrete aiolimiter-based repository implementation."""
 
     def __init__(self, identifier: str, rate: Rate) -> None:
         super().__init__()
         self._rate = rate
         self._identifier = identifier
 
-    def get_identifier(self, _: httpx.Request) -> str:
+    def get_identifier(self, request: httpx.Request) -> str:  # noqa: ARG002
         """Return a predefined identifier for testing."""
         return self._identifier
 
-    def get_rates(self, _: httpx.Request) -> Sequence[Rate]:
-        """Return a predefined rate for testing."""
-        return (self._rate,)
+    @abstractmethod
+    def create(self, request: httpx.Request) -> AbstractAsyncLimiter:
+        """Return a rate-limited transport based on the rate."""
+
+
+class AiolimiterRepository(ConcreteRepository):
+    """A concrete aiolimiter-based repository implementation."""
+
+    def create(self, request: httpx.Request) -> AbstractAsyncLimiter:  # noqa: ARG002
+        """Return a rate-limited transport based on the rate."""
+        return AiolimiterAsyncLimiter.create(self._rate)
+
+
+class PyrateRepository(ConcreteRepository):
+    """A concrete pyrate-based repository implementation."""
+
+    def create(self, request: httpx.Request) -> AbstractAsyncLimiter:  # noqa: ARG002
+        """Return a rate-limited transport based on the rate."""
+        return PyrateAsyncLimiter.create(self._rate)
 
 
 class MethodRateLimiterRepository(AbstractRateLimiterRepository):
@@ -47,15 +66,19 @@ class MethodRateLimiterRepository(AbstractRateLimiterRepository):
         """Return a method-based identifier for testing."""
         return request.method
 
-    def get_rates(self, _: httpx.Request) -> Sequence[Rate]:
-        """Return a constant rate."""
-        return (Rate.create(1),)
+    def create(self, request: httpx.Request) -> AbstractAsyncLimiter:
+        """Return a rate-limited transport based on the request method."""
+        if request.method == "GET":
+            return AiolimiterAsyncLimiter.create(Rate.create())
+
+        return PyrateAsyncLimiter.create(Rate.create())
 
 
 @pytest.mark.anyio
-async def test_get_identifier():
+@pytest.mark.parametrize("repository", [AiolimiterRepository, PyrateRepository])
+async def test_get_identifier(repository: type[ConcreteRepository]):
     """Test that get_identifier is called and returns the expected value."""
-    repo = ConcreteRateLimiterRepository(identifier="test_id", rate=Rate.create(1))
+    repo = repository(identifier="test_id", rate=Rate.create(1))
 
     result = repo.get_identifier(httpx.Request(method="GET", url="http://test.com"))
 
@@ -63,29 +86,21 @@ async def test_get_identifier():
 
 
 @pytest.mark.anyio
-async def test_get_rate():
-    """Test that get_rate is called and returns the expected value."""
-    repo = ConcreteRateLimiterRepository(identifier="test_id", rate=Rate.create(9))
+@pytest.mark.parametrize("repository", [AiolimiterRepository, PyrateRepository])
+async def test_create(repository: type[ConcreteRepository]):
+    """Test that create is called and returns the expected value."""
+    repo = repository(identifier="test_id", rate=Rate.create(9))
 
-    result = repo.get_rates(httpx.Request(method="GET", url="http://test.com"))
+    result = repo.create(httpx.Request(method="GET", url="http://test.com"))
 
-    assert result[0].magnitude == 9
-
-
-@pytest.mark.anyio
-async def test_get_new_limiter():
-    """Test that get creates and returns a new limiter when needed."""
-    repo = ConcreteRateLimiterRepository(identifier="test_id", rate=Rate.create(1))
-
-    result = repo.get(httpx.Request(method="GET", url="http://test.com"))
-
-    assert isinstance(result, AsyncLimiter)
+    assert isinstance(result, AbstractAsyncLimiter)
 
 
 @pytest.mark.anyio
-async def test_get_existing_limiter():
+@pytest.mark.parametrize("repository", [AiolimiterRepository, PyrateRepository])
+async def test_get_existing_limiter(repository: type[ConcreteRepository]):
     """Test that get returns an existing limiter if available."""
-    repo = ConcreteRateLimiterRepository(identifier="test_id", rate=Rate.create(1))
+    repo = repository(identifier="test_id", rate=Rate.create(1))
 
     first_limiter = repo.get(httpx.Request(method="GET", url="http://test.com"))
     second_limiter = repo.get(httpx.Request(method="GET", url="http://test.com"))

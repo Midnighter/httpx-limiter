@@ -16,12 +16,10 @@
 """Provide an abstract repository for rate limiters."""
 
 from abc import ABC, abstractmethod
-from collections.abc import Sequence
 
 import httpx
 
-from .async_limiter import AsyncLimiter, PyRateLimiterKeywordArguments
-from .rate import Rate
+from .abstract_async_limiter import AbstractAsyncLimiter
 
 
 class AbstractRateLimiterRepository(ABC):
@@ -44,31 +42,21 @@ class AbstractRateLimiterRepository(ABC):
 
     def __init__(self, **kwargs: dict[str, object]) -> None:
         super().__init__(**kwargs)
-        self._limiters: dict[str, AsyncLimiter] = {}
+        self._limiters: dict[str, AbstractAsyncLimiter] = {}
 
     @abstractmethod
     def get_identifier(self, request: httpx.Request) -> str:
         """Return a request-specific identifier."""
 
     @abstractmethod
-    def get_rates(self, request: httpx.Request) -> Sequence[Rate]:
-        """Return one or more request-specific rates."""
+    def create(self, request: httpx.Request) -> AbstractAsyncLimiter:
+        """Return a request-specific rate limiter."""
 
-    def _get_limiter_kwargs(
-        self,
-        request: httpx.Request,  # noqa: ARG002
-    ) -> PyRateLimiterKeywordArguments:
-        """Return the keyword arguments for creating a rate limiter."""
-        return {}
-
-    def get(self, request: httpx.Request) -> AsyncLimiter:
+    def get(self, request: httpx.Request) -> AbstractAsyncLimiter:
         """Return a request-specific rate limiter."""
         identifier = self.get_identifier(request)
 
         if identifier not in self._limiters:
-            self._limiters[identifier] = AsyncLimiter.create(
-                *self.get_rates(request),
-                **self._get_limiter_kwargs(request),
-            )
+            self._limiters[identifier] = self.create(request)
 
         return self._limiters[identifier]
