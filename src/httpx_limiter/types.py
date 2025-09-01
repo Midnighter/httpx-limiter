@@ -16,20 +16,18 @@
 """Provide additional type definitions."""
 
 import ssl
-import typing
+from collections.abc import Iterable
 from typing import TypeAlias, TypedDict
 
 import httpx
 
 
-try:
-    socket_option_type: TypeAlias = httpx._transports.default.SOCKET_OPTION
-except AttributeError:
-    socket_option_type: TypeAlias = typing.Union[  # type: ignore
-        typing.Tuple[int, int, int],
-        typing.Tuple[int, int, typing.Union[bytes, bytearray]],
-        typing.Tuple[int, int, None, int],
-    ]  # Fallback for Pyodide HTTPX. See: https://github.com/Midnighter/httpx-limiter/pull/10#issuecomment-3241566927
+# Fallback for Pyodide HTTPX. See: https://github.com/Midnighter/httpx-limiter/pull/10#issuecomment-3241566927
+SocketOption: TypeAlias = (
+    tuple[int, int, int]
+    | tuple[int, int, bytes | bytearray]
+    | tuple[int, int, None, int]
+)
 
 
 class HTTPXAsyncHTTPTransportKeywordArguments(TypedDict, total=False):
@@ -45,4 +43,4 @@ class HTTPXAsyncHTTPTransportKeywordArguments(TypedDict, total=False):
     uds: str | None
     local_address: str | None
     retries: int
-    socket_options: typing.Iterable[socket_option_type] | None
+    socket_options: Iterable[SocketOption] | None
