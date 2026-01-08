@@ -118,4 +118,5 @@ jobs:
             --dist-dir=./pyodide-dist/ \
             --runner=${{ inputs.runner }} \
             --rt=${{ inputs.browser }} \
-            ${{ inputs.pytest-extra-args }}
+            ${{ inputs.pytest-extra-args }} \
+            tests/pyodide
