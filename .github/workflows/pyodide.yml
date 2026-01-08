@@ -23,7 +23,7 @@ jobs:
       - name: Install pyodide
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install pyodide-build==0.27.7
+          python -m pip install pyodide-build>=0.27
           echo EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version) >> $GITHUB_ENV
 
       - name: Install Emscripten
@@ -48,4 +48,4 @@ jobs:
       build-artifact-path: dist
       browser: firefox
       runner: selenium
-      pyodide-version: 0.27.7
+      pyodide-version: 0.27.2
