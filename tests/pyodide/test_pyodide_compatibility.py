@@ -25,9 +25,5 @@ from pytest_pyodide.decorator import copy_files_to_pyodide
     recurse_directories=False,
 )
 @run_in_pyodide(packages=["ssl", "micropip", "httpx"])
-def test_aiolimiter_backend(selenium):
-    selenium.run(
-        """
-        from httpx_limiter import AsyncRateLimitedTransport, Rate
-        """
-    )
+def test_aiolimiter_backend(selenium_standalone):
+    from httpx_limiter import AsyncRateLimitedTransport, Rate
