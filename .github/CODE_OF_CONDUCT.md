@@ -60,7 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-\[INSERT CONTACT METHOD\].
+[midnighter@posteo.net](mailto:midnighter@posteo.net?subject=httpx-limiter%20code%20of%20conduct%20issue).
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
