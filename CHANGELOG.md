@@ -7,11 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+-   Introduced facilities to allow for multiple rate-limiter backends. That
+    included an abstract base class for the limiter and two implementations based on
+    aiolimiter and pyrate-limiter that have different capabilities. The changes
+    broke the previous interface of the package.
+
 ## [0.4.0] - (2025-08-22)
 
 ### Added
 
--   It is now possible to enforce multiple rate limits, for example, 10 per
+-   Added the possibility to enforce multiple rate limits, for example, 10 per
     second, 1000 per minute, and so on.
 
 ### Changed
