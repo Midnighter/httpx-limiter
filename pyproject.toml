@@ -208,6 +208,7 @@ description = """Test the source and wheel distribution of the package."""
 dependencies = ["pip", "twine"]
 detached = true
 installer = "uv"
+builder = true
 
 [tool.hatch.envs.distribution.scripts]
 check = ["pip check", "hatch build {args:--clean}", "twine check dist/*"]
