@@ -26,7 +26,7 @@ from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
 class ConcreteRepository(AbstractRateLimiterRepository):
-    """A concrete aiolimiter-based repository implementation."""
+    """A base repository implementation that implements the get identifier method."""
 
     def __init__(self, identifier: str, rate: Rate) -> None:
         super().__init__()

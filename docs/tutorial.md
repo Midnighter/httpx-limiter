@@ -62,7 +62,7 @@ class DomainBasedRateLimiterRepository(AbstractRateLimiterRepository):
         """Return the domain as the identifier for rate limiting."""
         return request.url.host
 
-    def create(self, request: httpx.Request) -> PyrateAsyncLimiter:
+    def create(self, request: httpx.Request) -> AiolimiterAsyncLimiter:
         """Create a rate limiter for the domain."""
         return AiolimiterAsyncLimiter.create(Rate.create(magnitude=25))
 
