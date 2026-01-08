@@ -31,7 +31,8 @@ DISTRIBUTION_PATHS = [
     recurse_directories=False,
 )
 @run_in_pyodide(packages=["ssl", "micropip", "httpx"])
-async def test_aiolimiter_backend(selenium_standalone):
+async def test_aiolimiter_backend(selenium_standalone):  # noqa: ARG001, ANN001
+    """Test that we can import and use the aiolimiter backend in Pyodide."""
     import httpx
     from httpx_limiter import AsyncRateLimitedTransport, Rate
 
@@ -45,7 +46,7 @@ async def test_aiolimiter_backend(selenium_standalone):
 
     limiter = AiolimiterAsyncLimiter.create(Rate.create(magnitude=10, duration=1))
     async with httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport.create(limiter=limiter)
+        transport=AsyncRateLimitedTransport.create(limiter=limiter),
     ) as client:
         response = await client.get("https://httpbin.org/status/200")
         assert response.status_code == 200
@@ -62,7 +63,8 @@ async def test_aiolimiter_backend(selenium_standalone):
     recurse_directories=False,
 )
 @run_in_pyodide(packages=["ssl", "micropip", "httpx", "sqlite3"])
-async def test_pyrate_backend(selenium_standalone):
+async def test_pyrate_backend(selenium_standalone):  # noqa: ARG001, ANN001
+    """Test that we can import and use the pyrate backend in Pyodide."""
     import httpx
     from httpx_limiter import AsyncRateLimitedTransport, Rate
 
@@ -76,7 +78,7 @@ async def test_pyrate_backend(selenium_standalone):
 
     limiter = PyrateAsyncLimiter.create(Rate.create(magnitude=10, duration=1))
     async with httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport.create(limiter=limiter)
+        transport=AsyncRateLimitedTransport.create(limiter=limiter),
     ) as client:
         response = await client.get("https://httpbin.org/status/200")
         assert response.status_code == 200
