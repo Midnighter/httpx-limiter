@@ -97,7 +97,7 @@ ignore = [
     "ANN002", # 'Missing type annotation for {*args} in method'.
     "ANN003", # 'Missing type annotation for {*kwargs} in method'.
 ]
-exclude = ["src/httpx_limiter/_version.py", "tests/pyodide/**.py"]
+exclude = ["src/httpx_limiter/_version.py"]
 
 [tool.ruff.lint.extend-per-file-ignores]
 "__init__.py" = [
@@ -111,6 +111,10 @@ exclude = ["src/httpx_limiter/_version.py", "tests/pyodide/**.py"]
     "INP001",  # 'Insecure input' ignored because we are testing.
     "ANN201",  # 'Missing type annotation for {return}' ignored because all tests return `None`.
     "PLR2004", # Magic numbers are okay in tests.
+]
+"tests/pyodide/**/*.py" = [
+    "PLC0415", # We explicitly need imports inside function and ignore the '`import` should be at the top-level of a file' rule.
+    "I001",    # 'Import block is un-sorted or un-formatted' ignored because we may have to import in a particular, not-alphabetical order.
 ]
 
 [tool.ruff.lint.isort]
