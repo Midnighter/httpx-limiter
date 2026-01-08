@@ -29,17 +29,24 @@ SocketOption: TypeAlias = (
     | tuple[int, int, None, int]
 )
 
+# We redefine the following types from httpx._types to avoid a dependency on the
+# private module. It would be better if HTTPX exposed these types publicly, but
+# they are unlikely to change often. Thus we consider it acceptable to redefine
+# them here for type hinting purposes.
+CertTypes: TypeAlias = str | tuple[str, str] | tuple[str, str, str]
+ProxyTypes: TypeAlias = httpx.URL | str | httpx.Proxy
+
 
 class HTTPXAsyncHTTPTransportKeywordArguments(TypedDict, total=False):
     """Keyword arguments for the httpx.AsyncHTTPTransport constructor."""
 
     verify: ssl.SSLContext | str | bool
-    cert: httpx._types.CertTypes | None
+    cert: CertTypes | None
     trust_env: bool
     http1: bool
     http2: bool
-    limits: httpx._config.Limits
-    proxy: httpx._types.ProxyTypes | None
+    limits: httpx.Limits
+    proxy: ProxyTypes | None
     uds: str | None
     local_address: str | None
     retries: int
