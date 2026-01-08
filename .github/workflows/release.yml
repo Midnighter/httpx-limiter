@@ -10,8 +10,11 @@ jobs:
   prerequisites:
     uses: ./.github/workflows/test.yml
 
+  pyodide:
+    uses: ./.github/workflows/pyodide.yml
+
   release:
-    needs: [prerequisites]
+    needs: [prerequisites, pyodide]
     strategy:
       matrix:
         os: [ubuntu-latest]
