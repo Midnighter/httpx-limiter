@@ -97,7 +97,7 @@ ignore = [
     "ANN002", # 'Missing type annotation for {*args} in method'.
     "ANN003", # 'Missing type annotation for {*kwargs} in method'.
 ]
-exclude = ["src/httpx_limiter/_version.py"]
+exclude = ["src/httpx_limiter/_version.py", "tests/pyodide/**.py"]
 
 [tool.ruff.lint.extend-per-file-ignores]
 "__init__.py" = [
