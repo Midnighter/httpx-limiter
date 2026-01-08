@@ -21,7 +21,7 @@ from pytest_pyodide.decorator import copy_files_to_pyodide
 
 DISTRIBUTION_PATHS = [
     ("dist/", "dist/"),
-    ("pyodide-dist/", "pyodide-dist/"),
+    # ("pyodide-dist/", "pyodide-dist/"),
 ]
 
 
