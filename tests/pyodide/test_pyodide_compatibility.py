@@ -15,6 +15,7 @@
 
 """Test httpx-limiter's compatibility with Pyodide."""
 
+import pytest
 from pytest_pyodide import run_in_pyodide
 from pytest_pyodide.decorator import copy_files_to_pyodide
 
@@ -50,6 +51,11 @@ async def test_aiolimiter_backend(selenium_standalone):
         assert response.status_code == 200
 
 
+@pytest.mark.xfail(
+    reason="The pyrate-limiter package includes multiprocessing and is thus not "
+    "pyodide compatible.",
+    strict=True,
+)
 @copy_files_to_pyodide(
     file_list=DISTRIBUTION_PATHS,
     install_wheels=True,
