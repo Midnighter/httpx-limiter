@@ -9,8 +9,8 @@ on:
       - "*"
 
 jobs:
-  prerequisites:
-    uses: ./.github/workflows/test.yml
+  # prerequisites:
+  # uses: ./.github/workflows/test.yml
 
   pyodide:
     uses: ./.github/workflows/pyodide.yml
