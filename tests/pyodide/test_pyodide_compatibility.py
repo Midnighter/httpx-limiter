@@ -21,7 +21,6 @@ from pytest_pyodide.decorator import copy_files_to_pyodide
 
 DISTRIBUTION_PATHS = [
     ("dist/", "dist/"),
-    # ("pyodide-dist/", "pyodide-dist/"),
 ]
 
 
@@ -56,7 +55,7 @@ async def test_aiolimiter_backend(selenium_standalone):
     install_wheels=True,
     recurse_directories=False,
 )
-@run_in_pyodide(packages=["ssl", "micropip", "httpx"])
+@run_in_pyodide(packages=["ssl", "micropip", "httpx", "sqlite3"])
 async def test_pyrate_backend(selenium_standalone):
     import httpx
     from httpx_limiter import AsyncRateLimitedTransport, Rate
