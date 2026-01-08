@@ -15,10 +15,19 @@
 
 """Test httpx-limiter's compatibility with Pyodide."""
 
-import pytest
 from pytest_pyodide import run_in_pyodide
+from pytest_pyodide.decorator import copy_files_to_pyodide
 
 
-@run_in_pyodide(packages=["httpx-limiter"])
-def test_imports(selenium_standalone):
-    from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+@copy_files_to_pyodide(
+    file_list=[("dist/", "pyodide-dist/")],
+    install_wheels=True,
+    recurse_directories=False,
+)
+@run_in_pyodide(packages=["anyio"])
+def test_aiolimiter_backend(selenium):
+    selenium.run(
+        """
+        from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+        """
+    )
