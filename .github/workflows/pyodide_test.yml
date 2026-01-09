@@ -16,7 +16,7 @@ on:
       os:
         required: false
         type: string
-        default: "ubuntu-slim"
+        default: "ubuntu-latest"
       runner:
         required: false
         type: string
