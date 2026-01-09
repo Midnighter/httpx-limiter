@@ -7,11 +7,11 @@ helps, and credit will always be given.
 
 You can contribute in many ways, for example:
 
-* [Report bugs](#report-bugs)
-* [Fix Bugs](#fix-bugs)
-* [Implement Features](#implement-features)
-* [Write Documentation](#write-documentation)
-* [Submit Feedback](#submit-feedback)
+-   [Report bugs](#report-bugs)
+-   [Fix Bugs](#fix-bugs)
+-   [Implement Features](#implement-features)
+-   [Write Documentation](#write-documentation)
+-   [Submit Feedback](#submit-feedback)
 
 ### Report Bugs
 
@@ -60,6 +60,16 @@ project and everybody has limited time.
 Ready to contribute? Here's how to set up HTTPX Limiter for
 local development.
 
+> [!IMPORTANT]  
+> This project makes use of [PEP-735
+> `dependency-groups`](https://peps.python.org/pep-0735/) which are only
+> supported in versions of hatch [greater than
+> v1.16.0](https://hatch.pypa.io/dev/blog/2025/11/24/hatch-v1160/#dependency-groups).
+> To see which version of hatch you have installed use `hatch --version`, and
+> to update hatch use [`hatch self
+update`](https://hatch.pypa.io/dev/cli/reference/#hatch-self-update) or whatever
+> method is suitable for your installation.
+
 1. Fork the https://github.com/Midnighter/httpx-limiter
    repository on GitHub.
 2. Clone your fork locally
@@ -68,7 +78,7 @@ local development.
     git clone git@github.com:your_name_here/httpx-limiter.git
     ```
 
-3. [Install hatch](https://hatch.pypa.io/latest/install/).
+3. [Install hatch](https://hatch.pypa.io/latest/install/) `> 1.16`.
 
 4. Create a branch for local development using the default branch (typically `main`)
    as a starting

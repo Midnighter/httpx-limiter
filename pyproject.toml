@@ -52,6 +52,17 @@ Download = "https://pypi.org/project/httpx-limiter/#files"
 aiolimiter = ["aiolimiter ~=1.2"]
 pyrate = ["pyrate-limiter ~=3.9"]
 
+[dependency-groups]
+style = ["pydoclint", "ruff"]
+types = ["mypy"]
+docs = [
+    "mkdocs-material ~=9.5",
+    "mkdocstrings[python] ~=0.24",
+    "mkdocs-awesome-pages-plugin ~=2.9",
+    "mike ~=2.1",
+]
+tests = ["anyio", "pytest", "pytest-cov", "pytest-httpx", "pytest-raises"]
+
 ################################################################################
 # Tool Configuration
 ################################################################################
@@ -155,13 +166,7 @@ features = ["aiolimiter", "pyrate"]
 
 [tool.hatch.envs.dev]
 description = """Development environment."""
-extra-dependencies = [
-    "anyio",
-    "pytest",
-    "pytest-httpx",
-    "pytest-watcher",
-    "ruff",
-]
+dependency-groups = ["style", "types", "docs", "tests"]
 
 [tool.hatch.envs.dev.env-vars]
 PYTHONDEVMODE = "1"
@@ -169,7 +174,7 @@ PYTHONASYNCIODEBUG = "1"
 
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
-dependencies = ["pydoclint", "ruff"]
+dependency-groups = ["style"]
 detached = true
 installer = "uv"
 
@@ -188,19 +193,14 @@ check = ["pip-audit"]
 
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
-extra-dependencies = ["mypy"]
+dependency-groups = ["types"]
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/httpx_limiter"
 
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
-extra-dependencies = [
-    "mkdocs-material ~=9.5",
-    "mkdocstrings[python] ~=0.24",
-    "mkdocs-awesome-pages-plugin ~=2.9",
-    "mike ~=2.1",
-]
+dependency-groups = ["docs"]
 
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build {args:--clean --strict}"
@@ -219,13 +219,7 @@ check = ["pip check", "hatch build {args:--clean}", "twine check dist/*"]
 
 [tool.hatch.envs.unit-tests]
 description = """Run the unit tests."""
-extra-dependencies = [
-    "anyio",
-    "pytest",
-    "pytest-cov",
-    "pytest-httpx",
-    "pytest-raises",
-]
+dependency-groups = ["tests"]
 
 [tool.hatch.envs.unit-tests.env-vars]
 PYTHONDEVMODE = "1"
@@ -239,13 +233,7 @@ run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/
 
 [tool.hatch.envs.acceptance-tests]
 description = """Run the acceptance tests."""
-extra-dependencies = [
-    "anyio",
-    "pytest",
-    "pytest-cov",
-    "pytest-httpx",
-    "pytest-raises",
-]
+dependency-groups = ["tests"]
 
 [tool.hatch.envs.acceptance-tests.env-vars]
 PYTHONDEVMODE = "1"
