@@ -82,7 +82,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-slim]
+        os: [ubuntu-latest]
         python-version: ["3.14"]
 
     steps:
