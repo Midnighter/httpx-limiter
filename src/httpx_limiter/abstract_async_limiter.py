@@ -38,8 +38,7 @@ class AbstractAsyncLimiter(ABC):
     async def __aenter__(self) -> AbstractAsyncLimiter:
         """Acquire a rate limit token upon entering the asynchronous context."""
 
-    @abstractmethod
-    async def __aexit__(
+    async def __aexit__(  # noqa: B027
         self,
         exc_type: type[BaseException] | None,
         exc_val: BaseException | None,

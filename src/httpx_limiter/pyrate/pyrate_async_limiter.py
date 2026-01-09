@@ -41,8 +41,6 @@ from httpx_limiter import AbstractAsyncLimiter
 
 
 if TYPE_CHECKING:  # pragma: no cover
-    from types import TracebackType
-
     from httpx_limiter.rate import Rate
 
 
@@ -114,11 +112,3 @@ class PyrateAsyncLimiter(AbstractAsyncLimiter):
             pass  # pragma: no cover
 
         return self
-
-    async def __aexit__(
-        self,
-        _exc_type: type[BaseException] | None,
-        _exc_val: BaseException | None,
-        _exc_tb: TracebackType | None,
-    ) -> None:
-        """Exit the asynchronous context."""
