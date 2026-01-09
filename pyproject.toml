@@ -55,7 +55,7 @@ pyrate = ["pyrate-limiter ~=3.9"]
 
 [dependency-groups]
 style = ["pydoclint", "ruff"]
-types = ["mypy"]
+types = ["mypy", "ty"]
 docs = [
     "mkdocs-material ~=9.5",
     "mkdocstrings[python] ~=0.24",
@@ -141,22 +141,6 @@ check-return-types = false
 check-yield-types = false
 exclude = "_version.py"
 
-# TODO: Adjust mypy configuration.
-#[tool.mypy]
-#plugins = [
-#    "pydantic.mypy",
-#]
-
-# Stop mypy from complaining about missing types from imports.
-[[tool.mypy.overrides]]
-module = ["limiter"]
-ignore_missing_imports = true
-
-#[tool.pydantic-mypy]
-#init_forbid_extra = true
-#init_typed = true
-#warn_required_dynamic_aliases = true
-
 ################################################################################
 # Hatch Environments
 ################################################################################
@@ -197,7 +181,7 @@ description = """Check the static types of the codebase."""
 dependency-groups = ["types"]
 
 [tool.hatch.envs.types.scripts]
-check = "mypy src/httpx_limiter"
+check = ["mypy src/httpx_limiter", "ty check src/httpx_limiter"]
 
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
