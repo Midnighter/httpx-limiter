@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-slim]
         python-version: ["3.14"]
 
     steps:
@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-slim, macos-latest, windows-latest]
         python-version: ["3.10", "3.14"]
 
     steps:
@@ -82,7 +82,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-slim]
         python-version: ["3.14"]
 
     steps:
