@@ -27,18 +27,18 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           fetch-tags: true
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install hatch
-        uses: pypa/hatch@install
+        uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
 
       - name: Build package
         run: hatch build
@@ -46,10 +46,10 @@ jobs:
       # We rely on a trusted publisher configuration being present on PyPI,
       # see https://docs.pypi.org/trusted-publishers/.
       - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
 
       - name: GH release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           body: >
             Please see
