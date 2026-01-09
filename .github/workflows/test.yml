@@ -4,6 +4,9 @@ on:
   workflow_dispatch: {}
   workflow_call: {}
 
+permissions:
+  contents: read
+
 jobs:
   lint:
     runs-on: ${{ matrix.os }}
@@ -14,15 +17,15 @@ jobs:
         python-version: ["3.13"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install hatch
-        uses: pypa/hatch@install
+        uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
 
       - name: Check code style
         run: hatch run style:code
@@ -42,13 +45,13 @@ jobs:
         python-version: ["3.10", "3.13"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
           fetch-tags: true
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -70,8 +73,9 @@ jobs:
         run: hatch run +py=${{ matrix.python-version }} unit-tests:run -- --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
 
       - name: Report coverage
-        shell: bash
-        run: bash <(curl -s https://codecov.io/bash)
+        uses: codecov/codecov-action@0561704f0f02c16a585d4c7555e57fa2e44cf909 # v5.5.2
+        with:
+          files: coverage.xml
 
   acceptance-tests:
     runs-on: ${{ matrix.os }}
@@ -82,18 +86,18 @@ jobs:
         python-version: ["3.13"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Install hatch
-        uses: pypa/hatch@install
+        uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
 
       - name: Start rate-limited APIs
-        uses: hoverkraft-tech/compose-action@v2
+        uses: hoverkraft-tech/compose-action@248470ecc5ed40d8ed3d4480d8260d77179ef579 # v2.4.2
         with:
           compose-file: "compose.yaml"
 
@@ -101,5 +105,6 @@ jobs:
         run: hatch run +py=${{ matrix.python-version }} acceptance-tests:run -- --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
 
       - name: Report coverage
-        shell: bash
-        run: bash <(curl -s https://codecov.io/bash)
+        uses: codecov/codecov-action@0561704f0f02c16a585d4c7555e57fa2e44cf909 # v5.5.2
+        with:
+          files: coverage.xml
