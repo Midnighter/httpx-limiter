@@ -7,10 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+-   Introduced [PEP-735](https://peps.python.org/pep-0735/) dependency groups.
+    No impact on package functionality.
+-   Started supporting Python 3.14.
+-   Added `ty` alongside `mypy` for static type checking. No impact on package
+    functionality.
+-   Added a `style:fix` script to automatically fix style issues identified by
+    `ruff check`. No impact on package functionality.
+
 ### Changed
 
 -   Pinned all GitHub Actions to specific commit SHAs to ensure stability and
     security. No impact on package functionality.
+-   Introduced `ubuntu-slim` image where possible. No impact on package
+    functionality.
+-   Made the `__aexit__` method of `AbstractAsyncLimiter` non-abstract and thus
+    optional to implement by subclasses. No impact on package functionality.
 
 ## [0.5.0] - (2026-01-08)
 
