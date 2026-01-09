@@ -144,6 +144,9 @@ exclude = "_version.py"
 # Hatch Environments
 ################################################################################
 
+[tool.hatch.env]
+requires = ["hatch-pip-compile"]
+
 [tool.hatch.envs.default]
 description = """
 Base environment with default configuration values.
@@ -151,8 +154,18 @@ Base environment with default configuration values.
 All environments inheriting from the default also inherit the configuration values set
 here.
 """
-installer = "uv"
+type = "pip-compile"
+lock-filename = "requirements/requirements-{env_name}.txt"
+pip-compile-constraint = "dev"
+pip-compile-hashes = true
+pip-compile-resolver = "uv"
+pip-compile-installer = "uv"
 features = ["aiolimiter", "pyrate"]
+
+[tool.hatch.envs.no-install]
+description = """A base environment for use cases that do not install the project."""
+skip-install = true
+features = []
 
 [tool.hatch.envs.dev]
 description = """Development environment."""
@@ -164,9 +177,8 @@ PYTHONASYNCIODEBUG = "1"
 
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
+template = "no-install"
 dependency-groups = ["style"]
-detached = true
-installer = "uv"
 
 [tool.hatch.envs.style.scripts]
 docstrings = ["pydoclint src", "pydoclint tests"]
@@ -200,9 +212,8 @@ deploy = "mike deploy {args}"
 
 [tool.hatch.envs.distribution]
 description = """Test the source and wheel distribution of the package."""
+template = "no-install"
 dependencies = ["pip", "twine"]
-detached = true
-installer = "uv"
 builder = true
 
 [tool.hatch.envs.distribution.scripts]
