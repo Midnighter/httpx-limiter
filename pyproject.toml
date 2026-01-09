@@ -32,6 +32,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Internet :: WWW/HTTP",
     "Typing :: Typed",
 ]
@@ -226,7 +227,7 @@ PYTHONDEVMODE = "1"
 PYTHONASYNCIODEBUG = "1"
 
 [[tool.hatch.envs.unit-tests.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13"]
+python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
 [tool.hatch.envs.unit-tests.scripts]
 run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/unit"
@@ -240,7 +241,7 @@ PYTHONDEVMODE = "1"
 PYTHONASYNCIODEBUG = "1"
 
 [[tool.hatch.envs.acceptance-tests.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13"]
+python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
 [tool.hatch.envs.acceptance-tests.scripts]
 run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/acceptance"
