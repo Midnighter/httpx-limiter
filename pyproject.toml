@@ -146,6 +146,12 @@ exclude = "_version.py"
 ################################################################################
 
 [tool.hatch.envs.default]
+description = """
+Base environment with default configuration values.
+
+All environments inheriting from the default also inherit the configuration values set
+here.
+"""
 installer = "uv"
 features = ["aiolimiter", "pyrate"]
 
