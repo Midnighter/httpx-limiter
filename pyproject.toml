@@ -58,7 +58,7 @@ style = ["pydoclint", "ruff"]
 types = ["mypy", "ty"]
 docs = [
     "mkdocs-material ~=9.5",
-    "mkdocstrings[python] >=0.24,<2.0",
+    "mkdocstrings[python] ~=1.0",
     "mkdocs-awesome-pages-plugin ~=2.9",
     "mike ~=2.1",
 ]
