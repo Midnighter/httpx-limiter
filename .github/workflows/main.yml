@@ -14,3 +14,11 @@ jobs:
 
   pyodide:
     uses: ./.github/workflows/pyodide.yml
+
+  documentation:
+    needs: [prerequisites, pyodide]
+    # Run only on push to the main branch.
+    if: github.ref_name == 'main'
+    uses: ./.github/workflows/docs.yml
+    with:
+      version: latest

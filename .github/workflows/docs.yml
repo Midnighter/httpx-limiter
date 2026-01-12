@@ -1,0 +1,63 @@
+name: Deploy Documentation
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: >
+          The version string set for the documentation.
+        required: true
+        type: string
+      alias:
+        description: >
+          An alias for the chosen version, such as 'stable'.
+        required: false
+        type: string
+        default: ""
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      alias:
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  documentation:
+    strategy:
+      matrix:
+        os: [ubuntu-slim]
+        python-version: ["3.14"]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      # Write permissions are needed to write to gh-pages branch.
+      contents: write
+
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      - name: Fetch gh-pages branch
+        run: git fetch --depth=1 origin gh-pages
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install hatch
+        uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
+
+      - name: Configure git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Build documentation with alias
+        if: inputs.alias != ''
+        run: hatch run docs:deploy -- --push ${{ inputs.version }} ${{ inputs.alias }}
+
+      - name: Build documentation without alias
+        if: inputs.alias == ''
+        run: hatch run docs:deploy -- --push ${{ inputs.version }}
