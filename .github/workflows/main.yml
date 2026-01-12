@@ -19,6 +19,8 @@ jobs:
     needs: [prerequisites, pyodide]
     # Run only on push to the main branch.
     if: github.ref_name == 'main'
+    permissions:
+      contents: write
     uses: ./.github/workflows/docs.yml
     with:
       version: latest
