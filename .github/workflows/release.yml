@@ -60,6 +60,8 @@ jobs:
 
   documentation:
     needs: [release]
+    permissions:
+      contents: write
     uses: ./.github/workflows/docs.yml
     with:
       version: ${{ github.ref_name }}
