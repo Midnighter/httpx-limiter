@@ -22,7 +22,6 @@ requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Environment :: Web Environment",
-    "Framework :: AsyncIO",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: Apache Software License",
     "Natural Language :: English",
@@ -44,7 +43,7 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/Midnighter/httpx-limiter"
-Documentation = "https://httpx-limiter.readthedocs.io"
+Documentation = "https://midnighter.github.io/httpx-limiter/"
 "Source Code" = "https://github.com/Midnighter/httpx-limiter"
 "Bug Tracker" = "https://github.com/Midnighter/httpx-limiter/issues"
 Download = "https://pypi.org/project/httpx-limiter/#files"
