@@ -61,7 +61,7 @@ docs = [
     "mkdocs-awesome-pages-plugin ~=2.9",
     "mike ~=2.1",
 ]
-tests = ["anyio", "pytest", "pytest-cov", "pytest-httpx", "pytest-raises"]
+tests = ["anyio", "httpx-tenacity", "pytest", "pytest-cov", "pytest-httpx", "pytest-raises"]
 
 ################################################################################
 # Tool Configuration
