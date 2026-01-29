@@ -50,7 +50,7 @@ Download = "https://pypi.org/project/httpx-limiter/#files"
 
 [project.optional-dependencies]
 aiolimiter = ["aiolimiter ~=1.2"]
-pyrate = ["pyrate-limiter ~=3.9"]
+pyrate = ["pyrate-limiter >=3.9,<5.0"]
 
 [dependency-groups]
 style = ["pydoclint", "ruff"]

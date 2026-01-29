@@ -186,9 +186,9 @@ pygments==2.19.2 \
     # via
     #   -c requirements/requirements-dev.txt
     #   pytest
-pyrate-limiter==3.9.0 \
-    --hash=sha256:6b882e2c77cda07a241d3730975daea4258344b39c878f1dd8849df73f70b0ce \
-    --hash=sha256:77357840c8cf97a36d67005d4e090787043f54000c12c2b414ff65657653e378
+pyrate-limiter==4.0.2 \
+    --hash=sha256:35ec42b9bb9cfabcafab14d0c5c6523f48378c3da2949e534ce3cbdfea71eadd \
+    --hash=sha256:b678841e2215f114ef6f98c7093755ca3b466de83cb5a881231fd6e321fa14b5
     # via
     #   -c requirements/requirements-dev.txt
     #   hatch.envs.unit-tests.py3.14
