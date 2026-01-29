@@ -246,3 +246,18 @@ python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
 [tool.hatch.envs.acceptance-tests.scripts]
 run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/acceptance"
+
+[tool.hatch.envs.documentation-tests]
+description = """Run the documentation tests."""
+dependency-groups = ["tests"]
+extra-dependencies = ["mktestdocs"]
+
+[tool.hatch.envs.documentation-tests.env-vars]
+PYTHONDEVMODE = "1"
+PYTHONASYNCIODEBUG = "1"
+
+[[tool.hatch.envs.documentation-tests.matrix]]
+python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
+
+[tool.hatch.envs.documentation-tests.scripts]
+run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/documentation"
