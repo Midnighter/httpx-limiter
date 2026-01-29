@@ -27,7 +27,7 @@ from mktestdocs import check_md_file
 
 
 ROOT_DIR = Path(__file__).parents[2]
-DOCS = list((ROOT_DIR / "docs").glob("**/*.md")) + [ROOT_DIR / "README.md"]
+DOCS = [*(ROOT_DIR / "docs").glob("**/*.md"), ROOT_DIR / "README.md"]
 
 
 @pytest.mark.parametrize("document", DOCS, ids=str)
