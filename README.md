@@ -143,13 +143,15 @@ class DomainBasedRateLimiterRepository(AbstractRateLimiterRepository):
         """Create a rate limiter for the domain."""
         return AiolimiterAsyncLimiter.create(Rate.create(magnitude=25))
 
-    
+
 async def main():
-    client = httpx.AsyncClient(
+    async with httpx.AsyncClient(
         transport=AsyncMultiRateLimitedTransport.create(
             repository=DomainBasedRateLimiterRepository(),
         ),
-    )
+    ) as client:
+        # Use the client instance as you normally would.
+        pass
 ```
 
 > [!TIP]
@@ -162,6 +164,7 @@ from datetime import datetime, timezone
 import httpx
 from httpx_limiter import AbstractRateLimiterRepository, Rate
 from httpx_limiter.pyrate import PyrateAsyncLimiter
+
 
 class DayNightRateLimiterRepository(AbstractRateLimiterRepository):
     """Apply different rate limits based on the time of day."""
