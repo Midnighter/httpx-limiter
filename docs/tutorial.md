@@ -33,6 +33,8 @@ async def main():
 
 
     ```python
+    from httpx_limiter import Rate
+
     Rate.create(magnitude=1, duration=1/20)
     ```
 

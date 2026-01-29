@@ -39,6 +39,7 @@ from:
     roughly one token will be added every 500 milliseconds
 
 ```python
+from httpx_limiter import Rate
 from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 
 limiter = AiolimiterAsyncLimiter.create(Rate.create(magnitude=20))
@@ -55,16 +56,18 @@ limiter = AiolimiterAsyncLimiter.create(Rate.create(magnitude=20))
     two token will be added every second
 
 ```python
+from httpx_limiter import Rate
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
-# Single rate limit
-limiter = PyrateAsyncLimiter.create(Rate.create(magnitude=20))
+async def main():
+    # Single rate limit
+    limiter = PyrateAsyncLimiter.create(Rate.create(magnitude=20))
 
-# Multiple rate limits
-limiter = PyrateAsyncLimiter.create(
-    Rate.create(magnitude=10),  # 10 per second
-    Rate.create(magnitude=100, duration=60),  # 100 per minute
-)
+    # Multiple rate limits
+    limiter = PyrateAsyncLimiter.create(
+        Rate.create(magnitude=10),  # 10 per second
+        Rate.create(magnitude=100, duration=60),  # 100 per minute
+    )
 ```
 
 ## Copyright
