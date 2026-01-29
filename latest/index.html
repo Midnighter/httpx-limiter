@@ -585,9 +585,10 @@ decision about which one best suits your needs.</p>
 <li><strong>Linear token refresh rate</strong>: As an example, if you set a rate of 2 per second,
     roughly one token will be added every 500 milliseconds</li>
 </ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter.aiolimiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">AiolimiterAsyncLimiter</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">limiter</span> <span class="o">=</span> <span class="n">AiolimiterAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rate</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter.aiolimiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">AiolimiterAsyncLimiter</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">limiter</span> <span class="o">=</span> <span class="n">AiolimiterAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
 </code></pre></div>
 <h3 id="2-pyrate-limiter">2. pyrate-limiter<a class="headerlink" href="#2-pyrate-limiter" title="Permanent link">&para;</a></h3>
 <ul>
@@ -599,16 +600,18 @@ decision about which one best suits your needs.</p>
 <li><strong>Stepwise token refresh rate</strong>: As an example, if you set a rate of 2 per second,
     two token will be added every second</li>
 </ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter.pyrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyrateAsyncLimiter</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Single rate limit</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">limiter</span> <span class="o">=</span> <span class="n">PyrateAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Multiple rate limits</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">limiter</span> <span class="o">=</span> <span class="n">PyrateAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>  <span class="c1"># 10 per second</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>  <span class="c1"># 100 per minute</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rate</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter.pyrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyrateAsyncLimiter</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="c1"># Single rate limit</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">limiter</span> <span class="o">=</span> <span class="n">PyrateAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="c1"># Multiple rate limits</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">limiter</span> <span class="o">=</span> <span class="n">PyrateAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>  <span class="c1"># 10 per second</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>  <span class="c1"># 100 per minute</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="p">)</span>
 </code></pre></div>
 <h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
 <ul>
