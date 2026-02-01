@@ -1,5 +1,5 @@
 nav:
     - Welcome: index.md
     - Tutorial: tutorial.md
-    - Cookbook: cookbook.md
+    - how-to
     - Reference API: api.md
