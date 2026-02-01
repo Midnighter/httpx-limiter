@@ -61,7 +61,7 @@ docs = [
     "mkdocs-awesome-pages-plugin ~=2.9",
     "mike ~=2.1",
 ]
-tests = ["anyio", "httpx-tenacity", "pytest", "pytest-cov", "pytest-httpx", "pytest-raises"]
+tests = ["anyio", "pytest", "pytest-cov", "pytest-httpx", "pytest-raises"]
 
 ################################################################################
 # Tool Configuration
@@ -250,7 +250,7 @@ run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/
 [tool.hatch.envs.documentation-tests]
 description = """Run the documentation tests."""
 dependency-groups = ["tests"]
-extra-dependencies = ["mktestdocs"]
+extra-dependencies = ["mktestdocs", "httpx-tenacity ~=0.1"]
 
 [tool.hatch.envs.documentation-tests.env-vars]
 PYTHONDEVMODE = "1"
