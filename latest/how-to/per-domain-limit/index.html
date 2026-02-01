@@ -12,29 +12,31 @@
         <meta name="author" content="Moritz E. Beber">
       
       
-        <link rel="canonical" href="https://midnighter.github.io/httpx-limiter/latest/">
+        <link rel="canonical" href="https://midnighter.github.io/httpx-limiter/latest/how-to/per-domain-limit/">
       
       
+        <link rel="prev" href="../adapt-rate-limit/">
       
-        <link rel="next" href="tutorial/">
+      
+        <link rel="next" href="../combine-retries/">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
-        <title>HTTPX Limiter</title>
+        <title>How-To Apply Per-Domain Rate Limits - HTTPX Limiter</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,9 +55,9 @@
       
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#httpx-limiter" class="md-skip">
+        <a href="#how-to-apply-per-domain-rate-limits" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +102,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="HTTPX Limiter" class="md-header__button md-logo" aria-label="HTTPX Limiter" data-md-component="logo">
+    <a href="../.." title="HTTPX Limiter" class="md-header__button md-logo" aria-label="HTTPX Limiter" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -120,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Welcome
+              How-To Apply Per-Domain Rate Limits
             
           </span>
         </div>
@@ -236,7 +238,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="HTTPX Limiter" class="md-nav__button md-logo" aria-label="HTTPX Limiter" data-md-component="logo">
+    <a href="../.." title="HTTPX Limiter" class="md-nav__button md-logo" aria-label="HTTPX Limiter" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -263,37 +265,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Welcome
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -309,87 +284,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rate-limiter-backends" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rate Limiter Backends
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Rate Limiter Backends">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-aiolimiter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. aiolimiter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-pyrate-limiter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. pyrate-limiter
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#copyright" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Copyright
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -401,7 +295,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tutorial/" class="md-nav__link">
+      <a href="../../tutorial/" class="md-nav__link">
         
   
   
@@ -425,8 +319,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -440,11 +336,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -465,7 +361,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -483,7 +379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="how-to/adapt-rate-limit/" class="md-nav__link">
+      <a href="../adapt-rate-limit/" class="md-nav__link">
         
   
   
@@ -508,10 +404,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="how-to/per-domain-limit/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -527,6 +432,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -539,7 +445,7 @@
   
   
     <li class="md-nav__item">
-      <a href="how-to/combine-retries/" class="md-nav__link">
+      <a href="../combine-retries/" class="md-nav__link">
         
   
   
@@ -574,7 +480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/" class="md-nav__link">
+      <a href="../../api/" class="md-nav__link">
         
   
   
@@ -614,75 +520,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rate-limiter-backends" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rate Limiter Backends
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Rate Limiter Backends">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-aiolimiter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. aiolimiter
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-pyrate-limiter" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. pyrate-limiter
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#copyright" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Copyright
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -701,70 +538,49 @@
   
 
 
-<h1 id="httpx-limiter">HTTPX Limiter<a class="headerlink" href="#httpx-limiter" title="Permanent link">&para;</a></h1>
-<p>A lightweight package that provides rate-limited httpx transports.</p>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<p>The package is published on <a href="https://pypi.org/project/httpx-limiter/">PyPI</a>. Install it,
-for example, with the aiolimiter backend.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;httpx-limiter[aiolimiter]&#39;</span>
+<h1 id="how-to-apply-per-domain-rate-limits">How-To Apply Per-Domain Rate Limits<a class="headerlink" href="#how-to-apply-per-domain-rate-limits" title="Permanent link">&para;</a></h1>
+<p>When scraping multiple domains, you often need to apply different rate limits
+for each. This recipe shows how to configure domain-specific limits with a
+fallback default.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">httpx</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">AbstractRateLimiterRepository</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="n">AsyncMultiRateLimitedTransport</span><span class="p">,</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="n">Rate</span><span class="p">,</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter.pyrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyrateAsyncLimiter</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="n">DOMAIN_RATES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Rate</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="s2">&quot;api.github.com&quot;</span><span class="p">:</span> <span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">30</span><span class="p">),</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="s2">&quot;api.twitter.com&quot;</span><span class="p">:</span> <span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">15</span><span class="p">),</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">}</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">DEFAULT_RATE</span> <span class="o">=</span> <span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="k">class</span><span class="w"> </span><span class="nc">PerDomainRepository</span><span class="p">(</span><span class="n">AbstractRateLimiterRepository</span><span class="p">):</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply preconfigured rate limits per domain.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_identifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PyrateAsyncLimiter</span><span class="p">:</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>        <span class="n">host</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">host</span><span class="p">)</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>        <span class="n">rate</span> <span class="o">=</span> <span class="n">DOMAIN_RATES</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">DEFAULT_RATE</span><span class="p">)</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>        <span class="k">return</span> <span class="n">PyrateAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">rate</span><span class="p">)</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    <span class="n">transport</span> <span class="o">=</span> <span class="n">AsyncMultiRateLimitedTransport</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>        <span class="n">repository</span><span class="o">=</span><span class="n">PerDomainRepository</span><span class="p">(),</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>    <span class="p">)</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>    <span class="k">async</span> <span class="k">with</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncClient</span><span class="p">(</span><span class="n">transport</span><span class="o">=</span><span class="n">transport</span><span class="p">)</span> <span class="k">as</span> <span class="n">client</span><span class="p">:</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://api.github.com/users/octocat&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://api.twitter.com/2/users/me&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>        <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://other-api.example.com/data&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>There is also a pyrate-limiter backend available.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s1">&#39;httpx-limiter[pyrate]&#39;</span>
-</code></pre></div>
-<h2 id="rate-limiter-backends">Rate Limiter Backends<a class="headerlink" href="#rate-limiter-backends" title="Permanent link">&para;</a></h2>
-<p>This package provides two different asynchronous rate limiter implementations to choose
-from:</p>
-<ol>
-<li><a href="https://aiolimiter.readthedocs.io">aiolimiter</a></li>
-<li><a href="https://pyratelimiter.readthedocs.io">pyrate-limiter</a></li>
-</ol>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>While both implementations fulfill similar purposes, there are significant
-differences between them. Please read the descriptions below to make an informed
-decision about which one best suits your needs.</p>
-</div>
-<h3 id="1-aiolimiter">1. aiolimiter<a class="headerlink" href="#1-aiolimiter" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Single rate limit only</strong>: Supports only one rate limit at a time</li>
-<li><strong>Lightweight</strong>: Minimal dependencies and simpler configuration</li>
-<li><strong>Linear token refresh rate</strong>: As an example, if you set a rate of 2 per second,
-    roughly one token will be added every 500 milliseconds</li>
-</ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rate</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter.aiolimiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">AiolimiterAsyncLimiter</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">limiter</span> <span class="o">=</span> <span class="n">AiolimiterAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
-</code></pre></div>
-<h3 id="2-pyrate-limiter">2. pyrate-limiter<a class="headerlink" href="#2-pyrate-limiter" title="Permanent link">&para;</a></h3>
-<ul>
-<li><strong>Multiple rate limits</strong>: Support for multiple concurrent rate limits, for example,
-    10 requests per second <em>and</em> 100 requests per minute</li>
-<li><strong>Flexible configuration</strong>: Comprehensive configuration options</li>
-<li><strong>Multiprocessing dependency</strong>: Current implementation depends on <code>multiprocessing</code>
-    which may not be available in all environments, such as pyodide</li>
-<li><strong>Stepwise token refresh rate</strong>: As an example, if you set a rate of 2 per second,
-    two token will be added every second</li>
-</ul>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rate</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">httpx_limiter.pyrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">PyrateAsyncLimiter</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="c1"># Single rate limit</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">limiter</span> <span class="o">=</span> <span class="n">PyrateAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">20</span><span class="p">))</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="c1"># Multiple rate limits</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">limiter</span> <span class="o">=</span> <span class="n">PyrateAsyncLimiter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">10</span><span class="p">),</span>  <span class="c1"># 10 per second</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="n">Rate</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">magnitude</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">60</span><span class="p">),</span>  <span class="c1"># 100 per minute</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="p">)</span>
-</code></pre></div>
-<h2 id="copyright">Copyright<a class="headerlink" href="#copyright" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Copyright © 2024, 2025 Moritz E. Beber.</li>
-<li>Free software distributed under the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache Software License
-    2.0</a>.</li>
-</ul>
+<p>Of course, you may even combine this with the <a href="../adapt-rate-limit/">adaptive rate limiting
+technique</a>.</p>
 
 
 
@@ -837,10 +653,10 @@ decision about which one best suits your needs.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.annotate", "navigation.indexes", "navigation.instant", "navigation.tracking", "navigation.top"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "stable", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotate", "navigation.indexes", "navigation.instant", "navigation.tracking", "navigation.top"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "stable", "provider": "mike"}}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

@@ -12,4 +12,16 @@
          <loc>https://midnighter.github.io/httpx-limiter/latest/tutorial/</loc>
          <lastmod>2026-02-01</lastmod>
     </url>
+    <url>
+         <loc>https://midnighter.github.io/httpx-limiter/latest/how-to/adapt-rate-limit/</loc>
+         <lastmod>2026-02-01</lastmod>
+    </url>
+    <url>
+         <loc>https://midnighter.github.io/httpx-limiter/latest/how-to/combine-retries/</loc>
+         <lastmod>2026-02-01</lastmod>
+    </url>
+    <url>
+         <loc>https://midnighter.github.io/httpx-limiter/latest/how-to/per-domain-limit/</loc>
+         <lastmod>2026-02-01</lastmod>
+    </url>
 </urlset>
