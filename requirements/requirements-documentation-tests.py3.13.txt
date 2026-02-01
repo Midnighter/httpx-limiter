@@ -4,6 +4,7 @@
 # [constraints] requirements/requirements-dev.txt (SHA256: 87b4c114020b7ed6bf38229c01384aab4b449b695599255d07e5529852579063)
 #
 # - mktestdocs
+# - httpx-tenacity~=0.1
 # - anyio
 # - pytest
 # - pytest-cov
@@ -154,7 +155,12 @@ httpx==0.28.1 \
     # via
     #   -c requirements/requirements-dev.txt
     #   hatch.envs.documentation-tests.py3.13
+    #   httpx-tenacity
     #   pytest-httpx
+httpx-tenacity==0.1.0 \
+    --hash=sha256:25ed15c92de8b394e6b8d9ab6f470f93bc25bc3e8a6fc45e8c4630a0d6538979 \
+    --hash=sha256:440ea7eb9a729de392efdbb635849e33d3731262b69bcba442e6ee6f0597cf7a
+    # via hatch.envs.documentation-tests.py3.13
 idna==3.11 \
     --hash=sha256:771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea \
     --hash=sha256:795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902
@@ -224,3 +230,7 @@ pytest-raises==0.11 \
     # via
     #   -c requirements/requirements-dev.txt
     #   hatch.envs.documentation-tests.py3.13
+tenacity==9.1.2 \
+    --hash=sha256:1169d376c297e7de388d18b4481760d478b0e99a777cad3a9c86e556f4b697cb \
+    --hash=sha256:f77bf36710d8b73a50b2dd155c97b870017ad21afe6ab300326b0371b3b05138
+    # via httpx-tenacity
