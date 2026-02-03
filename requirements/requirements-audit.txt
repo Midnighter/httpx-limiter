@@ -331,9 +331,9 @@ requests==2.32.5 \
     #   -c requirements/requirements-dev.txt
     #   cachecontrol
     #   pip-audit
-rich==14.3.1 \
-    --hash=sha256:b8c5f568a3a749f9290ec6bddedf835cec33696bfc1e48bcfecb276c7386e4b8 \
-    --hash=sha256:da750b1aebbff0b372557426fb3f35ba56de8ef954b3190315eb64076d6fb54e
+rich==14.3.2 \
+    --hash=sha256:08e67c3e90884651da3239ea668222d19bea7b589149d8014a21c633420dbb69 \
+    --hash=sha256:e712f11c1a562a11843306f5ed999475f09ac31ffb64281f73ab29ffdda8b3b8
     # via pip-audit
 sortedcontainers==2.4.0 \
     --hash=sha256:25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88 \
