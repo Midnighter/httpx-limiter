@@ -703,9 +703,9 @@ pyparsing==3.3.2 \
     --hash=sha256:850ba148bd908d7e2411587e247a1e4f0327839c40e2e5e6d05a007ecc69911d \
     --hash=sha256:c777f4d763f140633dcb6d8a3eda953bf7a214dc4eff598413c070bcdc117cbc
     # via mike
-pyrate-limiter==3.9.0 \
-    --hash=sha256:6b882e2c77cda07a241d3730975daea4258344b39c878f1dd8849df73f70b0ce \
-    --hash=sha256:77357840c8cf97a36d67005d4e090787043f54000c12c2b414ff65657653e378
+pyrate-limiter==4.0.2 \
+    --hash=sha256:35ec42b9bb9cfabcafab14d0c5c6523f48378c3da2949e534ce3cbdfea71eadd \
+    --hash=sha256:b678841e2215f114ef6f98c7093755ca3b466de83cb5a881231fd6e321fa14b5
     # via hatch.envs.dev
 pytest==9.0.2 \
     --hash=sha256:711ffd45bf766d5264d487b917733b453d917afd2b0ad65223959f59089f875b \
