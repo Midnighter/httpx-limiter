@@ -296,9 +296,9 @@ pip-requirements-parser==32.0.1 \
     --hash=sha256:4659bc2a667783e7a15d190f6fccf8b2486685b6dba4c19c3876314769c57526 \
     --hash=sha256:b4fa3a7a0be38243123cf9d1f3518da10c51bdb165a2b2985566247f9155a7d3
     # via pip-audit
-platformdirs==4.9.2 \
-    --hash=sha256:9170634f126f8efdae22fb58ae8a0eaa86f38365bc57897a6c4f781d1f5875bd \
-    --hash=sha256:9a33809944b9db043ad67ca0db94b14bf452cc6aeaac46a88ea55b26e2e9d291
+platformdirs==4.9.4 \
+    --hash=sha256:1ec356301b7dc906d83f371c8f487070e99d3ccf9e501686456394622a01a934 \
+    --hash=sha256:68a9a4619a666ea6439f2ff250c12a853cd1cbd5158d258bd824a7df6be2f868
     # via
     #   -c requirements/requirements-dev.txt
     #   pip-audit
