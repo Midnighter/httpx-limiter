@@ -171,9 +171,9 @@ charset-normalizer==3.4.6 \
     # via
     #   -c requirements/requirements-dev.txt
     #   requests
-cyclonedx-python-lib==11.6.0 \
-    --hash=sha256:7fb85a4371fa3a203e5be577ac22b7e9a7157f8b0058b7448731474d6dea7bf0 \
-    --hash=sha256:94f4aae97db42a452134dafdddcfab9745324198201c4777ed131e64c8380759
+cyclonedx-python-lib==11.7.0 \
+    --hash=sha256:02fa4f15ddbba21ac9093039f8137c0d1813af7fe88b760c5dcd3311a8da2178 \
+    --hash=sha256:fb1bc3dedfa31208444dbd743007f478ab6984010a184e5bd466bffd969e936e
     # via pip-audit
 defusedxml==0.7.1 \
     --hash=sha256:1bb3032db185915b62d7c6209c5a8792be6a32ab2fedacc84e01b52c51aa3e69 \
