@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - (2026-03-22)
+
 ### Added
 
 -   Introduced [PEP-735](https://peps.python.org/pep-0735/) dependency groups.
