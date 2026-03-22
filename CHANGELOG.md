@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     functionality.
 -   Made the `__aexit__` method of `AbstractAsyncLimiter` non-abstract and thus
     optional to implement by subclasses. No impact on package functionality.
+-   Upgraded to pyrate-limiter v4 and adjusted to the new API.
 
 ## [0.5.0] - (2026-01-08)
 
