@@ -27,12 +27,9 @@ else:
     from typing import Unpack
 
 from pyrate_limiter import (
-    AbstractClock,
     BucketAsyncWrapper,
-    Duration,
     InMemoryBucket,
     Limiter,
-    TimeAsyncClock,
     validate_rate_list,
 )
 from pyrate_limiter import Rate as PyRate
@@ -47,10 +44,6 @@ if TYPE_CHECKING:  # pragma: no cover
 class PyRateLimiterKeywordArguments(TypedDict, total=False):
     """Keyword arguments for the pyrate limiter."""
 
-    clock: AbstractClock
-    raise_when_fail: bool
-    max_delay: int | Duration | None
-    retry_until_max_delay: bool
     buffer_ms: int
 
 
@@ -94,21 +87,13 @@ class PyrateAsyncLimiter(AbstractAsyncLimiter):
             )
             raise ValueError(msg)
 
-        # Cast kwargs to proper types for internal use
         limiter = Limiter(
-            argument=BucketAsyncWrapper(InMemoryBucket(rate_limits)),
-            clock=kwargs.get("clock", TimeAsyncClock()),
-            raise_when_fail=kwargs.get("raise_when_fail", False),
-            max_delay=kwargs.get("max_delay", Duration.HOUR),
-            retry_until_max_delay=kwargs.get("retry_until_max_delay", True),
+            BucketAsyncWrapper(InMemoryBucket(rate_limits)),
             buffer_ms=kwargs.get("buffer_ms", 50),
         )
         return cls(limiter=limiter)
 
     async def __aenter__(self) -> PyrateAsyncLimiter:  # noqa: PYI034
         """Acquire a token upon entering the asynchronous context."""
-        # Keep trying to acquire, let timeouts be handled externally.
-        while not (await self._limiter.try_acquire_async("httpx-limiter")):
-            pass  # pragma: no cover
-
+        await self._limiter.try_acquire_async(__name__)
         return self
