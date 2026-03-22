@@ -48,7 +48,6 @@ async def slower(request: pytest.FixtureRequest) -> AbstractAsyncLimiter:
 
     return PyrateAsyncLimiter.create(
         Rate.create(duration=1 / 20),
-        max_delay=6_000,
         buffer_ms=1,
     )
 
@@ -86,7 +85,6 @@ async def faster(request: pytest.FixtureRequest) -> AbstractAsyncLimiter:
 
     return PyrateAsyncLimiter.create(
         Rate.create(duration=1 / 25),
-        max_delay=6_000,
         buffer_ms=1,
     )
 
