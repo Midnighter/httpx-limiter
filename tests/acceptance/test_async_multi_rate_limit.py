@@ -73,7 +73,6 @@ class PyrateRepository(HostBasedRepository):
         """Return a rate-limited transport based on the request."""
         return PyrateAsyncLimiter.create(
             self._get_rate(request),
-            max_delay=6_000,
             buffer_ms=1,
         )
 
