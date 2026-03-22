@@ -72,7 +72,7 @@ async def test_pyrate_backend(selenium_standalone):  # noqa: ARG001, ANN001
     # unfortunately, since we cannot specify extras during the wheel installation.
     import micropip
 
-    await micropip.install("pyrate-limiter ~=3.9")
+    await micropip.install("pyrate-limiter ~=4.0")
 
     from httpx_limiter.pyrate import PyrateAsyncLimiter
 
