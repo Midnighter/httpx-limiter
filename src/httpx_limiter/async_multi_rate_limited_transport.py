@@ -79,7 +79,7 @@ class AsyncMultiRateLimitedTransport(httpx.AsyncBaseTransport):
         """
         return cls(
             repository=repository,
-            transport=httpx.AsyncHTTPTransport(**kwargs),  # type: ignore[arg-type]
+            transport=httpx.AsyncHTTPTransport(**kwargs),
         )
 
     async def handle_async_request(
