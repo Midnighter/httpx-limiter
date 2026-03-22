@@ -24,6 +24,11 @@ on:
         type: string
         default: ""
 
+# Ensure that only one documentation deployment to the gh-pages branch runs at a time.
+concurrency:
+  group: docs-gh-pages
+  cancel-in-progress: false
+
 jobs:
   documentation:
     strategy:
