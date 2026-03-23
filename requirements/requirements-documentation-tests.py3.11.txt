@@ -171,9 +171,9 @@ httpx==0.28.1 \
     #   hatch.envs.documentation-tests.py3.11
     #   httpx-tenacity
     #   pytest-httpx
-httpx-tenacity==0.1.0 \
-    --hash=sha256:25ed15c92de8b394e6b8d9ab6f470f93bc25bc3e8a6fc45e8c4630a0d6538979 \
-    --hash=sha256:440ea7eb9a729de392efdbb635849e33d3731262b69bcba442e6ee6f0597cf7a
+httpx-tenacity==0.2.0 \
+    --hash=sha256:2a3b4ed48331378891fb1b73e69236d6964061eeaee4c9030fa08bdfa74a6b44 \
+    --hash=sha256:4e96bfc159ba453bde71f1276ef8fcaedda423cdc5bd1eff50511ef07baa484a
     # via hatch.envs.documentation-tests.py3.11
 idna==3.11 \
     --hash=sha256:771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea \
