@@ -211,8 +211,9 @@ ghp-import==2.1.0 \
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocs
-griffelib==2.0.0 \
-    --hash=sha256:01284878c966508b6d6f1dbff9b6fa607bc062d8261c5c7253cb285b06422a7f
+griffelib==2.0.1 \
+    --hash=sha256:59f39eabb4c777483a3823e39e8f9e03e69df271a7e49aee64e91a8cfa91bdf5 \
+    --hash=sha256:b769eed581c0e857d362fc8fcd8e57ecd2330c124b6104ac8b4c1c86d76970aa
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocstrings-python
