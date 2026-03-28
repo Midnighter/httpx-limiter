@@ -75,7 +75,7 @@ jobs:
         run: hatch run +py=${{ matrix.python-version }} unit-tests:run -- --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
 
       - name: Report coverage
-        uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           files: coverage.xml
 
@@ -107,7 +107,7 @@ jobs:
         run: hatch run +py=${{ matrix.python-version }} acceptance-tests:run -- --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
 
       - name: Report coverage
-        uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           files: coverage.xml
 
@@ -134,6 +134,6 @@ jobs:
         run: hatch run +py=${{ matrix.python-version }} documentation-tests:run -- --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
 
       - name: Report coverage
-        uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           files: coverage.xml
