@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1] - (2026-05-01)
+
+### Changed
+
+- Converted package-level imports (in `__init__.py` modules) to use redundant symbol
+  aliases. This change supports type checkers to recognize exported symbols that are
+  intended to be part of the public package API.
+  See <https://typing.python.org/en/latest/spec/distributing.html#import-conventions>
+  for more information. This change has no functional impact.
+
 ## [0.6.0] - (2026-03-22)
 
 ### Added
