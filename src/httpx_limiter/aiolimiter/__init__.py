@@ -15,4 +15,4 @@
 
 """Provide aiolimiter-based rate limiting functionality."""
 
-from .aiolimiter_async_limiter import AiolimiterAsyncLimiter
+from .aiolimiter_async_limiter import AiolimiterAsyncLimiter as AiolimiterAsyncLimiter

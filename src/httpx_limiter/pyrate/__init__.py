@@ -15,4 +15,7 @@
 
 """Provide pyrate-based rate limiting functionality."""
 
-from .pyrate_async_limiter import PyrateAsyncLimiter, PyRateLimiterKeywordArguments
+from .pyrate_async_limiter import (
+    PyrateAsyncLimiter as PyrateAsyncLimiter,
+    PyRateLimiterKeywordArguments as PyRateLimiterKeywordArguments,
+)
