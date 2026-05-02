@@ -78,6 +78,8 @@ jobs:
         uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           files: coverage.xml
+          flags: unit-tests
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   acceptance-tests:
     runs-on: ${{ matrix.os }}
@@ -110,6 +112,8 @@ jobs:
         uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           files: coverage.xml
+          flags: acceptance-tests
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   documentation-tests:
     runs-on: ${{ matrix.os }}
@@ -137,3 +141,5 @@ jobs:
         uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           files: coverage.xml
+          flags: doc-tests
+          token: ${{ secrets.CODECOV_TOKEN }}
