@@ -24,6 +24,9 @@ on:
         type: string
         default: ""
 
+permissions:
+  contents: read
+
 # Ensure that only one documentation deployment to the gh-pages branch runs at a time.
 concurrency:
   group: docs-gh-pages
@@ -36,6 +39,7 @@ jobs:
         os: [ubuntu-slim]
         python-version: ["3.14"]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     permissions:
       # Write permissions are needed to write to gh-pages branch.
       contents: write
@@ -61,8 +65,8 @@ jobs:
 
       - name: Build documentation with alias
         if: inputs.alias != ''
-        run: hatch run docs:deploy -- --update-aliases --push ${{ inputs.version }} ${{ inputs.alias }}
+        run: hatch run docs:deploy -- --update-aliases --push "${{ inputs.version }}" "${{ inputs.alias }}"
 
       - name: Build documentation without alias
         if: inputs.alias == ''
-        run: hatch run docs:deploy -- --push ${{ inputs.version }}
+        run: hatch run docs:deploy -- --push "${{ inputs.version }}"

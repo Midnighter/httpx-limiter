@@ -10,6 +10,9 @@ on:
     paths-ignore:
       - "CHANGELOG.md"
 
+permissions:
+  contents: read
+
 jobs:
   prerequisites:
     uses: ./.github/workflows/test.yml
