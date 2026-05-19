@@ -12,6 +12,8 @@ permissions:
 jobs:
   prerequisites:
     uses: ./.github/workflows/test.yml
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   pyodide:
     uses: ./.github/workflows/pyodide.yml
