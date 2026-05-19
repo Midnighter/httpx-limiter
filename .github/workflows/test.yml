@@ -2,7 +2,11 @@ name: Test Suite
 
 on:
   workflow_dispatch: {}
-  workflow_call: {}
+  workflow_call:
+    secrets:
+      CODECOV_TOKEN:
+        description: Long-lived token for submitting code coverage reports to Codecov.
+        required: false
 
 permissions:
   contents: read
