@@ -53,7 +53,7 @@ pyrate = ["pyrate-limiter ~=4.0"]
 
 [dependency-groups]
 style = ["pydoclint", "ruff"]
-types = ["mypy", "ty"]
+types = ["mypy", "ty", "pyrefly"]
 docs = [
     "mkdocs-material ~=9.5",
     "mkdocstrings[python] ~=1.0",
@@ -139,6 +139,11 @@ check-return-types = false
 check-yield-types = false
 exclude = "_version.py"
 
+[tool.pyrefly]
+project-includes = [
+    "src/**/*.py*",
+]
+
 ################################################################################
 # Hatch Environments
 ################################################################################
@@ -198,7 +203,7 @@ description = """Check the static types of the codebase."""
 dependency-groups = ["types"]
 
 [tool.hatch.envs.types.scripts]
-check = ["mypy src/httpx_limiter", "ty check src/httpx_limiter"]
+check = ["mypy src/httpx_limiter", "ty check src/httpx_limiter", "pyrefly check"]
 
 [tool.hatch.envs.docs]
 description = """Build or serve the documentation."""
