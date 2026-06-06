@@ -1,0 +1,53 @@
+name: Auto-Merge Dependabot PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    permissions:
+      contents: read
+      pull-requests: read
+    runs-on: ubuntu-slim
+    # Only run for Dependabot PRs — avoids wasting API quota on human PRs.
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Verify Dependabot PR
+        id: verify
+        uses: Midnighter/verify-dependabot-pr@4cba4d52b24bed45b73b95d92297594694e21ac8 # v0.2.0
+
+  merge:
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-slim
+    needs: [verify]
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Enable auto-merge for Dependabot PRs
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr merge --auto --rebase "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Approve PR
+        if: |
+          steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+          steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
