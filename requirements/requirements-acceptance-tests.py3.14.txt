@@ -200,9 +200,9 @@ pygments==2.20.0 \
     # via
     #   -c requirements/requirements-dev.txt
     #   pytest
-pyrate-limiter==4.2.0 \
-    --hash=sha256:3b7704effc267103080bf6656d6516574fba81f35d6d133f9aff7c396ba8214b \
-    --hash=sha256:d28fab36fde5c9ab84848c972f13e8e6e81e928e4cc26a7fd2aaee9ae63206b4
+pyrate-limiter==4.3.1 \
+    --hash=sha256:0575f6b595c2351e3b5778ae1d8d4c523e38446532de66df7a0795bb315bd702 \
+    --hash=sha256:75b9d5974ccec835d2c86faefc44b871eb5b42036614179d959bd895e81cf1f3
     # via
     #   -c requirements/requirements-dev.txt
     #   hatch.envs.acceptance-tests.py3.14
