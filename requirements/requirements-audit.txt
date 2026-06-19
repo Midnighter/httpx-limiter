@@ -338,9 +338,9 @@ pyparsing==3.3.2 \
     # via
     #   -c requirements/requirements-dev.txt
     #   pip-requirements-parser
-pyrate-limiter==4.3.1 \
-    --hash=sha256:0575f6b595c2351e3b5778ae1d8d4c523e38446532de66df7a0795bb315bd702 \
-    --hash=sha256:75b9d5974ccec835d2c86faefc44b871eb5b42036614179d959bd895e81cf1f3
+pyrate-limiter==4.4.0 \
+    --hash=sha256:2c0c720c4fa16c5d8199e4821bf34507fb49c007a25b786cec6fb94ffd0844aa \
+    --hash=sha256:f738dfa3c7ac1222a5ea3d31e00cfd31b5592b13ade4077afe9e8ac6293381f5
     # via
     #   -c requirements/requirements-dev.txt
     #   hatch.envs.audit
