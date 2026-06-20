@@ -44,11 +44,17 @@ async def test_aiolimiter_backend(selenium_standalone):  # noqa: ARG001, ANN001
 
     from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 
+    def handler(request: httpx.Request) -> httpx.Response:  # noqa: ARG001
+        return httpx.Response(200, text="OK")
+
     limiter = AiolimiterAsyncLimiter.create(Rate.create(magnitude=10, duration=1))
     async with httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport.create(limiter=limiter),
+        transport=AsyncRateLimitedTransport(
+            limiter=limiter,
+            transport=httpx.MockTransport(handler=handler),
+        ),
     ) as client:
-        response = await client.get("https://httpbin.org/status/200")
+        response = await client.get("http://example.com")
         assert response.status_code == 200
 
 
@@ -76,9 +82,15 @@ async def test_pyrate_backend(selenium_standalone):  # noqa: ARG001, ANN001
 
     from httpx_limiter.pyrate import PyrateAsyncLimiter
 
+    def handler(request: httpx.Request) -> httpx.Response:  # noqa: ARG001
+        return httpx.Response(200, text="OK")
+
     limiter = PyrateAsyncLimiter.create(Rate.create(magnitude=10, duration=1))
     async with httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport.create(limiter=limiter),
+        transport=AsyncRateLimitedTransport(
+            limiter=limiter,
+            transport=httpx.MockTransport(handler=handler),
+        ),
     ) as client:
-        response = await client.get("https://httpbin.org/status/200")
+        response = await client.get("http://example.com")
         assert response.status_code == 200
