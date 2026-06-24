@@ -101,9 +101,12 @@ async def test_handle_async_request(  # noqa: PLR0913
     ) as client:
         start = anyio.current_time()
         async with anyio.create_task_group() as tg:
-            with anyio.move_on_after(max_elapsed) as scope:
+            with anyio.fail_after(max_elapsed) as _scope:
                 for _ in range(request_count):
                     tg.start_soon(client.get, "http://example.com")
+                # For `fail_after` to work as expected, there needs to be at least one
+                # async checkpoint to trigger a timeout.
+                await anyio.lowlevel.checkpoint()
         elapsed = anyio.current_time() - start
 
     assert elapsed >= min_elapsed, (
