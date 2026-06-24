@@ -78,7 +78,7 @@ async def test_pyrate_create():
     ],
 )
 @pytest.mark.anyio
-async def test_handle_async_request(
+async def test_handle_async_request(  # noqa: PLR0913
     limiter: type[AbstractAsyncLimiter],
     rate: Rate,
     request_count: int,
@@ -88,7 +88,7 @@ async def test_handle_async_request(
 ):
     """Test that handled requests are rate-limited."""
     httpx_mock.add_callback(
-        lambda _: httpx.Response(status_code=200), is_reusable=True
+        lambda _: httpx.Response(status_code=200), is_reusable=True,
     )
 
     # We submit a fixed number of requests and measure how long they take to complete.
