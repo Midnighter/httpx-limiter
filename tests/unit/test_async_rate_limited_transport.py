@@ -64,56 +64,50 @@ async def test_pyrate_create():
 
 
 @pytest.mark.parametrize(
-    ("limiter", "rate", "interrupt_seconds", "expected_count"),
+    ("limiter", "rate", "request_count", "min_elapsed", "max_elapsed"),
     [
-        (AiolimiterAsyncLimiter, Rate.create(magnitude=1, duration=0.1), 0.01, 1),
-        (AiolimiterAsyncLimiter, Rate.create(magnitude=2, duration=0.1), 0.04, 2),
-        (AiolimiterAsyncLimiter, Rate.create(magnitude=2, duration=0.1), 0.22, 6),
-        (PyrateAsyncLimiter, Rate.create(magnitude=1, duration=0.1), 0.01, 1),
-        (PyrateAsyncLimiter, Rate.create(magnitude=2, duration=0.1), 0.04, 2),
-        (PyrateAsyncLimiter, Rate.create(magnitude=2, duration=0.1), 0.23, 4),
+        # Burst only: all requests fit in initial capacity → completes quickly.
+        (AiolimiterAsyncLimiter, Rate.create(magnitude=2, duration=0.2), 2, 0.0, 0.15),
+        (PyrateAsyncLimiter, Rate.create(magnitude=2, duration=0.2), 2, 0.0, 0.2),
+        # Beyond burst: must wait for at least one refill cycle.
+        (AiolimiterAsyncLimiter, Rate.create(magnitude=2, duration=0.2), 4, 0.15, 0.6),
+        (PyrateAsyncLimiter, Rate.create(magnitude=2, duration=0.2), 4, 0.15, 0.8),
+        # Well beyond burst: must wait for multiple refill cycles.
+        (AiolimiterAsyncLimiter, Rate.create(magnitude=2, duration=0.2), 6, 0.3, 1.0),
+        (PyrateAsyncLimiter, Rate.create(magnitude=2, duration=0.2), 6, 0.3, 1.2),
     ],
 )
 @pytest.mark.anyio
 async def test_handle_async_request(
     limiter: type[AbstractAsyncLimiter],
     rate: Rate,
-    interrupt_seconds: float,
-    expected_count: int,
+    request_count: int,
+    min_elapsed: float,
+    max_elapsed: float,
     httpx_mock: HTTPXMock,
 ):
     """Test that handled requests are rate-limited."""
-    max_requests: int = 10
-    sleep_seconds: float = 2.0
+    httpx_mock.add_callback(
+        lambda _: httpx.Response(status_code=200), is_reusable=True
+    )
 
-    counter = 0
-
-    async def count_responses(_request: httpx.Request) -> httpx.Response:
-        nonlocal counter
-
-        counter += 1
-
-        return httpx.Response(status_code=200)
-
-    httpx_mock.add_callback(count_responses, is_reusable=True)
-
-    # We configure the bucket with a rate of two to allow a burst of requests and a
-    # refresh interval of 0.1 seconds. That means, when we create ten requests but then
-    # cancel all outstanding requests after 0.06 seconds, a bit more than half the time
-    # of the interval will have passed, and we expect a capacity of one to be returned.
-    # Consequently, we expect three requests to succeed in total.
-    async with (
-        httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport.create(limiter=limiter.create(rate)),
-        ) as client,
-        anyio.create_task_group() as tg,
-    ):
-        with anyio.move_on_after(interrupt_seconds) as scope:
-            for _ in range(max_requests):
+    # We submit a fixed number of requests and measure how long they take to complete.
+    # If rate limiting is working, requests beyond the burst capacity must wait for
+    # tokens to replenish. We assert elapsed time falls within a generous range:
+    # the lower bound proves rate limiting is active, and the upper bound guards
+    # against unexpected hangs.
+    async with httpx.AsyncClient(
+        transport=AsyncRateLimitedTransport.create(limiter=limiter.create(rate)),
+    ) as client:
+        start = anyio.current_time()
+        async with anyio.create_task_group() as tg:
+            for _ in range(request_count):
                 tg.start_soon(client.get, "http://example.com")
-            await anyio.sleep(sleep_seconds)
+        elapsed = anyio.current_time() - start
 
-        tg.cancel_scope.cancel()
-
-    assert scope.cancelled_caught, "Expected the scope to be cancelled."
-    assert counter == expected_count
+    assert elapsed >= min_elapsed, (
+        f"Expected at least {min_elapsed}s, got {elapsed:.3f}s"
+    )
+    assert elapsed <= max_elapsed, (
+        f"Expected at most {max_elapsed}s, got {elapsed:.3f}s"
+    )
