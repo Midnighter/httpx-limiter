@@ -101,13 +101,14 @@ async def test_handle_async_request(  # noqa: PLR0913
     ) as client:
         start = anyio.current_time()
         async with anyio.create_task_group() as tg:
-            for _ in range(request_count):
-                tg.start_soon(client.get, "http://example.com")
+            with anyio.move_on_after(max_elapsed) as scope:
+                for _ in range(request_count):
+                    tg.start_soon(client.get, "http://example.com")
         elapsed = anyio.current_time() - start
 
     assert elapsed >= min_elapsed, (
-        f"Expected at least {min_elapsed}s, got {elapsed:.3f}s"
+        f"Expected at least {min_elapsed} s, got {elapsed:.3f} s"
     )
-    assert elapsed <= max_elapsed, (
-        f"Expected at most {max_elapsed}s, got {elapsed:.3f}s"
+    assert elapsed < max_elapsed, (
+        f"Expected less than {max_elapsed} s, got {elapsed:.3f} s"
     )
