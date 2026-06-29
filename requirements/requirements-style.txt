@@ -19,9 +19,9 @@ docstring-parser-fork==0.0.14 \
     # via
     #   -c requirements/requirements-dev.txt
     #   pydoclint
-pydoclint==0.8.6 \
-    --hash=sha256:8f2a8b995d69cb41631d56e653e38e522cd227916a04587db842c07b7977906e \
-    --hash=sha256:cd4a99d2bbd25b1ed47baf8ed12aa169982a14fd4071dfbd2cc09f8c04895ae4
+pydoclint==0.8.7 \
+    --hash=sha256:1ce5055dfdaf2bc3c999d3ffd5494556b903b7090bb5fadac90819107f90629b \
+    --hash=sha256:40f6b80e59129fe753f6a2f9edd76e4259c970eedc1ce3663adc43f54af439d3
     # via
     #   -c requirements/requirements-dev.txt
     #   hatch.envs.style
