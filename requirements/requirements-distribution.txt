@@ -458,7 +458,7 @@ urllib3==2.7.0 \
     #   id
     #   requests
     #   twine
-vcs-versioning==2.0.1 \
-    --hash=sha256:0e827e50ff98c3b74961bc9bab1bdb494d6ef9f9624bc0466afbafef23ff0d8c \
-    --hash=sha256:fa1a7e49745fb968af54d1422e1f6bcde2563046f2c283a1a8d720184ece6ea1
+vcs-versioning==2.2.0 \
+    --hash=sha256:532dd99dd85e6f17667d5ca9a028b494a6e0d65dbc9d92716f1d0401078be6a0 \
+    --hash=sha256:69a649bfbbe9f8134e8b15cddc7b27daa00e5eccbcb5128e060a87e94bad8255
     # via setuptools-scm
