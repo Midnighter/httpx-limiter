@@ -90,9 +90,9 @@ backrefs==7.0 \
     --hash=sha256:ca42ce6a49ace3d75684dfa9937f3373902a63284ecb385ce36d15e5dcb41c12 \
     --hash=sha256:f2c52955d631b9e1ac4cd56209f0a3a946d592b98e7790e77699339ae01c102a
     # via mkdocs-material
-bracex==2.6 \
-    --hash=sha256:0b0049264e7340b3ec782b5cb99beb325f36c3782a32e36e876452fd49a09952 \
-    --hash=sha256:98f1347cd77e22ee8d967a30ad4e310b233f7754dbf31ff3fceb76145ba47dc7
+bracex==2.7 \
+    --hash=sha256:025043774188f8a05db36de9e3d4f7d82a8509a41a115cc134c44a60c36375eb \
+    --hash=sha256:4cb5d415a707f6beeb2779099486090bf98cbd8b7edbdfcb7cbea2f5fe6bdb48
     # via wcmatch
 certifi==2026.6.17 \
     --hash=sha256:024c88eeec92ca068db80f02b8b07c9cef7b9fe261d1d535abfd5abd6f6af432 \
