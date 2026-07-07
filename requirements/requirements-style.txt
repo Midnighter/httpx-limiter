@@ -13,9 +13,9 @@ click==8.4.2 \
     # via
     #   -c requirements/requirements-dev.txt
     #   pydoclint
-docstring-parser-fork==0.0.14 \
-    --hash=sha256:4c544f234ef2cc2749a3df32b70c437d77888b1099143a1ad5454452c574b9af \
-    --hash=sha256:a2743a63d8d36c09650594f7b4ab5b2758fee8629dcf794d1b221b23179baa5c
+docstring-parser-fork==0.0.15 \
+    --hash=sha256:2927da0c189d2b61e32712a487adbb6d0ee03be36951bf8cdf03ec379205da8f \
+    --hash=sha256:34fa86d324851fc83911987a21b3f17056894813483ad1df17a2f11e9ebf6e2a
     # via
     #   -c requirements/requirements-dev.txt
     #   pydoclint
