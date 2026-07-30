@@ -78,7 +78,7 @@ async def test_pyrate_create():
     ],
 )
 @pytest.mark.anyio
-async def test_handle_async_request(  # noqa: PLR0913
+async def test_handle_async_request(  # noqa: PLR0913, PLR0917
     limiter: type[AbstractAsyncLimiter],
     rate: Rate,
     request_count: int,
