@@ -33,6 +33,8 @@ jobs:
 
       - name: Install hatch
         uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
+        with:
+          version: 1.17.1
 
       - name: Check code style
         run: hatch run style:code
@@ -111,6 +113,8 @@ jobs:
 
       - name: Install hatch
         uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
+        with:
+          version: 1.17.1
 
       - name: Start rate-limited APIs
         uses: hoverkraft-tech/compose-action@11beaa1c2dae4e8ed7b1665aa074723b6cecb0e4 # v3.0.0
@@ -145,6 +149,8 @@ jobs:
 
       - name: Install hatch
         uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
+        with:
+          version: 1.17.1
 
       - name: Run documentation tests
         run: hatch run +py=${{ matrix.python-version }} documentation-tests:run -- --cov=httpx_limiter --cov-report=term-missing --cov-report=xml
