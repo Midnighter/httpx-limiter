@@ -46,6 +46,8 @@ jobs:
 
       - name: Install hatch
         uses: pypa/hatch@257e27e51a6a5616ed08a39a408a21c35c9931bc # install
+        with:
+          version: 1.17.1
 
       - name: Build package
         run: hatch build
