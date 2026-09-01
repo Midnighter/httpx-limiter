@@ -72,3 +72,22 @@ jobs:
       - name: Build documentation without alias
         if: inputs.alias == ''
         run: hatch run docs:deploy -- --push "${{ inputs.version }}"
+
+  otel-trace:
+    # Only trace when this workflow is the entry point; when called via
+    # `workflow_call` from another workflow, that workflow's own tracer
+    # job covers these jobs already.
+    if: always() && github.event_name == 'workflow_dispatch'
+    name: Export trace to Honeycomb
+    needs: [documentation]
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Export workflow run to Honeycomb
+        uses: dash0hq/otel-cicd-action@895874bfae14f840e3032f1a14c3f2b45c93f4af # v4.1.1
+        with:
+          otlpEndpoint: https://api.eu1.honeycomb.io:443
+          otlpHeaders: ${{ secrets.HONEYCOMB_OTLP_HEADERS }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
