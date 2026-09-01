@@ -11,8 +11,41 @@ permissions:
 jobs:
   prerequisites:
     uses: ./.github/workflows/test.yml
+    permissions:
+      contents: read
+      actions: read
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   pyodide:
     uses: ./.github/workflows/pyodide.yml
+    permissions:
+      contents: read
+      actions: read
+
+  documentation:
+    needs: [prerequisites, pyodide]
+    # Run only on push to the main branch.
+    if: github.ref_name == 'main'
+    permissions:
+      contents: write
+      actions: read
+    uses: ./.github/workflows/docs.yml
+    with:
+      version: latest
+
+  otel-trace:
+    if: always()
+    name: Export trace to Honeycomb
+    needs: [prerequisites, pyodide, documentation]
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Export workflow run to Honeycomb
+        uses: dash0hq/otel-cicd-action@895874bfae14f840e3032f1a14c3f2b45c93f4af # v4.1.1
+        with:
+          otlpEndpoint: ${{ vars.HONEYCOMB_OTLP_ENDPOINT }}
+          otlpHeaders: ${{ secrets.HONEYCOMB_OTLP_HEADERS }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
