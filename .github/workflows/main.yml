@@ -51,6 +51,6 @@ jobs:
       - name: Export workflow run to Honeycomb
         uses: dash0hq/otel-cicd-action@895874bfae14f840e3032f1a14c3f2b45c93f4af # v4.1.1
         with:
-          otlpEndpoint: https://api.eu1.honeycomb.io:443
+          otlpEndpoint: ${{ vars.HONEYCOMB_OTLP_ENDPOINT }}
           otlpHeaders: ${{ secrets.HONEYCOMB_OTLP_HEADERS }}
           githubToken: ${{ secrets.GITHUB_TOKEN }}
