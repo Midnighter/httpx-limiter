@@ -461,9 +461,9 @@ mkdocstrings==1.0.6 \
     #   -c requirements/requirements-dev.txt
     #   hatch.envs.docs
     #   mkdocstrings-python
-mkdocstrings-python==2.0.7 \
-    --hash=sha256:1fce5fbfe4ffa6e8136a35351cdc97c3bf55219c7efbd3f92a82260f93235d60 \
-    --hash=sha256:8c49faf66d243072d7590a1b5dea028d9d7425fac191f54f096123a4a9c1a783
+mkdocstrings-python==2.0.8 \
+    --hash=sha256:34545b54681cf0b212aab95394d37b0f5326a93b102f6ad1df3d965c79384c9d \
+    --hash=sha256:e555d9ef53b0febdeae4dd603144d4f86ec90fef672276645ea3bb61232c3d24
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocstrings
