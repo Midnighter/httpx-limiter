@@ -13,6 +13,7 @@ permissions: {}
 
 jobs:
   otel-trace:
+    if: ${{ github.event.workflow_run.head_repository.full_name == github.repository }}
     runs-on: ubuntu-slim
     permissions:
       contents: read
