@@ -253,9 +253,9 @@ ghp-import==2.1.0 \
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocs
-griffelib==2.2.0 \
-    --hash=sha256:d71c3bc2bbed9f958488634fe788b843a9f705d6d2838ca32cd6c25eeb64dfc4 \
-    --hash=sha256:e1bc36fe9cd21d4b6b659b456346755e4cfdc5676c0a5214083126ee12612b3c
+griffelib==2.3.0 \
+    --hash=sha256:1b8f9cd525681c26b1d6d574faa1371651e8459ca51d209684f50b8096ae06e0 \
+    --hash=sha256:7b0952caf5bca6afa4bb5ee8c6a2d183fe3f21b62efc5f6c7243cb2b26d2d115
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocstrings-python
