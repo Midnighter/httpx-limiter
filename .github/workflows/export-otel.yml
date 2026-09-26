@@ -22,7 +22,7 @@ jobs:
       checks: read
     steps:
       - name: Export workflow run's traces
-        uses: dash0hq/otel-cicd-action@895874bfae14f840e3032f1a14c3f2b45c93f4af # v4.1.1
+        uses: dash0hq/otel-cicd-action@4826b79d63662fa91657272e7711420cb6aea543 # v4.2.0
         with:
           otlpEndpoint: ${{ vars.HONEYCOMB_OTLP_ENDPOINT }}
           otlpHeaders: ${{ secrets.HONEYCOMB_OTLP_HEADERS }}
