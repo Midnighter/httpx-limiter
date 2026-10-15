@@ -743,9 +743,9 @@ watchdog==6.0.0 \
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocs
-wcmatch==11.0.1 \
-    --hash=sha256:1ea2b4fa678b8ca268253798d5963935df39132d47c3e241c0a0732224005e7d \
-    --hash=sha256:fd149ecddb9f0a88ea780017d6dde17c994e494e7f7303d4e3c9d6251f978f4b
+wcmatch==11.1 \
+    --hash=sha256:2863afee97a7dd62e64f7feada864848c1a5e31cb331b3aa530fa1300d2d5d3c \
+    --hash=sha256:f2b6f0fad6f5e2571498723fcb3c8facdd0fba0dcc139f31d32f592eb648153e
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocs-awesome-pages-plugin
