@@ -703,9 +703,9 @@ urllib3==2.8.0 \
     # via
     #   -c requirements/requirements-dev.txt
     #   requests
-verspec==0.1.0 \
-    --hash=sha256:741877d5633cc9464c45a469ae2a31e801e6dbbaa85b9675d481cda100f11c31 \
-    --hash=sha256:c4504ca697b2056cdb4bfa7121461f5a0e81809255b41c03dda4ba823637c01e
+verspec==0.2.0 \
+    --hash=sha256:350c3715601a9cecf78d980c27c87af81124ac74877eba2480dcd7645aaccfe8 \
+    --hash=sha256:962fed8f88fc7abaffb75c591c699435ea428910153f0efbc96efba1ed484615
     # via
     #   -c requirements/requirements-dev.txt
     #   mike
