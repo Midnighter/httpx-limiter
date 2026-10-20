@@ -566,9 +566,9 @@ pygments==2.21.0 \
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocs-material
-pymdown-extensions==12.1 \
-    --hash=sha256:4a254b771acfcddc6c110a7f4590d818f1f849e2d5aacf69b4b07c8dd2a9700d \
-    --hash=sha256:fdb8f47f5d7fd069d10ef2a7d8908e613d7865ff0419d544a0ffd3984e884f11
+pymdown-extensions==12.3 \
+    --hash=sha256:345493a8e3497e24382902903a1c43a28e34a52f2b7571a1c9641429b820ca74 \
+    --hash=sha256:a7f2a4e0bc60c6e6babfa7922cfb3b01cd640eb00fb208f3c582e12bae00ea67
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocs-material
