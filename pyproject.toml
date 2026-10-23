@@ -17,7 +17,7 @@ description = "A lightweight package that provides rate-limited httpx transports
 authors = [{ name = "Moritz E. Beber", email = "midnighter@posteo.net" }]
 license = "Apache-2.0"
 readme = { "file" = "README.md", "content-type" = "text/markdown" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 # Please consult https://pypi.org/classifiers/ for a full list.
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
@@ -27,7 +27,6 @@ classifiers = [
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -38,7 +37,6 @@ classifiers = [
 keywords = ["httpx", "limiter", "rate-limit", "leaky bucket"]
 dependencies = [
     "httpx ~=0.25",
-    "typing-extensions ~=4.6; python_version < '3.11'",
 ]
 
 [project.urls]
@@ -228,7 +226,7 @@ PYTHONDEVMODE = "1"
 PYTHONASYNCIODEBUG = "1"
 
 [[tool.hatch.envs.unit-tests.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
+python = ["3.11", "3.12", "3.13", "3.14"]
 
 [tool.hatch.envs.unit-tests.scripts]
 run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/unit"
@@ -242,7 +240,7 @@ PYTHONDEVMODE = "1"
 PYTHONASYNCIODEBUG = "1"
 
 [[tool.hatch.envs.acceptance-tests.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
+python = ["3.11", "3.12", "3.13", "3.14"]
 
 [tool.hatch.envs.acceptance-tests.scripts]
 run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/acceptance"
@@ -257,7 +255,7 @@ PYTHONDEVMODE = "1"
 PYTHONASYNCIODEBUG = "1"
 
 [[tool.hatch.envs.documentation-tests.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13", "3.14"]
+python = ["3.11", "3.12", "3.13", "3.14"]
 
 [tool.hatch.envs.documentation-tests.scripts]
 run = "pytest {args:--cov=httpx_limiter --cov-report=term-missing} {root}/tests/documentation"

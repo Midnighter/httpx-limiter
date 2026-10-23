@@ -15,7 +15,6 @@
 # - mypy
 # - ty
 # - httpx~=0.25
-# - typing-extensions~=4.6; python_version < "3.11"
 # - aiolimiter~=1.2
 # - pyrate-limiter~=4.0
 # - mkdocs-material~=9.5
