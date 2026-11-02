@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Fast, idempotent repairs after the orb starts or wakes.
+set -euo pipefail
+
+# The acceptance tests reach the compose stack through Traefik on these hosts,
+# which do not resolve to loopback by default in an orb.
+if ! grep -q 'httpbin\.localhost' /etc/hosts; then
+  echo '127.0.0.1 httpbin.localhost fast.localhost' | sudo tee -a /etc/hosts >/dev/null
+fi
+
+# systemd starts the stack on boot; make sure it has not been stopped.
+if ! systemctl is-active --quiet httpx-limiter-compose.service; then
+  sudo systemctl start --no-block httpx-limiter-compose.service
+fi

@@ -242,3 +242,6 @@ cython_debug/
 
 # Hatch-VCS
 _version.py
+
+# Amp orb portals
+.amp/portals/*

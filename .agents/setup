@@ -1,0 +1,133 @@
+#!/usr/bin/env bash
+# Prepare an Amp orb for development: install hatch and pre-create the hatch
+# environments used by CI and day-to-day work. Safe to rerun on a warm snapshot.
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+# CI pins 1.17.1, but hatch only knows how to download Python 3.15 since 1.18.
+HATCH_VERSION="1.18.2"
+
+step() {
+  local start=$SECONDS
+  echo "==> $*"
+  "$@"
+  echo "    done in $((SECONDS - start))s"
+}
+
+export PATH="$HOME/.local/bin:$PATH"
+
+# Hatch-VCS derives the version from git tags; shallow clones without tags fall
+# back to 0.0 but still work, so only fetch tags when they are missing.
+if [[ -z "$(git tag --list | head -n 1)" ]]; then
+  step git fetch --quiet --tags origin || echo "    could not fetch tags; continuing"
+fi
+
+# Hatch needs pip in its own environment to install hatch-pip-compile from
+# `tool.hatch.env.requires`. This is a no-op when already installed.
+step uv tool install "hatch==${HATCH_VERSION}" --with pip
+
+# `hatch env create` is a no-op for existing environments, and `hatch run`
+# syncs dependencies, so a stale snapshot only installs what changed. Hatch
+# downloads Python 3.15 itself for the py3.15 environments.
+#
+# hatch-pip-compile may rewrite lockfile headers (e.g. the recorded Python
+# version or constraints hash) without changing pins; leave the checkout clean.
+locks_clean=false
+git diff --quiet -- requirements/ && locks_clean=true
+for env in dev style types docs \
+  unit-tests.py3.11 unit-tests.py3.15 \
+  documentation-tests.py3.11 documentation-tests.py3.15 \
+  acceptance-tests.py3.11 acceptance-tests.py3.15; do
+  step hatch env create "$env"
+done
+if [[ "$locks_clean" == true ]]; then
+  git checkout --quiet -- requirements/
+fi
+
+# Docker Engine with the Compose and Buildx plugins from Docker's Debian repo.
+# The orb image may already ship the engine without the plugins.
+docker_packages=(docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin)
+install_docker() {
+  if ! grep -rqs download.docker.com /etc/apt/sources.list.d/; then
+    sudo install -m 0755 -d /etc/apt/keyrings
+    sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+    sudo chmod a+r /etc/apt/keyrings/docker.asc
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
+      sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+  fi
+  sudo apt-get update -qq
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq "${docker_packages[@]}"
+}
+for pkg in "${docker_packages[@]}"; do
+  if ! dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -qx 'install ok installed'; then
+    step install_docker
+    break
+  fi
+done
+
+# Write a root-owned file from stdin; return 0 only when its content changed.
+write_if_changed() {
+  local content
+  content="$(cat)"
+  [[ -f "$1" && "$(cat "$1")" == "$content" ]] && return 1
+  sudo install -d "$(dirname "$1")"
+  printf '%s\n' "$content" | sudo tee "$1" >/dev/null
+}
+
+# Agent processes do not carry the docker group, so open the socket to all
+# local users. Orbs are single-user sandboxes.
+socket_changed=false
+printf '[Socket]\nSocketMode=0666\n' |
+  write_if_changed /etc/systemd/system/docker.socket.d/amp-orb.conf && socket_changed=true
+
+# Keep the rate-limited test APIs from compose.yaml running whenever the orb is
+# up. systemd owns both units, so they survive setup and start on every boot.
+write_if_changed /etc/systemd/system/httpx-limiter-compose.service <<EOF || true
+[Unit]
+Description=httpx-limiter acceptance test stack (compose.yaml)
+Requires=docker.service
+After=docker.service
+
+[Service]
+WorkingDirectory=$PWD
+ExecStart=/usr/bin/docker compose up --remove-orphans
+ExecStop=/usr/bin/docker compose stop
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo systemctl daemon-reload
+step sudo systemctl enable --now docker.socket docker.service
+if [[ "$socket_changed" == true ]]; then
+  step sudo systemctl restart docker.socket docker.service
+fi
+# Pull in the foreground so the images are part of the project snapshot.
+step docker compose pull --quiet
+step sudo systemctl enable --now httpx-limiter-compose.service
+
+# Replace the notes on every run so a stale snapshot picks up edits.
+guidance="$HOME/.config/amp/AGENTS.md"
+mkdir -p "$(dirname "$guidance")"
+touch "$guidance"
+sed -i '/^<!-- httpx-limiter orb notes -->$/,/^<!-- end httpx-limiter orb notes -->$/d' "$guidance"
+cat >> "$guidance" <<'EOF'
+<!-- httpx-limiter orb notes -->
+# httpx-limiter orb notes
+
+- Hatch is installed and these environments are pre-created: dev, style, types, docs,
+  and unit-tests, documentation-tests, and acceptance-tests for Python 3.11 and 3.15.
+  Use the scripts CI uses, e.g. `hatch run style:check`, `hatch run types:check`,
+  `hatch run +py=3.15 unit-tests:run`, `hatch run docs:build`. Hatch downloads other
+  Python versions on demand when an environment needs them.
+- hatch-pip-compile may rewrite headers in `requirements/*.txt` when running hatch.
+  Do not commit those changes unless updating dependencies is part of the task.
+- Docker (with Compose) runs under systemd, and the `compose.yaml` stack that the
+  acceptance tests use is always running via `httpx-limiter-compose.service`, so
+  `hatch run +py=3.15 acceptance-tests:run` works directly. Inspect it with
+  `docker compose ps` or `journalctl -u httpx-limiter-compose`; after changing
+  `compose.yaml`, run `sudo systemctl restart httpx-limiter-compose`.
+<!-- end httpx-limiter orb notes -->
+EOF
