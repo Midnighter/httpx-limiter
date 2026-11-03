@@ -1,0 +1,3 @@
+# Amp agent tooling is not part of the package; keep it out of GitHub language
+# detection so CodeQL default setup does not add a JavaScript/TypeScript analysis.
+.amp/** linguist-detectable=false
