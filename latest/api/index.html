@@ -668,6 +668,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#httpx_limiter.AsyncRateLimitedTransport.aclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        aclose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#httpx_limiter.AsyncRateLimitedTransport.create" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -772,6 +783,17 @@
     <span class="md-ellipsis">
       
         __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.aclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        aclose
       
     </span>
   </a>
@@ -1134,6 +1156,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#httpx_limiter.AsyncRateLimitedTransport.aclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        aclose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#httpx_limiter.AsyncRateLimitedTransport.create" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1238,6 +1271,17 @@
     <span class="md-ellipsis">
       
         __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.aclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        aclose
       
     </span>
   </a>
@@ -1791,6 +1835,30 @@ requests.</p>
 <div class="doc doc-object doc-function">
 
 
+<h4 id="httpx_limiter.AsyncRateLimitedTransport.aclose" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">aclose</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.AsyncRateLimitedTransport.aclose" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Close the transport and its underlying transport.</p>
+<p>Closing this wrapper also closes the composed transport, which is why
+sharing an inner transport between wrappers shares its lifetime.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h4 id="httpx_limiter.AsyncRateLimitedTransport.create" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">create</span><span class="p">(</span><span class="n">limiter</span><span class="p">:</span> <span class="n">AbstractAsyncLimiter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">HTTPXAsyncHTTPTransportKeywordArguments</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">AsyncRateLimitedTransport</span></code>
 
@@ -2138,6 +2206,30 @@ repository for rate limiters that are selected based on the request.</p>
 
 
     <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.AsyncMultiRateLimitedTransport.aclose" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">aclose</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.AsyncMultiRateLimitedTransport.aclose" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Close the transport and its underlying transport.</p>
+<p>Closing this wrapper also closes the composed transport, which is why
+sharing an inner transport between wrappers shares its lifetime.</p>
 
 
     </div>
