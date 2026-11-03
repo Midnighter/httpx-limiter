@@ -13,6 +13,14 @@
          <lastmod>2026-11-03</lastmod>
     </url>
     <url>
+         <loc>https://midnighter.github.io/httpx-limiter/latest/adr/</loc>
+         <lastmod>2026-11-03</lastmod>
+    </url>
+    <url>
+         <loc>https://midnighter.github.io/httpx-limiter/latest/adr/adr001-use-composition-over-inheritance/</loc>
+         <lastmod>2026-11-03</lastmod>
+    </url>
+    <url>
          <loc>https://midnighter.github.io/httpx-limiter/latest/how-to/adapt-rate-limit/</loc>
          <lastmod>2026-11-03</lastmod>
     </url>
