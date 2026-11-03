@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added support for Python 3.15.
 
+### Changed
+
+- Updated `CONTRIBUTING.md` to use `fix/...` and `feat/...` branch names and the
+  current hatch commands for style, type, test, and documentation checks.
+
 ### Removed
 
 - Dropped support for Python 3.10.

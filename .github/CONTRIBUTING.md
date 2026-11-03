@@ -82,21 +82,30 @@ update`](https://hatch.pypa.io/dev/cli/reference/#hatch-self-update) or whatever
 
 4. Create a branch for local development using the default branch (typically `main`)
    as a starting
-   point. Use `fix` or `feat` as a prefix for your branch name.
+   point. Use `fix/` or `feat/` as a prefix for your branch name.
 
     ```shell
     git checkout main
-    git checkout -b fix-name-of-your-bugfix
+    git checkout -b fix/name-of-your-bugfix
     ```
 
     Now you can make your changes locally.
 
 5. When you're done making changes, apply the quality assurance tools and check
-   that your changes pass our test suite. This is all included with tox
+   that your changes pass our test suite.
 
     ```shell
-    hatch run test:run
+    hatch run style:fix
+    hatch run style:format
+    hatch run style:check
+    hatch run types:check
+    hatch run +py=3.15 unit-tests:run
+    hatch run +py=3.15 documentation-tests:run
+    hatch run docs:build
     ```
+
+    The acceptance tests (`hatch run +py=3.15 acceptance-tests:run`) need the
+    services from `compose.yaml` to be running (`docker compose up -d`).
 
 6. Commit your changes and push your branch to GitHub. Please use [semantic
    commit messages](https://www.conventionalcommits.org/).
@@ -104,7 +113,7 @@ update`](https://hatch.pypa.io/dev/cli/reference/#hatch-self-update) or whatever
     ```shell
     git add .
     git commit -m "fix: summarize your changes"
-    git push -u origin fix-name-of-your-bugfix
+    git push -u origin fix/name-of-your-bugfix
     ```
 
 7. Open the link displayed in the message when pushing your new branch in order
