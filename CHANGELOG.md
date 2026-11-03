@@ -15,6 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Dropped support for Python 3.10.
 
+### Fixed
+
+- Fixed `AsyncRateLimitedTransport` and `AsyncMultiRateLimitedTransport` not closing
+  their underlying transport. Both now implement `aclose` that awaits the composed
+  transport's `aclose`, so closing a client or transport wrapper also closes the
+  underlying transport. Sharing an inner transport between wrappers therefore shares
+  its lifetime.
+
 ## [0.6.1] - (2026-05-01)
 
 ### Changed

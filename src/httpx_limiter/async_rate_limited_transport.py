@@ -82,3 +82,13 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         """Handle an asynchronous request with rate limiting."""
         async with self._limiter:
             return await self._transport.handle_async_request(request)
+
+    async def aclose(self) -> None:
+        """
+        Close the transport and its underlying transport.
+
+        Closing this wrapper also closes the composed transport, which is why
+        sharing an inner transport between wrappers shares its lifetime.
+
+        """
+        await self._transport.aclose()

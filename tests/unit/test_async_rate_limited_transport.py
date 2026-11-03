@@ -15,12 +15,21 @@
 
 """Test the expected functionality of the asynchronous rate-limited transport."""
 
+from collections.abc import Callable
+from io import BytesIO
+
 import anyio
 import httpx
 import pytest
 from pytest_httpx import HTTPXMock
 
-from httpx_limiter import AbstractAsyncLimiter, AsyncRateLimitedTransport, Rate
+from httpx_limiter import (
+    AbstractAsyncLimiter,
+    AbstractRateLimiterRepository,
+    AsyncMultiRateLimitedTransport,
+    AsyncRateLimitedTransport,
+    Rate,
+)
 from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
@@ -115,3 +124,167 @@ async def test_handle_async_request(  # noqa: PLR0913, PLR0917
     assert elapsed < max_elapsed, (
         f"Expected less than {max_elapsed} s, got {elapsed:.3f} s"
     )
+
+
+class DisposableTransport(httpx.AsyncBaseTransport):
+    """A test transport that owns a disposable resource."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.resource = BytesIO()
+
+    async def handle_async_request(
+        self,
+        request: httpx.Request,  # noqa: ARG002
+    ) -> httpx.Response:
+        """Return a successful response without touching the network."""
+        return httpx.Response(status_code=200)
+
+    async def aclose(self) -> None:
+        """Dispose of the owned resource."""
+        await anyio.lowlevel.checkpoint()
+        self.resource.close()
+
+
+class FailingTransport(DisposableTransport):
+    """A test transport whose cleanup fails."""
+
+    async def aclose(self) -> None:
+        """Dispose of the owned resource, but fail in the process."""
+        await super().aclose()
+        msg = "cleanup failed"
+        raise RuntimeError(msg)
+
+
+class DefaultRepository(AbstractRateLimiterRepository):
+    """A concrete repository that returns a single limiter for all requests."""
+
+    def get_identifier(self, request: httpx.Request) -> str:  # noqa: ARG002
+        """Return a fixed identifier for testing."""
+        return "default"
+
+    def create(self, request: httpx.Request) -> AbstractAsyncLimiter:  # noqa: ARG002
+        """Return a rate limiter for testing."""
+        return AiolimiterAsyncLimiter.create(Rate.create())
+
+
+def make_single(
+    inner: httpx.AsyncBaseTransport,
+) -> httpx.AsyncBaseTransport:
+    """Wrap the transport in a single rate-limited transport."""
+    return AsyncRateLimitedTransport(
+        limiter=AiolimiterAsyncLimiter.create(Rate.create()),
+        transport=inner,
+    )
+
+
+def make_multi(
+    inner: httpx.AsyncBaseTransport,
+) -> httpx.AsyncBaseTransport:
+    """Wrap the transport in a multiple rate-limited transport."""
+    return AsyncMultiRateLimitedTransport(
+        repository=DefaultRepository(),
+        transport=inner,
+    )
+
+
+@pytest.mark.parametrize(
+    "make_wrapper", [make_single, make_multi], ids=["single", "multi"],
+)
+@pytest.mark.anyio
+async def test_explicit_aclose(
+    make_wrapper: Callable[[httpx.AsyncBaseTransport], httpx.AsyncBaseTransport],
+):
+    """Test that explicitly closing the wrapper closes the underlying transport."""
+    inner = DisposableTransport()
+    wrapper = make_wrapper(inner)
+
+    await wrapper.aclose()
+
+    assert inner.resource.closed
+
+
+@pytest.mark.parametrize(
+    "make_wrapper", [make_single, make_multi], ids=["single", "multi"],
+)
+@pytest.mark.anyio
+async def test_client_aclose(
+    make_wrapper: Callable[[httpx.AsyncBaseTransport], httpx.AsyncBaseTransport],
+):
+    """Test that explicitly closing the client closes the underlying transport."""
+    inner = DisposableTransport()
+    client = httpx.AsyncClient(transport=make_wrapper(inner))
+
+    await client.aclose()
+
+    assert inner.resource.closed
+
+
+@pytest.mark.parametrize(
+    "make_wrapper", [make_single, make_multi], ids=["single", "multi"],
+)
+@pytest.mark.anyio
+async def test_client_context_exit(
+    make_wrapper: Callable[[httpx.AsyncBaseTransport], httpx.AsyncBaseTransport],
+):
+    """Test that leaving the client context closes the underlying transport."""
+    inner = DisposableTransport()
+
+    async with httpx.AsyncClient(transport=make_wrapper(inner)):
+        assert not inner.resource.closed
+
+    assert inner.resource.closed
+
+
+@pytest.mark.parametrize(
+    "make_wrapper", [make_single, make_multi], ids=["single", "multi"],
+)
+@pytest.mark.anyio
+async def test_client_context_exit_on_exception(
+    make_wrapper: Callable[[httpx.AsyncBaseTransport], httpx.AsyncBaseTransport],
+):
+    """Test that an exceptional client exit closes the transport and propagates."""
+    inner = DisposableTransport()
+
+    async def raise_inside_client() -> None:
+        async with httpx.AsyncClient(transport=make_wrapper(inner)):
+            msg = "boom"
+            raise RuntimeError(msg)
+
+    with pytest.raises(RuntimeError, match="boom"):
+        await raise_inside_client()
+
+    assert inner.resource.closed
+
+
+@pytest.mark.parametrize(
+    ("make_outer", "make_inner"),
+    [(make_single, make_multi), (make_multi, make_single)],
+    ids=["single-multi", "multi-single"],
+)
+@pytest.mark.anyio
+async def test_nested_aclose(
+    make_outer: Callable[[httpx.AsyncBaseTransport], httpx.AsyncBaseTransport],
+    make_inner: Callable[[httpx.AsyncBaseTransport], httpx.AsyncBaseTransport],
+):
+    """Test that closing an outer wrapper reaches the innermost transport."""
+    inner = DisposableTransport()
+    outer = make_outer(make_inner(inner))
+
+    await outer.aclose()
+
+    assert inner.resource.closed
+
+
+@pytest.mark.parametrize(
+    "make_wrapper", [make_single, make_multi], ids=["single", "multi"],
+)
+@pytest.mark.anyio
+async def test_aclose_error_propagation(
+    make_wrapper: Callable[[httpx.AsyncBaseTransport], httpx.AsyncBaseTransport],
+):
+    """Test that an error in the underlying cleanup is propagated."""
+    wrapper = make_wrapper(FailingTransport())
+
+    with pytest.raises(RuntimeError, match="cleanup failed"):
+        await wrapper.aclose()
