@@ -2,9 +2,9 @@ The following classes are exposed to the user:
 
 * [`Rate`][httpx_limiter.Rate]
 * [`AbstractAsyncLimiter`][httpx_limiter.AbstractAsyncLimiter]
-* [`AsyncRateLimitedTransport`][httpx_limiter.AsyncRateLimitedTransport]
-* [`AbstractRateLimiterRepository`][httpx_limiter.AbstractRateLimiterRepository]
-* [`AsyncMultiRateLimitedTransport`][httpx_limiter.AsyncMultiRateLimitedTransport]
+* [`AsyncRateLimitedTransport`][httpx_limiter.httpx.AsyncRateLimitedTransport]
+* [`AbstractRateLimiterRepository`][httpx_limiter.httpx.AbstractRateLimiterRepository]
+* [`AsyncMultiRateLimitedTransport`][httpx_limiter.httpx.AsyncMultiRateLimitedTransport]
 * [`AiolimiterAsyncLimiter`][httpx_limiter.aiolimiter.AiolimiterAsyncLimiter]
 * [`PyrateAsyncLimiter`][httpx_limiter.pyrate.PyrateAsyncLimiter]
 
@@ -13,6 +13,10 @@ The following classes are exposed to the user:
         members:
             - Rate
             - AbstractAsyncLimiter
+
+::: httpx_limiter.httpx
+    options:
+        members:
             - AsyncRateLimitedTransport
             - AbstractRateLimiterRepository
             - AsyncMultiRateLimitedTransport

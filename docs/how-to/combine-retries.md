@@ -20,7 +20,8 @@ defaults that retry on server-side errors.
 
 ```python
 import httpx
-from httpx_limiter import AsyncRateLimitedTransport, Rate
+from httpx_limiter import Rate
+from httpx_limiter.httpx import AsyncRateLimitedTransport
 from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 from httpx_tenacity import AsyncTenaciousTransport
 

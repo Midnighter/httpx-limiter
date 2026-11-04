@@ -14,10 +14,10 @@ repository that can be updated based on server feedback.
 
 ```python
 import httpx
-from httpx_limiter import (
+from httpx_limiter import Rate
+from httpx_limiter.httpx import (
     AbstractRateLimiterRepository,
     AsyncMultiRateLimitedTransport,
-    Rate,
 )
 from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 
