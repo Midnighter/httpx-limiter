@@ -23,7 +23,8 @@ import httpx
 
 
 if TYPE_CHECKING:  # pragma: no cover
-    from .abstract_async_limiter import AbstractAsyncLimiter
+    from httpx_limiter.abstract_async_limiter import AbstractAsyncLimiter
+
     from .types import HTTPXAsyncHTTPTransportKeywordArguments
 
 

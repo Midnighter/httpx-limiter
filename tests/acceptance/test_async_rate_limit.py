@@ -30,8 +30,9 @@ import anyio
 import httpx
 import pytest
 
-from httpx_limiter import AbstractAsyncLimiter, AsyncRateLimitedTransport, Rate
+from httpx_limiter import AbstractAsyncLimiter, Rate
 from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+from httpx_limiter.httpx import AsyncRateLimitedTransport
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 

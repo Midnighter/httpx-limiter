@@ -20,8 +20,9 @@ from abc import abstractmethod
 import httpx
 import pytest
 
-from httpx_limiter import AbstractAsyncLimiter, AbstractRateLimiterRepository, Rate
+from httpx_limiter import AbstractAsyncLimiter, Rate
 from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+from httpx_limiter.httpx import AbstractRateLimiterRepository
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
