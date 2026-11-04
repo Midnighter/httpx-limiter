@@ -9,7 +9,8 @@ able to make twenty requests per second, for example, use the following code:
 
 ```python
 import httpx
-from httpx_limiter import AsyncRateLimitedTransport, Rate
+from httpx_limiter import Rate
+from httpx_limiter.httpx import AsyncRateLimitedTransport
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 async def main():
@@ -42,17 +43,17 @@ async def main():
 
 For more advanced use cases, you can apply different rate limits based on a concrete
 implementation of the
-[`AbstractRateLimiterRepository`][httpx_limiter.AbstractRateLimiterRepository]. There
-are two relevant methods that both get passed the current request. One method needs to
-identify which rate limit to apply, and the other method sets the rate limit itself. See
-the following example:
+[`AbstractRateLimiterRepository`][httpx_limiter.httpx.AbstractRateLimiterRepository].
+There are two relevant methods that both get passed the current request. One method
+needs to identify which rate limit to apply, and the other method sets the rate limit
+itself. See the following example:
 
 ```python
 import httpx
-from httpx_limiter import (
+from httpx_limiter import Rate
+from httpx_limiter.httpx import (
     AbstractRateLimiterRepository,
     AsyncMultiRateLimitedTransport,
-    Rate
 )
 from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 
@@ -85,7 +86,8 @@ client = httpx.AsyncClient(
 from datetime import datetime, timezone
 
 import httpx
-from httpx_limiter import AbstractRateLimiterRepository, Rate
+from httpx_limiter import Rate
+from httpx_limiter.httpx import AbstractRateLimiterRepository
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 

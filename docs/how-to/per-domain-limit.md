@@ -6,10 +6,10 @@ fallback default.
 
 ```python
 import httpx
-from httpx_limiter import (
+from httpx_limiter import Rate
+from httpx_limiter.httpx import (
     AbstractRateLimiterRepository,
     AsyncMultiRateLimitedTransport,
-    Rate,
 )
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 

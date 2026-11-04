@@ -88,7 +88,8 @@ able to make twenty requests per second, for example, use the following code:
 
 ```python
 import httpx
-from httpx_limiter import AsyncRateLimitedTransport, Rate
+from httpx_limiter import Rate
+from httpx_limiter.httpx import AsyncRateLimitedTransport
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 async def main():
@@ -124,10 +125,10 @@ following example:
 
 ```python
 import httpx
-from httpx_limiter import (
+from httpx_limiter import Rate
+from httpx_limiter.httpx import (
     AbstractRateLimiterRepository,
     AsyncMultiRateLimitedTransport,
-    Rate
 )
 from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 
@@ -162,7 +163,8 @@ async def main():
 from datetime import datetime, timezone
 
 import httpx
-from httpx_limiter import AbstractRateLimiterRepository, Rate
+from httpx_limiter import Rate
+from httpx_limiter.httpx import AbstractRateLimiterRepository
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
