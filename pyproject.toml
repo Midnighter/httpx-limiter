@@ -13,7 +13,7 @@ requires = ["hatchling", "hatch-vcs"]
 [project]
 name = "httpx-limiter"
 dynamic = ["version"]
-description = "A lightweight package that provides rate-limited httpx transports."
+description = "A lightweight package that provides rate-limited httpx and httpx2 transports."
 authors = [{ name = "Moritz E. Beber", email = "midnighter@posteo.net" }]
 license = "Apache-2.0"
 readme = { "file" = "README.md", "content-type" = "text/markdown" }
@@ -35,10 +35,8 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP",
     "Typing :: Typed",
 ]
-keywords = ["httpx", "limiter", "rate-limit", "leaky bucket"]
-dependencies = [
-    "httpx ~=0.25",
-]
+keywords = ["httpx", "httpx2", "limiter", "rate-limit", "leaky bucket"]
+dependencies = []
 
 [project.urls]
 Homepage = "https://github.com/Midnighter/httpx-limiter"
@@ -48,6 +46,8 @@ Documentation = "https://midnighter.github.io/httpx-limiter/"
 Download = "https://pypi.org/project/httpx-limiter/#files"
 
 [project.optional-dependencies]
+httpx = ["httpx ~=0.25"]
+httpx2 = ["httpx2 ~=2.10"]
 aiolimiter = ["aiolimiter ~=1.2"]
 pyrate = ["pyrate-limiter ~=4.0"]
 
@@ -164,7 +164,7 @@ pip-compile-constraint = "dev"
 pip-compile-hashes = true
 pip-compile-resolver = "uv"
 pip-compile-installer = "uv"
-features = ["aiolimiter", "pyrate"]
+features = ["httpx", "httpx2", "aiolimiter", "pyrate"]
 
 [tool.hatch.envs.no-install]
 description = """A base environment for use cases that do not install the project."""
