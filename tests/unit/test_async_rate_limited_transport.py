@@ -23,14 +23,13 @@ import httpx
 import pytest
 from pytest_httpx import HTTPXMock
 
-from httpx_limiter import (
-    AbstractAsyncLimiter,
+from httpx_limiter import AbstractAsyncLimiter, Rate
+from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+from httpx_limiter.httpx import (
     AbstractRateLimiterRepository,
     AsyncMultiRateLimitedTransport,
     AsyncRateLimitedTransport,
-    Rate,
 )
-from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
