@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Moritz E. Beber
+# Copyright (c) 2026 Moritz E. Beber
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
 # use this file except in compliance with the License. You may obtain a copy of
@@ -13,30 +13,33 @@
 # the License.
 
 
-"""Provide an abstract repository for rate limiters."""
+"""Provide a backend-neutral, generic repository for rate limiters."""
+
+from __future__ import annotations
 
 from abc import ABC, abstractmethod
-
-import httpx
-
-from .abstract_async_limiter import AbstractAsyncLimiter
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 
-class AbstractRateLimiterRepository(ABC):
+if TYPE_CHECKING:  # pragma: no cover
+    from .abstract_async_limiter import AbstractAsyncLimiter
+
+
+RequestT = TypeVar("RequestT")
+
+
+class RateLimiterRepository(ABC, Generic[RequestT]):
     """
-    Define the abstract repository for rate limiters.
+    Define the backend-neutral repository for rate limiters.
 
-    This abstract base class provides a framework for managing rate limiters
-    based on HTTP requests. It maintains a cache of rate limiters and provides
-    methods to retrieve request-specific identifiers, rates, and limiters.
-
-    Subclasses must implement methods to determine how requests are identified
-    and what rate limits should be applied to them.
+    This internal base class maintains a cache of rate limiters keyed by a
+    request-specific identifier. It is generic over the request type so that each
+    HTTP integration can expose a repository specialized for its own requests.
 
     Methods:
         get_identifier: Return a request-specific identifier.
-        get_rates: Return one or more request-specific rates.
-        get: Return a request-specific rate limiter.
+        create: Return a request-specific rate limiter.
+        get: Return a cached request-specific rate limiter.
 
     """
 
@@ -45,14 +48,14 @@ class AbstractRateLimiterRepository(ABC):
         self._limiters: dict[str, AbstractAsyncLimiter] = {}
 
     @abstractmethod
-    def get_identifier(self, request: httpx.Request) -> str:
+    def get_identifier(self, request: RequestT) -> str:
         """Return a request-specific identifier."""
 
     @abstractmethod
-    def create(self, request: httpx.Request) -> AbstractAsyncLimiter:
+    def create(self, request: RequestT) -> AbstractAsyncLimiter:
         """Return a request-specific rate limiter."""
 
-    def get(self, request: httpx.Request) -> AbstractAsyncLimiter:
+    def get(self, request: RequestT) -> AbstractAsyncLimiter:
         """Return a request-specific rate limiter."""
         identifier = self.get_identifier(request)
 

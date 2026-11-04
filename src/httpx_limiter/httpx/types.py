@@ -13,7 +13,7 @@
 # the License.
 
 
-"""Provide additional type definitions."""
+"""Provide additional type definitions for the HTTPX integration."""
 
 import ssl
 from collections.abc import Iterable
@@ -21,19 +21,9 @@ from typing import TypeAlias, TypedDict
 
 import httpx
 
+from httpx_limiter._types import CertTypes, SocketOption
 
-# Fallback for Pyodide HTTPX. See: https://github.com/Midnighter/httpx-limiter/pull/10#issuecomment-3241566927
-SocketOption: TypeAlias = (
-    tuple[int, int, int]
-    | tuple[int, int, bytes | bytearray]
-    | tuple[int, int, None, int]
-)
 
-# We redefine the following types from httpx._types to avoid a dependency on the
-# private module. It would be better if HTTPX exposed these types publicly, but
-# they are unlikely to change often. Thus we consider it acceptable to redefine
-# them here for type hinting purposes.
-CertTypes: TypeAlias = str | tuple[str, str] | tuple[str, str, str]
 ProxyTypes: TypeAlias = httpx.URL | str | httpx.Proxy
 
 
