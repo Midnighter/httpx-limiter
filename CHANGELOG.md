@@ -27,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   transport's `aclose`, so closing a client or transport wrapper also closes the
   underlying transport. Sharing an inner transport between wrappers therefore shares
   its lifetime.
+- Fixed a flaky acceptance test by raising the burst of the Traefik rate limit in
+  `compose.yaml` from 1 to 5, so that small timing jitter no longer causes spurious
+  429 responses.
 
 ## [0.6.1] - (2026-05-01)
 

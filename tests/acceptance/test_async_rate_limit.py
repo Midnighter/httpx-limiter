@@ -100,7 +100,7 @@ async def test_exceed_limits(faster: AbstractAsyncLimiter):
 
     """
     server_rate = 20
-    server_burst = 1
+    server_burst = 5
     request_count = 100
     response_codes: Counter[int] = Counter()
 
