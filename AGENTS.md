@@ -70,6 +70,8 @@ It supports Python 3.11 to 3.15 and has `httpx` as its only required dependency.
   year the file was created, followed by two blank lines and a module docstring.
 - Use `from __future__ import annotations`. Put imports needed only for typing under
   `if TYPE_CHECKING:  # pragma: no cover`. Leave two blank lines after the imports.
+- Define immutable value objects as `typing.NamedTuple` subclasses, like `Rate`, in
+  source and test code. Do not use frozen dataclasses.
 - The code must pass mypy, ty, and pyrefly.
 
 ## Tests
