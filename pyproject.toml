@@ -232,6 +232,8 @@ check = ["pip check", "hatch build {args:--clean}", "twine check dist/*"]
 [tool.hatch.envs.unit-tests]
 description = """Run the unit tests."""
 dependency-groups = ["tests"]
+# The typing tests run mypy through its Python API.
+extra-dependencies = ["mypy"]
 
 [tool.hatch.envs.unit-tests.env-vars]
 PYTHONDEVMODE = "1"
