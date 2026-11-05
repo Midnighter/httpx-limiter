@@ -227,7 +227,12 @@ dependencies = ["pip", "twine"]
 builder = true
 
 [tool.hatch.envs.distribution.scripts]
-check = ["pip check", "hatch build {args:--clean}", "twine check dist/*"]
+check = [
+    "pip check",
+    "hatch build {args:--clean}",
+    "twine check dist/*",
+    "python {root}/tests/distribution/check_wheel_metadata.py dist/*.whl",
+]
 
 [tool.hatch.envs.unit-tests]
 description = """Run the unit tests."""
