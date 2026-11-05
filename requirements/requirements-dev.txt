@@ -10,7 +10,6 @@
 # - anyio
 # - pytest
 # - pytest-cov
-# - pytest-httpx
 # - pytest-raises
 # - mypy
 # - ty
@@ -28,7 +27,6 @@
 # - anyio
 # - pytest
 # - pytest-cov
-# - pytest-httpx
 # - pytest-raises
 # - mypy
 # - ty
@@ -463,9 +461,7 @@ httpcore2==2.16.0 \
 httpx==0.28.1 \
     --hash=sha256:75e98c5f16b0f35b567856f597f06ff2270a374470a5c2392242528e3e3e42fc \
     --hash=sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad
-    # via
-    #   hatch.envs.dev
-    #   pytest-httpx
+    # via hatch.envs.dev
 httpx2==2.16.0 \
     --hash=sha256:0d54c98128e8f2ff7fbbde0fca8c359e5f032edeaaaac443cdb7f31f685bcd7f \
     --hash=sha256:fd2c5d7909e8d86fe92d53020c310ca0e4e431b838c207c5754b9bbf0308d49a
@@ -982,15 +978,10 @@ pytest==9.2.0 \
     # via
     #   hatch.envs.dev
     #   pytest-cov
-    #   pytest-httpx
     #   pytest-raises
 pytest-cov==7.1.0 \
     --hash=sha256:30674f2b5f6351aa09702a9c8c364f6a01c27aae0c1366ae8016160d1efc56b2 \
     --hash=sha256:a0461110b7865f9a271aa1b51e516c9a95de9d696734a2f71e3e78f46e1d4678
-    # via hatch.envs.dev
-pytest-httpx==0.36.2 \
-    --hash=sha256:05a56527484f7f4e8c856419ea379b8dc359c36801c4992fdb330f294c690356 \
-    --hash=sha256:d42ebd5679442dc7bfb0c48e0767b6562e9bc4534d805127b0084171886a5e22
     # via hatch.envs.dev
 pytest-raises==0.11 \
     --hash=sha256:33a1351f2debb9f74ca6ef70e374899f608a1217bf13ca4a0767f37b49e9cdda \
