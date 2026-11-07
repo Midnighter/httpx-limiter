@@ -30,6 +30,7 @@ from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 if TYPE_CHECKING:  # pragma: no cover
     from collections.abc import Callable
+    from types import TracebackType
 
     from httpx_limiter_test_types import (
         AsyncBaseTransport,
@@ -242,11 +243,24 @@ def make_transports(http: HTTPBackend) -> tuple[type, type]:
             super().__init__()
             self.resource = BytesIO()
             self.entered = False
+            self.exited = False
+            self.exc_type: type[BaseException] | None = None
 
         async def __aenter__(self) -> Self:
             """Record that the transport was entered."""
             self.entered = True
             return self
+
+        async def __aexit__(
+            self,
+            exc_type: type[BaseException] | None = None,
+            exc_value: BaseException | None = None,
+            traceback: TracebackType | None = None,
+        ) -> None:
+            """Record that the transport was exited and with which exception."""
+            self.exited = True
+            self.exc_type = exc_type
+            await super().__aexit__(exc_type, exc_value, traceback)
 
         async def handle_async_request(
             self,
@@ -335,20 +349,22 @@ async def test_client_aclose(http: HTTPBackend, kind: str):
 @wrappers
 @pytest.mark.anyio
 async def test_client_context_exit(http: HTTPBackend, kind: str):
-    """Test that the client context enters and closes the underlying transport."""
+    """Test that the client context enters and exits the underlying transport."""
     inner = make_transports(http)[0]()
 
     async with http.client.AsyncClient(transport=make_wrappers(http)[kind](inner)):
         assert inner.entered
         assert not inner.resource.closed
 
+    assert inner.exited
+    assert inner.exc_type is None
     assert inner.resource.closed
 
 
 @wrappers
 @pytest.mark.anyio
 async def test_client_context_exit_on_exception(http: HTTPBackend, kind: str):
-    """Test that an exceptional client exit closes the transport and propagates."""
+    """Test that an exceptional client exit reaches the transport and propagates."""
     inner = make_transports(http)[0]()
 
     async def raise_inside_client() -> None:
@@ -361,6 +377,8 @@ async def test_client_context_exit_on_exception(http: HTTPBackend, kind: str):
     with pytest.raises(RuntimeError, match="boom"):
         await raise_inside_client()
 
+    assert inner.exited
+    assert inner.exc_type is RuntimeError
     assert inner.resource.closed
 
 
@@ -371,7 +389,7 @@ async def test_client_context_exit_on_exception(http: HTTPBackend, kind: str):
 )
 @pytest.mark.anyio
 async def test_nested_aclose(http: HTTPBackend, outer_kind: str, inner_kind: str):
-    """Test that entering and closing an outer wrapper reach the innermost one."""
+    """Test that entering and exiting an outer wrapper reach the innermost one."""
     make = make_wrappers(http)
     inner = make_transports(http)[0]()
     outer = make[outer_kind](make[inner_kind](inner))
@@ -379,6 +397,8 @@ async def test_nested_aclose(http: HTTPBackend, outer_kind: str, inner_kind: str
     async with outer:
         assert inner.entered
 
+    assert inner.exited
+    assert inner.exc_type is None
     assert inner.resource.closed
 
 

@@ -71,6 +71,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `async with AsyncClient(transport=...)`, now also enters the composed transport, so
   custom transports that set up resources in `__aenter__` are ready before the first
   request.
+- Fixed `AsyncRateLimitedTransport` and `AsyncMultiRateLimitedTransport` not exiting
+  their underlying transport. Exiting a wrapper, for example at the end of
+  `async with AsyncClient(transport=...)`, now calls the composed transport's
+  `__aexit__` with the same exception details instead of only its `aclose`.
 - Fixed a flaky acceptance test by raising the burst of the Traefik rate limit in
   `compose.yaml` from 1 to 5, so that small timing jitter no longer causes spurious
   429 responses.

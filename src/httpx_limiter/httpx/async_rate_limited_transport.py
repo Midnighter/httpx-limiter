@@ -23,6 +23,8 @@ import httpx
 
 
 if TYPE_CHECKING:  # pragma: no cover
+    from types import TracebackType
+
     from httpx_limiter.abstract_async_limiter import AbstractAsyncLimiter
 
     from .types import HTTPXAsyncHTTPTransportKeywordArguments
@@ -94,6 +96,22 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         """
         await self._transport.__aenter__()
         return self
+
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None = None,
+        exc_value: BaseException | None = None,
+        traceback: TracebackType | None = None,
+    ) -> None:
+        """
+        Exit the transport and its underlying transport.
+
+        Exiting this wrapper, for example through the client's context, exits the
+        composed transport with the same exception details, which lets it clean up
+        its resources.
+
+        """
+        await self._transport.__aexit__(exc_type, exc_value, traceback)
 
     async def aclose(self) -> None:
         """
