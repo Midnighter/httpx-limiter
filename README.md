@@ -6,22 +6,45 @@
 | Meta       | [![Apache-2.0](https://img.shields.io/pypi/l/httpx-limiter.svg)](LICENSE) [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](.github/CODE_OF_CONDUCT.md) [![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/) [![Code Style Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black) [![Linting: Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) |
 | Automation | [![CI](https://github.com/Midnighter/httpx-limiter/actions/workflows/main.yml/badge.svg)](https://github.com/Midnighter/httpx-limiter/actions/workflows/main.yml) [![codecov](https://codecov.io/github/Midnighter/httpx-limiter/graph/badge.svg?token=47D2X7CSIB)](https://codecov.io/github/Midnighter/httpx-limiter)                                                                                                                                                                                                                                                                              |
 
-_A lightweight package that provides rate-limited httpx transports._
+_A lightweight package that provides rate-limited httpx and httpx2 transports._
 
 ## Installation
 
-The package is published on [PyPI](https://pypi.org/project/httpx-limiter/). Install it,
-for example, with the aiolimiter backend.
+The package is published on [PyPI](https://pypi.org/project/httpx-limiter/). Plain
+`pip install httpx-limiter` installs only the shared core, which contains no HTTP
+client. Select the HTTP client you use with an extra, `httpx` or `httpx2`, and normally
+also a rate limiter backend, `aiolimiter` or `pyrate`.
 
 ```sh
-pip install 'httpx-limiter[aiolimiter]'
+pip install 'httpx-limiter[httpx,aiolimiter]'
+pip install 'httpx-limiter[httpx2,pyrate]'
 ```
 
-There is also a pyrate-limiter backend available.
+To use both HTTP clients in the same process, install both extras.
 
 ```sh
-pip install 'httpx-limiter[pyrate]'
+pip install 'httpx-limiter[httpx,httpx2,aiolimiter]'
 ```
+
+There is no automatic fallback: you choose the integration explicitly by importing from
+`httpx_limiter.httpx` or from `httpx_limiter.httpx2`.
+
+### Migrating from <0.7
+
+The HTTP-specific classes moved out of the package root and `httpx` is no longer a
+required dependency. Install `httpx-limiter[httpx]` instead of `httpx-limiter` and
+change your imports. `Rate`, `AbstractAsyncLimiter`, and the limiter implementations
+keep their import paths.
+
+```diff
+-from httpx_limiter import AsyncRateLimitedTransport, Rate
++from httpx_limiter import Rate
++from httpx_limiter.httpx import AsyncRateLimitedTransport
+```
+
+The same applies to `AsyncMultiRateLimitedTransport`, `AbstractRateLimiterRepository`,
+and `HTTPXAsyncHTTPTransportKeywordArguments`. For HTTPX2, import them from
+`httpx_limiter.httpx2` instead.
 
 ## Rate Limiter Backends
 
@@ -77,9 +100,17 @@ async def main():
 
 ## Tutorial
 
-You can limit the number of requests made by an HTTPX client using the transports
-provided in this package. That is useful in situations when you need to make a large
-number of asynchronous requests against endpoints that implement a rate limit.
+You can limit the number of requests made by an HTTPX or HTTPX2 client using the
+transports provided in this package. That is useful in situations when you need to make
+a large number of asynchronous requests against endpoints that implement a rate limit.
+
+The examples below use HTTPX. For HTTPX2, import `httpx2` instead of `httpx`, and import
+the transports and repositories from `httpx_limiter.httpx2` instead of
+`httpx_limiter.httpx`; everything else stays the same. The
+[documentation](https://midnighter.github.io/httpx-limiter/) shows every example for both
+clients. Transports, repositories, requests, and responses must all come from the same
+client: `httpx_limiter.httpx` works with `httpx` and `httpx_limiter.httpx2` works with
+`httpx2`.
 
 ### Single Rate Limit
 
@@ -103,25 +134,30 @@ async def main():
 
 > [!IMPORTANT]
 > Due to limitations in the design of the underlying [leaky
-> bucket](https://en.wikipedia.org/wiki/Leaky_bucket) implementation, which is
-> used to implement the rate limiting, the magnitude of the rate is also the
-> maximum capacity of the bucket. That means, if you set a rate that is larger
-> than one, a burst of requests equal to that capacity will be allowed. If you
-> do not want to allow any bursts, set the magnitude to one, but the duration to
-> the inverse of your desired rate. If you want to allow twenty requests per
-> second, for example, set the magnitude to 1 and the duration to 0.05 seconds.
+> bucket](https://en.wikipedia.org/wiki/Leaky_bucket) implementation, which is used to
+> implement the rate limiting, the magnitude of **the rate is also the maximum
+> capacity of the bucket**. That means, if you **set a rate that is larger than one, a
+> burst of requests equal to that capacity will be allowed**. If you do not want to
+> allow any bursts, set the magnitude to one, but the duration to the inverse of your
+> desired rate. If you want to allow twenty requests per second, for example, set the
+> magnitude to 1 and the duration to 0.05 seconds.
 >
 > ```python
+> from httpx_limiter import Rate
+>
 > Rate.create(magnitude=1, duration=1/20)
 > ```
 
 ### Multiple Rate Limits
 
 For more advanced use cases, you can apply different rate limits based on a concrete
-implementation of the `AbstractRateLimiterRepository`. There are two relevant methods
-that both get passed the current request. One method needs to return an identifier for
-which rate limiter to choose, and the other method creates a rate limiter. See the
-following example:
+implementation of the `AbstractRateLimiterRepository` of your HTTP client, either
+[for HTTPX](https://midnighter.github.io/httpx-limiter/api/#httpx_limiter.httpx.AbstractRateLimiterRepository)
+or
+[for HTTPX2](https://midnighter.github.io/httpx-limiter/api/#httpx_limiter.httpx2.AbstractRateLimiterRepository).
+There are two relevant methods that both get passed the current request. One method
+needs to identify which rate limit to apply, and the other method sets the rate limit
+itself. See the following example:
 
 ```python
 import httpx
@@ -151,20 +187,22 @@ async def main():
             repository=DomainBasedRateLimiterRepository(),
         ),
     ) as client:
-        # Use the client instance as you normally would.
-        pass
+        response = await client.get("https://httpbin.org")
 ```
 
 > [!TIP]
-> You are free to ignore the request parameter and use global information like
-> the time of day to determine the rate limit.
+> You are free to ignore the request parameter and use global information like the
+> time of day to determine the rate limit.
 
 ```python
 from datetime import datetime, timezone
 
 import httpx
 from httpx_limiter import Rate
-from httpx_limiter.httpx import AbstractRateLimiterRepository
+from httpx_limiter.httpx import (
+    AbstractRateLimiterRepository,
+    AsyncMultiRateLimitedTransport,
+)
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
@@ -184,6 +222,67 @@ class DayNightRateLimiterRepository(AbstractRateLimiterRepository):
             return PyrateAsyncLimiter.create(Rate.create(magnitude=10))
 
         return PyrateAsyncLimiter.create(Rate.create(magnitude=100))
+
+
+async def main():
+    async with httpx.AsyncClient(
+        transport=AsyncMultiRateLimitedTransport.create(
+            repository=DayNightRateLimiterRepository(),
+        ),
+    ) as client:
+        response = await client.get("https://httpbin.org")
+```
+
+### Transport Options
+
+Both `AsyncRateLimitedTransport.create` and `AsyncMultiRateLimitedTransport.create`
+forward additional keyword arguments to the `AsyncHTTPTransport` of the selected client.
+The accepted keywords are described by the `HTTPXAsyncHTTPTransportKeywordArguments`
+type of `httpx_limiter.httpx` and of `httpx_limiter.httpx2`. Types such as `Limits` and
+`Proxy` must come from the selected client.
+
+```python
+import httpx
+from httpx_limiter import Rate
+from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+from httpx_limiter.httpx import AsyncRateLimitedTransport
+
+async def main():
+    limiter = AiolimiterAsyncLimiter.create(Rate.create(magnitude=20))
+    transport = AsyncRateLimitedTransport.create(
+        limiter=limiter,
+        limits=httpx.Limits(max_connections=10),
+        retries=2,
+    )
+    async with httpx.AsyncClient(transport=transport) as client:
+        response = await client.get("https://httpbin.org")
+```
+
+### Using Both Clients Together
+
+You can install both extras, `httpx-limiter[httpx,httpx2]`, and use both integrations in
+the same process. The limiters are independent of the HTTP client, so you may even share
+one limiter between them. The HTTP objects, however, are **not interchangeable**: an
+`httpx_limiter.httpx` transport cannot be used with an `httpx2.AsyncClient`, and a
+repository for `httpx.Request` cannot serve `httpx2.Request` objects.
+
+```python
+import httpx
+import httpx2
+from httpx_limiter import Rate
+from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+from httpx_limiter.httpx import AsyncRateLimitedTransport as HTTPXTransport
+from httpx_limiter.httpx2 import AsyncRateLimitedTransport as HTTPX2Transport
+
+async def main():
+    limiter = AiolimiterAsyncLimiter.create(Rate.create(magnitude=20))
+
+    async with (
+        httpx.AsyncClient(transport=HTTPXTransport.create(limiter=limiter)) as old,
+        httpx2.AsyncClient(transport=HTTPX2Transport.create(limiter=limiter)) as new,
+    ):
+        first = await old.get("https://httpbin.org")  # an httpx.Response
+        second = await new.get("https://httpbin.org")  # an httpx2.Response
 ```
 
 ## Copyright

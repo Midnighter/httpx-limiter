@@ -1,21 +1,44 @@
 # HTTPX Limiter
 
-A lightweight package that provides rate-limited httpx transports.
+A lightweight package that provides rate-limited httpx and httpx2 transports.
 
 ## Installation
 
-The package is published on [PyPI](https://pypi.org/project/httpx-limiter/). Install it,
-for example, with the aiolimiter backend.
+The package is published on [PyPI](https://pypi.org/project/httpx-limiter/). Plain
+`pip install httpx-limiter` installs only the shared core, which contains no HTTP
+client. Select the HTTP client you use with an extra, `httpx` or `httpx2`, and normally
+also a rate limiter backend, `aiolimiter` or `pyrate`.
 
 ```sh
-pip install 'httpx-limiter[aiolimiter]'
+pip install 'httpx-limiter[httpx,aiolimiter]'
+pip install 'httpx-limiter[httpx2,pyrate]'
 ```
 
-There is also a pyrate-limiter backend available.
+To use both HTTP clients in the same process, install both extras.
 
 ```sh
-pip install 'httpx-limiter[pyrate]'
+pip install 'httpx-limiter[httpx,httpx2,aiolimiter]'
 ```
+
+There is no automatic fallback: you choose the integration explicitly by importing from
+`httpx_limiter.httpx` or from `httpx_limiter.httpx2`.
+
+### Migrating from <0.7
+
+The HTTP-specific classes moved out of the package root and `httpx` is no longer a
+required dependency. Install `httpx-limiter[httpx]` instead of `httpx-limiter` and
+change your imports. `Rate`, `AbstractAsyncLimiter`, and the limiter implementations
+keep their import paths.
+
+```diff
+-from httpx_limiter import AsyncRateLimitedTransport, Rate
++from httpx_limiter import Rate
++from httpx_limiter.httpx import AsyncRateLimitedTransport
+```
+
+The same applies to `AsyncMultiRateLimitedTransport`, `AbstractRateLimiterRepository`,
+and `HTTPXAsyncHTTPTransportKeywordArguments`. For HTTPX2, import them from
+`httpx_limiter.httpx2` instead.
 
 ## Rate Limiter Backends
 
