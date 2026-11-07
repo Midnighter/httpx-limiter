@@ -8,7 +8,16 @@ if ! grep -q 'httpbin\.localhost' /etc/hosts; then
   echo '127.0.0.1 httpbin.localhost fast.localhost' | sudo tee -a /etc/hosts >/dev/null
 fi
 
-# systemd starts the stack on boot; make sure it has not been stopped.
-if ! systemctl is-active --quiet httpx-limiter-compose.service; then
+# systemd starts the stack on boot; make sure it has not been stopped. If it is
+# running, restart the Traefik gateway: after the orb wakes from a pause or a
+# snapshot, the old gateway process stalls on its first requests and then
+# rejects a burst of them with 429, which breaks the timed acceptance tests. A
+# freshly started gateway does not.
+if systemctl is-active --quiet httpx-limiter-compose.service; then
+  docker compose --project-directory "$(dirname "$0")/.." restart --timeout 2 gateway
+  # The new gateway needs a moment to load its routes from Docker.
+  timeout 6 bash -c 'until curl -fso /dev/null http://httpbin.localhost/status/200 &&
+    curl -fso /dev/null http://fast.localhost/status/200; do sleep 0.1; done'
+else
   sudo systemctl start --no-block httpx-limiter-compose.service
 fi
