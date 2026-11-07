@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A lightweight package that provides rate-limited httpx transports.">
+        <meta name="description" content="A lightweight package that provides rate-limited httpx and httpx2 transports.">
       
       
         <meta name="author" content="Moritz E. Beber">
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#httpx_limiter" class="md-skip">
+        <a href="#core" class="md-skip">
           Skip to content
         </a>
       
@@ -524,6 +524,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#httpx_limiter" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -534,6 +545,17 @@
   
     <nav class="md-nav" aria-label="httpx_limiter">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.Number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Number
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#httpx_limiter.Rate" class="md-nav__link">
@@ -646,8 +668,36 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPX
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        httpx
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="httpx">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport" class="md-nav__link">
     <span class="md-ellipsis">
       
         AsyncRateLimitedTransport
@@ -659,7 +709,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport.__init__" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__aenter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       
         __init__
@@ -670,7 +731,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport.aclose" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.aclose" class="md-nav__link">
     <span class="md-ellipsis">
       
         aclose
@@ -681,7 +742,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport.create" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.create" class="md-nav__link">
     <span class="md-ellipsis">
       
         create
@@ -692,7 +753,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport.handle_async_request" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.handle_async_request" class="md-nav__link">
     <span class="md-ellipsis">
       
         handle_async_request
@@ -708,7 +769,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AbstractRateLimiterRepository" class="md-nav__link">
     <span class="md-ellipsis">
       
         AbstractRateLimiterRepository
@@ -716,60 +777,10 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="AbstractRateLimiterRepository">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository.__init__" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        __init__
-      
-    </span>
-  </a>
-  
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository.create" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        create
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository.get" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository.get_identifier" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_identifier
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport" class="md-nav__link">
     <span class="md-ellipsis">
       
         AsyncMultiRateLimitedTransport
@@ -781,7 +792,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.__init__" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__aenter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       
         __init__
@@ -792,7 +814,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.aclose" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.aclose" class="md-nav__link">
     <span class="md-ellipsis">
       
         aclose
@@ -803,7 +825,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.create" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.create" class="md-nav__link">
     <span class="md-ellipsis">
       
         create
@@ -814,7 +836,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.handle_async_request" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.handle_async_request" class="md-nav__link">
     <span class="md-ellipsis">
       
         handle_async_request
@@ -829,8 +851,478 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPXAsyncHTTPTransportKeywordArguments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTPXAsyncHTTPTransportKeywordArguments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.cert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.http1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        http1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.http2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        http2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.local_address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        local_address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.retries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        retries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.socket_options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        socket_options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.trust_env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trust_env
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.uds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        uds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        verify
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpx2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPX2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        httpx2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="httpx2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AsyncRateLimitedTransport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AsyncRateLimitedTransport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__aenter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.aclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        aclose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.handle_async_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_async_request
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AbstractRateLimiterRepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AbstractRateLimiterRepository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AsyncMultiRateLimitedTransport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AsyncMultiRateLimitedTransport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__aenter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.aclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        aclose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.handle_async_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_async_request
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPXAsyncHTTPTransportKeywordArguments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTPXAsyncHTTPTransportKeywordArguments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.cert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.http1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        http1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.http2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        http2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.local_address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        local_address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.retries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        retries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.socket_options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        socket_options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.trust_env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trust_env
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.uds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        uds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rate-limiters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rate limiters
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1002,6 +1494,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -1079,6 +1575,62 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adr/adr002-provide-one-integration-per-http-client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR002 - Provide one integration per HTTP client
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adr/adr003-define-the-limiter-and-repository-interfaces-as-abstract-base-classes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR003 - Define the limiter and repository interfaces as abstract base classes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1111,6 +1663,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#httpx_limiter" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1121,6 +1684,17 @@
   
     <nav class="md-nav" aria-label="httpx_limiter">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.Number" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Number
+      
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#httpx_limiter.Rate" class="md-nav__link">
@@ -1233,8 +1807,36 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPX
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        httpx
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="httpx">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport" class="md-nav__link">
     <span class="md-ellipsis">
       
         AsyncRateLimitedTransport
@@ -1246,7 +1848,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport.__init__" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__aenter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       
         __init__
@@ -1257,7 +1870,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport.aclose" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.aclose" class="md-nav__link">
     <span class="md-ellipsis">
       
         aclose
@@ -1268,7 +1881,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport.create" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.create" class="md-nav__link">
     <span class="md-ellipsis">
       
         create
@@ -1279,7 +1892,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncRateLimitedTransport.handle_async_request" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.handle_async_request" class="md-nav__link">
     <span class="md-ellipsis">
       
         handle_async_request
@@ -1295,7 +1908,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AbstractRateLimiterRepository" class="md-nav__link">
     <span class="md-ellipsis">
       
         AbstractRateLimiterRepository
@@ -1303,60 +1916,10 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="AbstractRateLimiterRepository">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository.__init__" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        __init__
-      
-    </span>
-  </a>
-  
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository.create" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        create
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository.get" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#httpx_limiter.AbstractRateLimiterRepository.get_identifier" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        get_identifier
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport" class="md-nav__link">
     <span class="md-ellipsis">
       
         AsyncMultiRateLimitedTransport
@@ -1368,7 +1931,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.__init__" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__aenter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       
         __init__
@@ -1379,7 +1953,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.aclose" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.aclose" class="md-nav__link">
     <span class="md-ellipsis">
       
         aclose
@@ -1390,7 +1964,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.create" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.create" class="md-nav__link">
     <span class="md-ellipsis">
       
         create
@@ -1401,7 +1975,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#httpx_limiter.AsyncMultiRateLimitedTransport.handle_async_request" class="md-nav__link">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.handle_async_request" class="md-nav__link">
     <span class="md-ellipsis">
       
         handle_async_request
@@ -1416,8 +1990,478 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPXAsyncHTTPTransportKeywordArguments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTPXAsyncHTTPTransportKeywordArguments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.cert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.http1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        http1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.http2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        http2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.local_address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        local_address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.retries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        retries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.socket_options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        socket_options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.trust_env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trust_env
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.uds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        uds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        verify
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpx2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPX2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        httpx2
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="httpx2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AsyncRateLimitedTransport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AsyncRateLimitedTransport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__aenter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.aclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        aclose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.handle_async_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_async_request
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AbstractRateLimiterRepository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AbstractRateLimiterRepository
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AsyncMultiRateLimitedTransport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AsyncMultiRateLimitedTransport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__aenter__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__init__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __init__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.aclose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        aclose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.create" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        create
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.handle_async_request" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        handle_async_request
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTPXAsyncHTTPTransportKeywordArguments
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTPXAsyncHTTPTransportKeywordArguments">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.cert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.http1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        http1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.http2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        http2
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.local_address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        local_address
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.retries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        retries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.socket_options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        socket_options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.trust_env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        trust_env
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.uds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        uds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.verify" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        verify
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rate-limiters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rate limiters
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1588,16 +2632,29 @@
 
   <h1>Reference API</h1>
 
-<p>The following classes are exposed to the user:</p>
+<p>The following classes are exposed to the user. The HTTP-specific classes live in the
+sub-package of the HTTP client that you use, <code>httpx_limiter.httpx</code> or
+<code>httpx_limiter.httpx2</code>, and each requires the matching extra.</p>
 <ul>
 <li><a class="autorefs autorefs-internal" href="#httpx_limiter.Rate"><code>Rate</code></a></li>
+<li><a class="autorefs autorefs-internal" title="Number = float | int
+
+  
+      module-attribute
+  " href="#httpx_limiter.Number"><code>Number</code></a></li>
 <li><a class="autorefs autorefs-internal" href="#httpx_limiter.AbstractAsyncLimiter"><code>AbstractAsyncLimiter</code></a></li>
-<li><a class="autorefs autorefs-internal" href="#httpx_limiter.AsyncRateLimitedTransport"><code>AsyncRateLimitedTransport</code></a></li>
-<li><a class="autorefs autorefs-internal" href="#httpx_limiter.AbstractRateLimiterRepository"><code>AbstractRateLimiterRepository</code></a></li>
-<li><a class="autorefs autorefs-internal" href="#httpx_limiter.AsyncMultiRateLimitedTransport"><code>AsyncMultiRateLimitedTransport</code></a></li>
+<li><a class="autorefs autorefs-internal" href="#httpx_limiter.httpx.AsyncRateLimitedTransport"><code>AsyncRateLimitedTransport</code></a></li>
+<li><a class="autorefs autorefs-internal" href="#httpx_limiter.httpx.AbstractRateLimiterRepository"><code>AbstractRateLimiterRepository</code></a></li>
+<li><a class="autorefs autorefs-internal" href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport"><code>AsyncMultiRateLimitedTransport</code></a></li>
+<li><a class="autorefs autorefs-internal" href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments"><code>HTTPXAsyncHTTPTransportKeywordArguments</code></a></li>
+<li><a class="autorefs autorefs-internal" href="#httpx_limiter.httpx2.AsyncRateLimitedTransport"><code>AsyncRateLimitedTransport</code></a> (HTTPX2)</li>
+<li><a class="autorefs autorefs-internal" href="#httpx_limiter.httpx2.AbstractRateLimiterRepository"><code>AbstractRateLimiterRepository</code></a> (HTTPX2)</li>
+<li><a class="autorefs autorefs-internal" href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport"><code>AsyncMultiRateLimitedTransport</code></a> (HTTPX2)</li>
+<li><a class="autorefs autorefs-internal" href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments"><code>HTTPXAsyncHTTPTransportKeywordArguments</code></a> (HTTPX2)</li>
 <li><a class="autorefs autorefs-internal" href="#httpx_limiter.aiolimiter.AiolimiterAsyncLimiter"><code>AiolimiterAsyncLimiter</code></a></li>
 <li><a class="autorefs autorefs-internal" href="#httpx_limiter.pyrate.PyrateAsyncLimiter"><code>PyrateAsyncLimiter</code></a></li>
 </ul>
+<h2 id="core">Core<a class="headerlink" href="#core" title="Permanent link">&para;</a></h2>
 
 
 <div class="doc doc-object doc-module">
@@ -1613,6 +2670,8 @@
     <div class="doc doc-contents first">
 
         <p>Provide top level symbols.</p>
+<p>This package does not import any HTTP client. Select an integration explicitly via
+<code>httpx_limiter.httpx</code> or <code>httpx_limiter.httpx2</code>.</p>
 
 
 
@@ -1630,6 +2689,28 @@
 
 
 
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="httpx_limiter.Number" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">Number</span> <span class="o">=</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.Number" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>A real number, such as a duration in seconds passed to <code>Rate.create</code>.</p>
+
+    </div>
+
+</div>
 
 
 
@@ -1874,15 +2955,60 @@ context manager protocol.</p>
 
 </div>
 
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="httpx">HTTPX<a class="headerlink" href="#httpx" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="httpx_limiter.httpx" class="doc doc-heading">
+            <code>httpx_limiter.httpx</code>
+
+
+<a href="#httpx_limiter.httpx" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Provide the HTTPX integration.</p>
+<p>Importing this package requires the <code>httpx</code> extra, for example
+<code>pip install "httpx-limiter[httpx]"</code>.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
 <div class="doc doc-object doc-class">
 
 
 
-<h3 id="httpx_limiter.AsyncRateLimitedTransport" class="doc doc-heading">
+<h3 id="httpx_limiter.httpx.AsyncRateLimitedTransport" class="doc doc-heading">
             <code>AsyncRateLimitedTransport</code>
 
 
-<a href="#httpx_limiter.AsyncRateLimitedTransport" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#httpx_limiter.httpx.AsyncRateLimitedTransport" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
@@ -1920,10 +3046,34 @@ requests.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="httpx_limiter.AsyncRateLimitedTransport.__init__" class="doc doc-heading">
+<h4 id="httpx_limiter.httpx.AsyncRateLimitedTransport.__aenter__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aenter__</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Self</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__aenter__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Enter the transport and its underlying transport.</p>
+<p>Entering this wrapper, for example through the client's context, also enters
+the composed transport, so that it can set up its resources.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx.AsyncRateLimitedTransport.__init__" class="doc doc-heading">
             <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">limiter</span><span class="p">:</span> <span class="n">AbstractAsyncLimiter</span><span class="p">,</span> <span class="n">transport</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncBaseTransport</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
-<a href="#httpx_limiter.AsyncRateLimitedTransport.__init__" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__init__" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
@@ -1936,14 +3086,14 @@ requests.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="httpx_limiter.AsyncRateLimitedTransport.aclose" class="doc doc-heading">
+<h4 id="httpx_limiter.httpx.AsyncRateLimitedTransport.aclose" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">aclose</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#httpx_limiter.AsyncRateLimitedTransport.aclose" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.aclose" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
@@ -1960,14 +3110,14 @@ sharing an inner transport between wrappers shares its lifetime.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="httpx_limiter.AsyncRateLimitedTransport.create" class="doc doc-heading">
+<h4 id="httpx_limiter.httpx.AsyncRateLimitedTransport.create" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">create</span><span class="p">(</span><span class="n">limiter</span><span class="p">:</span> <span class="n">AbstractAsyncLimiter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">HTTPXAsyncHTTPTransportKeywordArguments</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">AsyncRateLimitedTransport</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
   </span>
 
-<a href="#httpx_limiter.AsyncRateLimitedTransport.create" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.create" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
@@ -2010,7 +3160,7 @@ That transport is passed any additional keyword arguments.</p>
                 <code>**kwargs</code>
             </td>
             <td>
-                  <code><span title="typing.Unpack">Unpack</span>[<span title="httpx_limiter.types.HTTPXAsyncHTTPTransportKeywordArguments">HTTPXAsyncHTTPTransportKeywordArguments</span>]</code>
+                  <code><span title="typing.Unpack">Unpack</span>[<a class="autorefs autorefs-internal" title="HTTPXAsyncHTTPTransportKeywordArguments (httpx_limiter.httpx.types.HTTPXAsyncHTTPTransportKeywordArguments)" href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments">HTTPXAsyncHTTPTransportKeywordArguments</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2037,7 +3187,7 @@ That transport is passed any additional keyword arguments.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="AsyncRateLimitedTransport (httpx_limiter.async_rate_limited_transport.AsyncRateLimitedTransport)" href="#httpx_limiter.AsyncRateLimitedTransport">AsyncRateLimitedTransport</a></code>
+                  <code><a class="autorefs autorefs-internal" title="AsyncRateLimitedTransport (httpx_limiter.httpx.async_rate_limited_transport.AsyncRateLimitedTransport)" href="#httpx_limiter.httpx.AsyncRateLimitedTransport">AsyncRateLimitedTransport</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2056,14 +3206,14 @@ That transport is passed any additional keyword arguments.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="httpx_limiter.AsyncRateLimitedTransport.handle_async_request" class="doc doc-heading">
+<h4 id="httpx_limiter.httpx.AsyncRateLimitedTransport.handle_async_request" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">handle_async_request</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Response</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#httpx_limiter.AsyncRateLimitedTransport.handle_async_request" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.handle_async_request" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
@@ -2087,23 +3237,23 @@ That transport is passed any additional keyword arguments.</p>
 
 
 
-<h3 id="httpx_limiter.AbstractRateLimiterRepository" class="doc doc-heading">
+<h3 id="httpx_limiter.httpx.AbstractRateLimiterRepository" class="doc doc-heading">
             <code>AbstractRateLimiterRepository</code>
 
 
-<a href="#httpx_limiter.AbstractRateLimiterRepository" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#httpx_limiter.httpx.AbstractRateLimiterRepository" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
-              Bases: <code><span title="abc.ABC">ABC</span></code></p>
+              Bases: <code><span title="httpx_limiter._rate_limiter_repository.RateLimiterRepository">RateLimiterRepository</span>[<span title="httpx.Request">Request</span>]</code></p>
 
 
 
-        <p>Define the abstract repository for rate limiters.</p>
+        <p>Define the abstract repository for rate limiters of HTTPX requests.</p>
 <p>This abstract base class provides a framework for managing rate limiters
-based on HTTP requests. It maintains a cache of rate limiters and provides
-methods to retrieve request-specific identifiers, rates, and limiters.</p>
+based on HTTPX requests. It maintains a cache of rate limiters and provides
+methods to retrieve request-specific identifiers and limiters.</p>
 <p>Subclasses must implement methods to determine how requests are identified
 and what rate limits should be applied to them.</p>
 
@@ -2118,11 +3268,7 @@ and what rate limits should be applied to them.</p>
       </thead>
       <tbody>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="get_identifier(request: httpx.Request) -> str
-
-  
-      abstractmethod
-   (httpx_limiter.AbstractRateLimiterRepository.get_identifier)" href="#httpx_limiter.AbstractRateLimiterRepository.get_identifier">get_identifier</a></code></td>
+              <td><code><span title="httpx_limiter.httpx.AbstractRateLimiterRepository.get_identifier">get_identifier</span></code></td>
               <td>
                 <div class="doc-md-description">
                   <p>Return a request-specific identifier.</p>
@@ -2130,15 +3276,15 @@ and what rate limits should be applied to them.</p>
               </td>
             </tr>
             <tr class="doc-section-item">
-              <td><code><span title="httpx_limiter.AbstractRateLimiterRepository.get_rates">get_rates</span></code></td>
+              <td><code><span title="httpx_limiter.httpx.AbstractRateLimiterRepository.create">create</span></code></td>
               <td>
                 <div class="doc-md-description">
-                  <p>Return one or more request-specific rates.</p>
+                  <p>Return a request-specific rate limiter.</p>
                 </div>
               </td>
             </tr>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="get(request: httpx.Request) -> AbstractAsyncLimiter (httpx_limiter.AbstractRateLimiterRepository.get)" href="#httpx_limiter.AbstractRateLimiterRepository.get">get</a></code></td>
+              <td><code><span title="httpx_limiter.httpx.AbstractRateLimiterRepository.get">get</span></code></td>
               <td>
                 <div class="doc-md-description">
                   <p>Return a request-specific rate limiter.</p>
@@ -2169,84 +3315,6 @@ and what rate limits should be applied to them.</p>
 
 
 
-<div class="doc doc-object doc-function">
-
-
-<h4 id="httpx_limiter.AbstractRateLimiterRepository.__init__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
-
-<a href="#httpx_limiter.AbstractRateLimiterRepository.__init__" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="httpx_limiter.AbstractRateLimiterRepository.create" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">create</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractAsyncLimiter</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-  </span>
-
-<a href="#httpx_limiter.AbstractRateLimiterRepository.create" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Return a request-specific rate limiter.</p>
-
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="httpx_limiter.AbstractRateLimiterRepository.get" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AbstractAsyncLimiter</span></code>
-
-<a href="#httpx_limiter.AbstractRateLimiterRepository.get" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Return a request-specific rate limiter.</p>
-
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="httpx_limiter.AbstractRateLimiterRepository.get_identifier" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_identifier</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
-  </span>
-
-<a href="#httpx_limiter.AbstractRateLimiterRepository.get_identifier" class="headerlink" title="Permanent link">&para;</a></h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Return a request-specific identifier.</p>
-
-
-    </div>
-
-</div>
-
 
 
   </div>
@@ -2259,11 +3327,11 @@ and what rate limits should be applied to them.</p>
 
 
 
-<h3 id="httpx_limiter.AsyncMultiRateLimitedTransport" class="doc doc-heading">
+<h3 id="httpx_limiter.httpx.AsyncMultiRateLimitedTransport" class="doc doc-heading">
             <code>AsyncMultiRateLimitedTransport</code>
 
 
-<a href="#httpx_limiter.AsyncMultiRateLimitedTransport" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
@@ -2300,10 +3368,34 @@ repository for rate limiters that are selected based on the request.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="httpx_limiter.AsyncMultiRateLimitedTransport.__init__" class="doc doc-heading">
+<h4 id="httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__aenter__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aenter__</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Self</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__aenter__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Enter the transport and its underlying transport.</p>
+<p>Entering this wrapper, for example through the client's context, also enters
+the composed transport, so that it can set up its resources.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__init__" class="doc doc-heading">
             <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">repository</span><span class="p">:</span> <span class="n">AbstractRateLimiterRepository</span><span class="p">,</span> <span class="n">transport</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncBaseTransport</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
-<a href="#httpx_limiter.AsyncMultiRateLimitedTransport.__init__" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__init__" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
@@ -2316,14 +3408,14 @@ repository for rate limiters that are selected based on the request.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="httpx_limiter.AsyncMultiRateLimitedTransport.aclose" class="doc doc-heading">
+<h4 id="httpx_limiter.httpx.AsyncMultiRateLimitedTransport.aclose" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">aclose</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#httpx_limiter.AsyncMultiRateLimitedTransport.aclose" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.aclose" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
@@ -2340,14 +3432,14 @@ sharing an inner transport between wrappers shares its lifetime.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="httpx_limiter.AsyncMultiRateLimitedTransport.create" class="doc doc-heading">
+<h4 id="httpx_limiter.httpx.AsyncMultiRateLimitedTransport.create" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">create</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">repository</span><span class="p">:</span> <span class="n">AbstractRateLimiterRepository</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">HTTPXAsyncHTTPTransportKeywordArguments</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">AsyncMultiRateLimitedTransport</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
   </span>
 
-<a href="#httpx_limiter.AsyncMultiRateLimitedTransport.create" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.create" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
@@ -2374,7 +3466,7 @@ That transport is passed any additional keyword arguments.</p>
                 <code>repository</code>
             </td>
             <td>
-                  <code><a class="autorefs autorefs-internal" title="AbstractRateLimiterRepository (httpx_limiter.abstract_rate_limiter_repository.AbstractRateLimiterRepository)" href="#httpx_limiter.AbstractRateLimiterRepository">AbstractRateLimiterRepository</a></code>
+                  <code><a class="autorefs autorefs-internal" title="AbstractRateLimiterRepository (httpx_limiter.httpx.abstract_rate_limiter_repository.AbstractRateLimiterRepository)" href="#httpx_limiter.httpx.AbstractRateLimiterRepository">AbstractRateLimiterRepository</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2390,7 +3482,7 @@ That transport is passed any additional keyword arguments.</p>
                 <code>**kwargs</code>
             </td>
             <td>
-                  <code><span title="typing.Unpack">Unpack</span>[<span title="httpx_limiter.types.HTTPXAsyncHTTPTransportKeywordArguments">HTTPXAsyncHTTPTransportKeywordArguments</span>]</code>
+                  <code><span title="typing.Unpack">Unpack</span>[<a class="autorefs autorefs-internal" title="HTTPXAsyncHTTPTransportKeywordArguments (httpx_limiter.httpx.types.HTTPXAsyncHTTPTransportKeywordArguments)" href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments">HTTPXAsyncHTTPTransportKeywordArguments</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2417,7 +3509,7 @@ That transport is passed any additional keyword arguments.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="AsyncMultiRateLimitedTransport (httpx_limiter.async_multi_rate_limited_transport.AsyncMultiRateLimitedTransport)" href="#httpx_limiter.AsyncMultiRateLimitedTransport">AsyncMultiRateLimitedTransport</a></code>
+                  <code><a class="autorefs autorefs-internal" title="AsyncMultiRateLimitedTransport (httpx_limiter.httpx.async_multi_rate_limited_transport.AsyncMultiRateLimitedTransport)" href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport">AsyncMultiRateLimitedTransport</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -2436,14 +3528,14 @@ That transport is passed any additional keyword arguments.</p>
 <div class="doc doc-object doc-function">
 
 
-<h4 id="httpx_limiter.AsyncMultiRateLimitedTransport.handle_async_request" class="doc doc-heading">
+<h4 id="httpx_limiter.httpx.AsyncMultiRateLimitedTransport.handle_async_request" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">handle_async_request</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Response</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-async"><code>async</code></small>
   </span>
 
-<a href="#httpx_limiter.AsyncMultiRateLimitedTransport.handle_async_request" class="headerlink" title="Permanent link">&para;</a></h4>
+<a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.handle_async_request" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
     <div class="doc doc-contents ">
@@ -2463,6 +3555,265 @@ That transport is passed any additional keyword arguments.</p>
 
 </div>
 
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments" class="doc doc-heading">
+            <code>HTTPXAsyncHTTPTransportKeywordArguments</code>
+
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="typing.TypedDict">TypedDict</span></code></p>
+
+
+
+        <p>Keyword arguments for the httpx.AsyncHTTPTransport constructor.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.cert" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">cert</span><span class="p">:</span> <span class="n">CertTypes</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.cert" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.http1" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">http1</span><span class="p">:</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.http1" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.http2" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">http2</span><span class="p">:</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.http2" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.limits" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">limits</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">Limits</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.limits" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.local_address" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">local_address</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.local_address" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.proxy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">proxy</span><span class="p">:</span> <span class="n">ProxyTypes</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.proxy" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.retries" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">retries</span><span class="p">:</span> <span class="nb">int</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.retries" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.socket_options" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">socket_options</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SocketOption</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.socket_options" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.trust_env" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">trust_env</span><span class="p">:</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.trust_env" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.uds" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">uds</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.uds" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.verify" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">verify</span><span class="p">:</span> <span class="n">ssl</span><span class="o">.</span><span class="n">SSLContext</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.HTTPXAsyncHTTPTransportKeywordArguments.verify" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
 
 
 
@@ -2471,6 +3822,884 @@ That transport is passed any additional keyword arguments.</p>
     </div>
 
 </div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="httpx2">HTTPX2<a class="headerlink" href="#httpx2" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="httpx_limiter.httpx2" class="doc doc-heading">
+            <code>httpx_limiter.httpx2</code>
+
+
+<a href="#httpx_limiter.httpx2" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Provide the HTTPX2 integration.</p>
+<p>Importing this package requires the <code>httpx2</code> extra, for example
+<code>pip install "httpx-limiter[httpx2]"</code>.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="httpx_limiter.httpx2.AsyncRateLimitedTransport" class="doc doc-heading">
+            <code>AsyncRateLimitedTransport</code>
+
+
+<a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="httpx2.AsyncBaseTransport">AsyncBaseTransport</span></code></p>
+
+
+
+        <p>Define the asynchronous rate-limited transport.</p>
+<p>This transport consists of a composed transport for handling requests and an
+implementation of a leaky bucket algorithm in order to rate-limit the number of
+requests.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncRateLimitedTransport.__aenter__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aenter__</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Self</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__aenter__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Enter the transport and its underlying transport.</p>
+<p>Entering this wrapper, for example through the client's context, also enters
+the composed transport, so that it can set up its resources.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncRateLimitedTransport.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">limiter</span><span class="p">:</span> <span class="n">AbstractAsyncLimiter</span><span class="p">,</span> <span class="n">transport</span><span class="p">:</span> <span class="n">httpx2</span><span class="o">.</span><span class="n">AsyncBaseTransport</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+<a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__init__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncRateLimitedTransport.aclose" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">aclose</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.aclose" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Close the transport and its underlying transport.</p>
+<p>Closing this wrapper also closes the composed transport, which is why
+sharing an inner transport between wrappers shares its lifetime.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncRateLimitedTransport.create" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">create</span><span class="p">(</span><span class="n">limiter</span><span class="p">:</span> <span class="n">AbstractAsyncLimiter</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">HTTPXAsyncHTTPTransportKeywordArguments</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">AsyncRateLimitedTransport</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.create" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create an instance of asynchronous rate-limited transport.</p>
+<p>This factory method constructs the instance with an underlying
+<code>httpx2.AsyncHTTPTransport</code>.
+That transport is passed any additional keyword arguments.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>limiter</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="AbstractAsyncLimiter (httpx_limiter.abstract_async_limiter.AbstractAsyncLimiter)" href="#httpx_limiter.AbstractAsyncLimiter">AbstractAsyncLimiter</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A concrete instance of an asynchronous limiter.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+                  <code><span title="typing.Unpack">Unpack</span>[<a class="autorefs autorefs-internal" title="HTTPXAsyncHTTPTransportKeywordArguments (httpx_limiter.httpx2.types.HTTPXAsyncHTTPTransportKeywordArguments)" href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments">HTTPXAsyncHTTPTransportKeywordArguments</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Additional keyword arguments are used in the construction of an
+<code>httpx2.AsyncHTTPTransport</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="AsyncRateLimitedTransport (httpx_limiter.httpx2.async_rate_limited_transport.AsyncRateLimitedTransport)" href="#httpx_limiter.httpx2.AsyncRateLimitedTransport">AsyncRateLimitedTransport</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A default instance of the class created from the given arguments.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncRateLimitedTransport.handle_async_request" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">handle_async_request</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">httpx2</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">httpx2</span><span class="o">.</span><span class="n">Response</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.handle_async_request" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Handle an asynchronous request with rate limiting.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="httpx_limiter.httpx2.AbstractRateLimiterRepository" class="doc doc-heading">
+            <code>AbstractRateLimiterRepository</code>
+
+
+<a href="#httpx_limiter.httpx2.AbstractRateLimiterRepository" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="httpx_limiter._rate_limiter_repository.RateLimiterRepository">RateLimiterRepository</span>[<span title="httpx2.Request">Request</span>]</code></p>
+
+
+
+        <p>Define the abstract repository for rate limiters of HTTPX2 requests.</p>
+<p>This abstract base class provides a framework for managing rate limiters
+based on HTTPX2 requests. It maintains a cache of rate limiters and provides
+methods to retrieve request-specific identifiers and limiters.</p>
+<p>Subclasses must implement methods to determine how requests are identified
+and what rate limits should be applied to them.</p>
+
+
+<p><span class="doc-section-title">Methods:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><span title="httpx_limiter.httpx2.AbstractRateLimiterRepository.get_identifier">get_identifier</span></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Return a request-specific identifier.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><span title="httpx_limiter.httpx2.AbstractRateLimiterRepository.create">create</span></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Return a request-specific rate limiter.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><span title="httpx_limiter.httpx2.AbstractRateLimiterRepository.get">get</span></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Return a request-specific rate limiter.</p>
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="httpx_limiter.httpx2.AsyncMultiRateLimitedTransport" class="doc doc-heading">
+            <code>AsyncMultiRateLimitedTransport</code>
+
+
+<a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="httpx2.AsyncBaseTransport">AsyncBaseTransport</span></code></p>
+
+
+
+        <p>Define the asynchronous multiple rate-limited transport.</p>
+<p>This transport consists of a composed transport for handling requests and a
+repository for rate limiters that are selected based on the request.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__aenter__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aenter__</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Self</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__aenter__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Enter the transport and its underlying transport.</p>
+<p>Entering this wrapper, for example through the client's context, also enters
+the composed transport, so that it can set up its resources.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__init__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">repository</span><span class="p">:</span> <span class="n">AbstractRateLimiterRepository</span><span class="p">,</span> <span class="n">transport</span><span class="p">:</span> <span class="n">httpx2</span><span class="o">.</span><span class="n">AsyncBaseTransport</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+<a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__init__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.aclose" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">aclose</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.aclose" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Close the transport and its underlying transport.</p>
+<p>Closing this wrapper also closes the composed transport, which is why
+sharing an inner transport between wrappers shares its lifetime.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.create" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">create</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">repository</span><span class="p">:</span> <span class="n">AbstractRateLimiterRepository</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Unpack</span><span class="p">[</span><span class="n">HTTPXAsyncHTTPTransportKeywordArguments</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">AsyncMultiRateLimitedTransport</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.create" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Create an instance of an asynchronous multiple rate-limited transport.</p>
+<p>This factory method constructs the instance with an underlying
+<code>httpx2.AsyncHTTPTransport</code>.
+That transport is passed any additional keyword arguments.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>repository</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="AbstractRateLimiterRepository (httpx_limiter.httpx2.abstract_rate_limiter_repository.AbstractRateLimiterRepository)" href="#httpx_limiter.httpx2.AbstractRateLimiterRepository">AbstractRateLimiterRepository</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The repository to use for rate limiters.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+                  <code><span title="typing.Unpack">Unpack</span>[<a class="autorefs autorefs-internal" title="HTTPXAsyncHTTPTransportKeywordArguments (httpx_limiter.httpx2.types.HTTPXAsyncHTTPTransportKeywordArguments)" href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments">HTTPXAsyncHTTPTransportKeywordArguments</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Additional keyword arguments are used in the construction of an
+<code>httpx2.AsyncHTTPTransport</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="AsyncMultiRateLimitedTransport (httpx_limiter.httpx2.async_multi_rate_limited_transport.AsyncMultiRateLimitedTransport)" href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport">AsyncMultiRateLimitedTransport</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A default instance of the class created from the given arguments.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.handle_async_request" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">handle_async_request</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">httpx2</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">httpx2</span><span class="o">.</span><span class="n">Response</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.handle_async_request" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Handle an asynchronous request with rate limiting.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments" class="doc doc-heading">
+            <code>HTTPXAsyncHTTPTransportKeywordArguments</code>
+
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="typing.TypedDict">TypedDict</span></code></p>
+
+
+
+        <p>Keyword arguments for the httpx2.AsyncHTTPTransport constructor.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.cert" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">cert</span><span class="p">:</span> <span class="n">CertTypes</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.cert" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.http1" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">http1</span><span class="p">:</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.http1" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.http2" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">http2</span><span class="p">:</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.http2" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.limits" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">limits</span><span class="p">:</span> <span class="n">httpx2</span><span class="o">.</span><span class="n">Limits</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.limits" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.local_address" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">local_address</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.local_address" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.proxy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">proxy</span><span class="p">:</span> <span class="n">ProxyTypes</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.proxy" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.retries" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">retries</span><span class="p">:</span> <span class="nb">int</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.retries" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.socket_options" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">socket_options</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">SocketOption</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.socket_options" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.trust_env" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">trust_env</span><span class="p">:</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.trust_env" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.uds" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">uds</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.uds" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h4 id="httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.verify" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">verify</span><span class="p">:</span> <span class="n">ssl</span><span class="o">.</span><span class="n">SSLContext</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bool</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.HTTPXAsyncHTTPTransportKeywordArguments.verify" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="rate-limiters">Rate limiters<a class="headerlink" href="#rate-limiters" title="Permanent link">&para;</a></h2>
+
 
 <div class="doc doc-object doc-module">
 
