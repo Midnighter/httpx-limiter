@@ -16,8 +16,10 @@
 """
 Check that the wheel does not require an HTTP client unconditionally.
 
-Usage: `python check_wheel_metadata.py dist/*.whl`. Every `Requires-Dist` entry for
-`httpx` or `httpx2` must be guarded by the extra of the same name.
+Usage: `python check_wheel_metadata.py dist`. The script checks every wheel in the
+given directories, so it does not rely on the shell to expand a glob, which Windows
+does not do. Every `Requires-Dist` entry for `httpx` or `httpx2` must be guarded by
+the extra of the same name.
 
 """
 
@@ -78,13 +80,20 @@ def check(wheel: Path) -> list[str]:
     return problems
 
 
-def main(paths: list[str]) -> int:
-    """Check every wheel and report the problems."""
-    if not paths:
-        logger.error("Usage: python check_wheel_metadata.py WHEEL [WHEEL ...]")
+def main(directories: list[str]) -> int:
+    """Check every wheel in the given directories and report the problems."""
+    if not directories:
+        logger.error("Usage: python check_wheel_metadata.py DIRECTORY [DIRECTORY ...]")
         return 2
 
-    problems = [problem for path in paths for problem in check(Path(path))]
+    wheels = sorted(
+        wheel for directory in directories for wheel in Path(directory).glob("*.whl")
+    )
+    if not wheels:
+        logger.error("No wheel found in %s.", ", ".join(directories))
+        return 1
+
+    problems = [problem for wheel in wheels for problem in check(wheel)]
     for problem in problems:
         logger.error("%s", problem)
     if problems:
