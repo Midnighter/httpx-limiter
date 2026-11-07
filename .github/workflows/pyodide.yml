@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-slim]
-        python-version: ["3.12"] # Match pyodide-build supported versions
+        python-version: ["3.14"] # Match the Python version of the Pyodide release
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -32,13 +32,7 @@ jobs:
       - name: Install pyodide
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install pyodide-build>=0.27
-          echo EMSCRIPTEN_VERSION=$(pyodide config get emscripten_version) >> $GITHUB_ENV
-
-      - name: Install Emscripten
-        uses: mymindstorm/setup-emsdk@4528d102f7230f0e7b276855c01ea1159be0e984 # v16
-        with:
-          version: ${{ env.EMSCRIPTEN_VERSION }}
+          python -m pip install "pyodide-build>=0.39"
 
       - name: Build pyodide package
         run: pyodide build
@@ -57,4 +51,4 @@ jobs:
       build-artifact-path: dist
       browser: firefox
       runner: selenium
-      pyodide-version: 0.27.2
+      pyodide-version: 314.0.7
