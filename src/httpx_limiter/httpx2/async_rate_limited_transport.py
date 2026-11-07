@@ -17,7 +17,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Unpack
+from typing import TYPE_CHECKING, Self, Unpack
 
 import httpx2
 
@@ -83,6 +83,17 @@ class AsyncRateLimitedTransport(httpx2.AsyncBaseTransport):
         """Handle an asynchronous request with rate limiting."""
         async with self._limiter:
             return await self._transport.handle_async_request(request)
+
+    async def __aenter__(self) -> Self:
+        """
+        Enter the transport and its underlying transport.
+
+        Entering this wrapper, for example through the client's context, also enters
+        the composed transport, so that it can set up its resources.
+
+        """
+        await self._transport.__aenter__()
+        return self
 
     async def aclose(self) -> None:
         """

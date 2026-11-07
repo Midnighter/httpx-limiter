@@ -18,7 +18,7 @@
 from __future__ import annotations
 
 from io import BytesIO
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Self
 
 import anyio
 import pytest
@@ -241,6 +241,12 @@ def make_transports(http: HTTPBackend) -> tuple[type, type]:
         def __init__(self) -> None:
             super().__init__()
             self.resource = BytesIO()
+            self.entered = False
+
+        async def __aenter__(self) -> Self:
+            """Record that the transport was entered."""
+            self.entered = True
+            return self
 
         async def handle_async_request(
             self,
@@ -329,10 +335,11 @@ async def test_client_aclose(http: HTTPBackend, kind: str):
 @wrappers
 @pytest.mark.anyio
 async def test_client_context_exit(http: HTTPBackend, kind: str):
-    """Test that leaving the client context closes the underlying transport."""
+    """Test that the client context enters and closes the underlying transport."""
     inner = make_transports(http)[0]()
 
     async with http.client.AsyncClient(transport=make_wrappers(http)[kind](inner)):
+        assert inner.entered
         assert not inner.resource.closed
 
     assert inner.resource.closed
@@ -364,12 +371,13 @@ async def test_client_context_exit_on_exception(http: HTTPBackend, kind: str):
 )
 @pytest.mark.anyio
 async def test_nested_aclose(http: HTTPBackend, outer_kind: str, inner_kind: str):
-    """Test that closing an outer wrapper reaches the innermost transport."""
+    """Test that entering and closing an outer wrapper reach the innermost one."""
     make = make_wrappers(http)
     inner = make_transports(http)[0]()
     outer = make[outer_kind](make[inner_kind](inner))
 
-    await outer.aclose()
+    async with outer:
+        assert inner.entered
 
     assert inner.resource.closed
 
