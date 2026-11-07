@@ -7,12 +7,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Breaking Changes
+
+- `httpx` is no longer a required dependency. Plain `pip install httpx-limiter`
+  installs only the shared core, which imports no HTTP client. Select the HTTP client
+  with an extra, `httpx` or `httpx2`, and normally also a rate limiter extra, for
+  example `pip install 'httpx-limiter[httpx,aiolimiter]'`,
+  `'httpx-limiter[httpx2,pyrate]'`, or `'httpx-limiter[httpx,httpx2,aiolimiter]'`.
+- The HTTP-specific classes moved out of the package root into one sub-package per HTTP
+  client. Migrate by changing the imports of `AsyncRateLimitedTransport`,
+  `AsyncMultiRateLimitedTransport`, `AbstractRateLimiterRepository`, and
+  `HTTPXAsyncHTTPTransportKeywordArguments`:
+
+  ```diff
+  -from httpx_limiter import AsyncRateLimitedTransport, Rate
+  +from httpx_limiter import Rate
+  +from httpx_limiter.httpx import AsyncRateLimitedTransport
+  ```
+
+  For HTTPX2, import from `httpx_limiter.httpx2` instead. `Rate`,
+  `AbstractAsyncLimiter`, `AiolimiterAsyncLimiter`, and `PyrateAsyncLimiter` keep their
+  import paths. The old root-level and module-level HTTP imports are removed without
+  compatibility aliases.
+- There is no automatic fallback or backend selection. Clients, transports, requests,
+  and responses must all come from the same HTTP client: an `httpx_limiter.httpx`
+  transport does not work with `httpx2` and vice versa.
+
 ### Added
 
+- Added the HTTPX2 integration `httpx_limiter.httpx2` with its own
+  `AsyncRateLimitedTransport`, `AsyncMultiRateLimitedTransport`,
+  `AbstractRateLimiterRepository`, and `HTTPXAsyncHTTPTransportKeywordArguments`,
+  installable with the new `httpx2` extra. Both integrations can be used in the same
+  process.
+- Added the `httpx` extra for the HTTPX integration `httpx_limiter.httpx`.
+- Documented both integrations with side-by-side examples, and run the documentation
+  examples for both HTTP clients in the documentation tests. The retry recipe stays
+  HTTPX-only until `httpx-tenacity` supports HTTPX2.
 - Added support for Python 3.15.
 
 ### Changed
 
+- Updated the package description to mention both HTTPX and HTTPX2.
+- Pyodide compatibility tests now run against Pyodide 314.0.7 (Python 3.14) and cover
+  both the `httpx` and `httpx2` integrations. `aiolimiter` works in Pyodide with either
+  client; `pyrate-limiter` is still not Pyodide-compatible.
 - Updated `CONTRIBUTING.md` to use `fix/...` and `feat/...` branch names and the
   current hatch commands for style, type, test, and documentation checks.
 
