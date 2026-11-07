@@ -13,6 +13,13 @@ attempt is also subject to rate limiting.
 
 ## Using `httpx-tenacity`
 
+!!! note
+
+    This recipe works with **HTTPX only**. `httpx-tenacity` currently supports only
+    HTTPX and not HTTPX2, so there is no HTTPX2 version of this example yet. The
+    rate-limited transports of `httpx_limiter.httpx2` can be wrapped by any retrying
+    transport that is built on `httpx2.AsyncBaseTransport`.
+
 For this example, we use the companion package
 [httpx-tenacity](https://midnighter.github.io/httpx-tenacity/) which provides a
 clean HTTPX transport-based approach to retrying. It also comes with sensible
