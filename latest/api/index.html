@@ -720,6 +720,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__aexit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aexit__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -796,6 +807,17 @@
     <span class="md-ellipsis">
       
         __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__aexit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aexit__
       
     </span>
   </a>
@@ -1041,6 +1063,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__aexit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aexit__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1117,6 +1150,17 @@
     <span class="md-ellipsis">
       
         __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__aexit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aexit__
       
     </span>
   </a>
@@ -1859,6 +1903,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__aexit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aexit__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1935,6 +1990,17 @@
     <span class="md-ellipsis">
       
         __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__aexit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aexit__
       
     </span>
   </a>
@@ -2180,6 +2246,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__aexit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aexit__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2256,6 +2333,17 @@
     <span class="md-ellipsis">
       
         __aenter__
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__aexit__" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        __aexit__
       
     </span>
   </a>
@@ -3070,6 +3158,31 @@ the composed transport, so that it can set up its resources.</p>
 <div class="doc doc-object doc-function">
 
 
+<h4 id="httpx_limiter.httpx.AsyncRateLimitedTransport.__aexit__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aexit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">traceback</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.AsyncRateLimitedTransport.__aexit__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Exit the transport and its underlying transport.</p>
+<p>Exiting this wrapper, for example through the client's context, exits the
+composed transport with the same exception details, which lets it clean up
+its resources.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h4 id="httpx_limiter.httpx.AsyncRateLimitedTransport.__init__" class="doc doc-heading">
             <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">limiter</span><span class="p">:</span> <span class="n">AbstractAsyncLimiter</span><span class="p">,</span> <span class="n">transport</span><span class="p">:</span> <span class="n">httpx</span><span class="o">.</span><span class="n">AsyncBaseTransport</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
@@ -3383,6 +3496,31 @@ repository for rate limiters that are selected based on the request.</p>
         <p>Enter the transport and its underlying transport.</p>
 <p>Entering this wrapper, for example through the client's context, also enters
 the composed transport, so that it can set up its resources.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__aexit__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aexit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">traceback</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx.AsyncMultiRateLimitedTransport.__aexit__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Exit the transport and its underlying transport.</p>
+<p>Exiting this wrapper, for example through the client's context, exits the
+composed transport with the same exception details, which lets it clean up
+its resources.</p>
 
 
     </div>
@@ -3938,6 +4076,31 @@ the composed transport, so that it can set up its resources.</p>
 <div class="doc doc-object doc-function">
 
 
+<h4 id="httpx_limiter.httpx2.AsyncRateLimitedTransport.__aexit__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aexit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">traceback</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncRateLimitedTransport.__aexit__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Exit the transport and its underlying transport.</p>
+<p>Exiting this wrapper, for example through the client's context, exits the
+composed transport with the same exception details, which lets it clean up
+its resources.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h4 id="httpx_limiter.httpx2.AsyncRateLimitedTransport.__init__" class="doc doc-heading">
             <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">limiter</span><span class="p">:</span> <span class="n">AbstractAsyncLimiter</span><span class="p">,</span> <span class="n">transport</span><span class="p">:</span> <span class="n">httpx2</span><span class="o">.</span><span class="n">AsyncBaseTransport</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
 
@@ -4251,6 +4414,31 @@ repository for rate limiters that are selected based on the request.</p>
         <p>Enter the transport and its underlying transport.</p>
 <p>Entering this wrapper, for example through the client's context, also enters
 the composed transport, so that it can set up its resources.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__aexit__" class="doc doc-heading">
+            <code class="highlight language-python"><span class="fm">__aexit__</span><span class="p">(</span><span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">traceback</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+<a href="#httpx_limiter.httpx2.AsyncMultiRateLimitedTransport.__aexit__" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Exit the transport and its underlying transport.</p>
+<p>Exiting this wrapper, for example through the client's context, exits the
+composed transport with the same exception details, which lets it clean up
+its resources.</p>
 
 
     </div>
