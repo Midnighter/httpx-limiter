@@ -3,6 +3,7 @@ sub-package of the HTTP client that you use, `httpx_limiter.httpx` or
 `httpx_limiter.httpx2`, and each requires the matching extra.
 
 * [`Rate`][httpx_limiter.Rate]
+* [`Number`][httpx_limiter.Number]
 * [`AbstractAsyncLimiter`][httpx_limiter.AbstractAsyncLimiter]
 * [`AsyncRateLimitedTransport`][httpx_limiter.httpx.AsyncRateLimitedTransport]
 * [`AbstractRateLimiterRepository`][httpx_limiter.httpx.AbstractRateLimiterRepository]
@@ -21,6 +22,7 @@ sub-package of the HTTP client that you use, `httpx_limiter.httpx` or
     options:
         members:
             - Rate
+            - Number
             - AbstractAsyncLimiter
 
 ## HTTPX
