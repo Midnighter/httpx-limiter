@@ -23,45 +23,50 @@ that allows an average of twenty requests per second.
 
 """
 
+from __future__ import annotations
+
 from collections import Counter
 from time import perf_counter
+from typing import TYPE_CHECKING
 
 import anyio
-import httpx
 import pytest
 
-from httpx_limiter import AbstractAsyncLimiter, AsyncRateLimitedTransport, Rate
-from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
+from httpx_limiter import AbstractAsyncLimiter, Rate
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
-async def _record_response(client: httpx.AsyncClient, counter: Counter[int]) -> None:
+if TYPE_CHECKING:  # pragma: no cover
+    from httpx_limiter_test_types import AsyncClient, HTTPBackend
+
+
+async def _record_response(client: AsyncClient, counter: Counter[int]) -> None:
     response = await client.get("http://httpbin.localhost/status/200")
     counter[response.status_code] += 1
 
 
-@pytest.fixture(params=[AiolimiterAsyncLimiter, PyrateAsyncLimiter])
-async def slower(request: pytest.FixtureRequest) -> AbstractAsyncLimiter:
+@pytest.fixture
+async def slower(limiter_class: type[AbstractAsyncLimiter]) -> AbstractAsyncLimiter:
     """Fixture for a slower rate limiter."""
-    if request.param is AiolimiterAsyncLimiter:
-        return AiolimiterAsyncLimiter.create(Rate.create(duration=1 / 20))
+    rate = Rate.create(duration=1 / 20)
+    if limiter_class is PyrateAsyncLimiter:
+        return PyrateAsyncLimiter.create(rate, buffer_ms=1)
 
-    return PyrateAsyncLimiter.create(
-        Rate.create(duration=1 / 20),
-        buffer_ms=1,
-    )
+    return limiter_class.create(rate)
 
 
 @pytest.mark.anyio
-async def test_limits(slower: AbstractAsyncLimiter):
+async def test_limits(http: HTTPBackend, slower: AbstractAsyncLimiter):
     """Test that an API's rate limit is maintained."""
     response_codes: Counter[int] = Counter()
 
     start = perf_counter()
 
     async with (
-        httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport.create(limiter=slower),
+        http.client.AsyncClient(
+            transport=http.integration.AsyncRateLimitedTransport.create(
+                limiter=slower,
+            ),
         ) as client,
         anyio.create_task_group() as group,
     ):
@@ -74,23 +79,21 @@ async def test_limits(slower: AbstractAsyncLimiter):
     assert 5 <= duration < 6, f"Requests took {duration=} seconds."
 
     assert response_codes.total() == 100
-    assert response_codes[httpx.codes.OK] in range(95, 101)
+    assert response_codes[http.client.codes.OK] in range(95, 101)
 
 
-@pytest.fixture(params=[AiolimiterAsyncLimiter, PyrateAsyncLimiter])
-async def faster(request: pytest.FixtureRequest) -> AbstractAsyncLimiter:
+@pytest.fixture
+async def faster(limiter_class: type[AbstractAsyncLimiter]) -> AbstractAsyncLimiter:
     """Fixture for a faster rate limiter."""
-    if request.param is AiolimiterAsyncLimiter:
-        return AiolimiterAsyncLimiter.create(Rate.create(duration=1 / 40))
+    rate = Rate.create(duration=1 / 40)
+    if limiter_class is PyrateAsyncLimiter:
+        return PyrateAsyncLimiter.create(rate, buffer_ms=1)
 
-    return PyrateAsyncLimiter.create(
-        Rate.create(duration=1 / 40),
-        buffer_ms=1,
-    )
+    return limiter_class.create(rate)
 
 
 @pytest.mark.anyio
-async def test_exceed_limits(faster: AbstractAsyncLimiter):
+async def test_exceed_limits(http: HTTPBackend, faster: AbstractAsyncLimiter):
     """
     Test that an API's rate limit is exceeded.
 
@@ -107,8 +110,10 @@ async def test_exceed_limits(faster: AbstractAsyncLimiter):
     start = perf_counter()
 
     async with (
-        httpx.AsyncClient(
-            transport=AsyncRateLimitedTransport.create(limiter=faster),
+        http.client.AsyncClient(
+            transport=http.integration.AsyncRateLimitedTransport.create(
+                limiter=faster,
+            ),
         ) as client,
         anyio.create_task_group() as group,
     ):
@@ -122,10 +127,13 @@ async def test_exceed_limits(faster: AbstractAsyncLimiter):
     assert duration >= 2, f"Requests took {duration=} seconds."
 
     assert response_codes.total() == request_count
-    assert set(response_codes) == {httpx.codes.OK, httpx.codes.TOO_MANY_REQUESTS}
-    assert response_codes[httpx.codes.OK] > 0
-    assert response_codes[httpx.codes.TOO_MANY_REQUESTS] > 0
+    assert set(response_codes) == {
+        http.client.codes.OK,
+        http.client.codes.TOO_MANY_REQUESTS,
+    }
+    assert response_codes[http.client.codes.OK] > 0
+    assert response_codes[http.client.codes.TOO_MANY_REQUESTS] > 0
     # The server cannot accept much more than its rate times the elapsed time, plus
     # its burst. A 20% tolerance covers timing jitter.
     max_accepted = server_rate * duration * 1.2 + server_burst
-    assert response_codes[httpx.codes.OK] <= max_accepted, f"{response_codes=}"
+    assert response_codes[http.client.codes.OK] <= max_accepted, f"{response_codes=}"

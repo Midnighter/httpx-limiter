@@ -2,46 +2,89 @@
 
 When scraping multiple domains, you often need to apply different rate limits
 for each. This recipe shows how to configure domain-specific limits with a
-fallback default.
+fallback default. Pick the tab for the HTTP client you installed.
 
-```python
-import httpx
-from httpx_limiter import (
-    AbstractRateLimiterRepository,
-    AsyncMultiRateLimitedTransport,
-    Rate,
-)
-from httpx_limiter.pyrate import PyrateAsyncLimiter
+=== "HTTPX"
 
-
-DOMAIN_RATES: dict[str, Rate] = {
-    "api.github.com": Rate.create(magnitude=30),
-    "api.twitter.com": Rate.create(magnitude=15),
-}
-DEFAULT_RATE = Rate.create(magnitude=5)
-
-
-class PerDomainRepository(AbstractRateLimiterRepository):
-    """Apply preconfigured rate limits per domain."""
-
-    def get_identifier(self, request: httpx.Request) -> str:
-        return str(request.url.host)
-
-    def create(self, request: httpx.Request) -> PyrateAsyncLimiter:
-        host = str(request.url.host)
-        rate = DOMAIN_RATES.get(host, DEFAULT_RATE)
-        return PyrateAsyncLimiter.create(rate)
-
-
-async def main() -> None:
-    transport = AsyncMultiRateLimitedTransport.create(
-        repository=PerDomainRepository(),
+    ```python
+    import httpx
+    from httpx_limiter import Rate
+    from httpx_limiter.httpx import (
+        AbstractRateLimiterRepository,
+        AsyncMultiRateLimitedTransport,
     )
-    async with httpx.AsyncClient(transport=transport) as client:
-        await client.get("https://api.github.com/users/octocat")
-        await client.get("https://api.twitter.com/2/users/me")
-        await client.get("https://other-api.example.com/data")
-```
+    from httpx_limiter.pyrate import PyrateAsyncLimiter
+
+
+    DOMAIN_RATES: dict[str, Rate] = {
+        "api.github.com": Rate.create(magnitude=30),
+        "api.twitter.com": Rate.create(magnitude=15),
+    }
+    DEFAULT_RATE = Rate.create(magnitude=5)
+
+
+    class PerDomainRepository(AbstractRateLimiterRepository):
+        """Apply preconfigured rate limits per domain."""
+
+        def get_identifier(self, request: httpx.Request) -> str:
+            return str(request.url.host)
+
+        def create(self, request: httpx.Request) -> PyrateAsyncLimiter:
+            host = str(request.url.host)
+            rate = DOMAIN_RATES.get(host, DEFAULT_RATE)
+            return PyrateAsyncLimiter.create(rate)
+
+
+    async def main() -> None:
+        transport = AsyncMultiRateLimitedTransport.create(
+            repository=PerDomainRepository(),
+        )
+        async with httpx.AsyncClient(transport=transport) as client:
+            await client.get("https://api.github.com/users/octocat")
+            await client.get("https://api.twitter.com/2/users/me")
+            await client.get("https://other-api.example.com/data")
+    ```
+
+=== "HTTPX2"
+
+    ```python
+    import httpx2
+    from httpx_limiter import Rate
+    from httpx_limiter.httpx2 import (
+        AbstractRateLimiterRepository,
+        AsyncMultiRateLimitedTransport,
+    )
+    from httpx_limiter.pyrate import PyrateAsyncLimiter
+
+
+    DOMAIN_RATES: dict[str, Rate] = {
+        "api.github.com": Rate.create(magnitude=30),
+        "api.twitter.com": Rate.create(magnitude=15),
+    }
+    DEFAULT_RATE = Rate.create(magnitude=5)
+
+
+    class PerDomainRepository(AbstractRateLimiterRepository):
+        """Apply preconfigured rate limits per domain."""
+
+        def get_identifier(self, request: httpx2.Request) -> str:
+            return str(request.url.host)
+
+        def create(self, request: httpx2.Request) -> PyrateAsyncLimiter:
+            host = str(request.url.host)
+            rate = DOMAIN_RATES.get(host, DEFAULT_RATE)
+            return PyrateAsyncLimiter.create(rate)
+
+
+    async def main() -> None:
+        transport = AsyncMultiRateLimitedTransport.create(
+            repository=PerDomainRepository(),
+        )
+        async with httpx2.AsyncClient(transport=transport) as client:
+            await client.get("https://api.github.com/users/octocat")
+            await client.get("https://api.twitter.com/2/users/me")
+            await client.get("https://other-api.example.com/data")
+    ```
 
 Of course, you may even combine this with the [adaptive rate limiting
 technique](./adapt-rate-limit.md).

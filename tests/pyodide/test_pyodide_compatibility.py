@@ -25,37 +25,48 @@ DISTRIBUTION_PATHS = [
 ]
 
 
+@pytest.mark.parametrize("backend", ["httpx", "httpx2"])
 @copy_files_to_pyodide(
     file_list=DISTRIBUTION_PATHS,
     install_wheels=True,
     recurse_directories=False,
 )
-@run_in_pyodide(packages=["ssl", "micropip", "httpx"])
-async def test_aiolimiter_backend(selenium_standalone):  # noqa: ARG001, ANN001
+@run_in_pyodide(packages=["micropip"])
+async def test_aiolimiter_backend(selenium_standalone, backend):  # noqa: ARG001, ANN001
     """Test that we can import and use the aiolimiter backend in Pyodide."""
-    import httpx
-    from httpx_limiter import AsyncRateLimitedTransport, Rate
+    from importlib import import_module
 
     # We need to replicate optional dependency installation in Pyodide,
     # unfortunately, since we cannot specify extras during the wheel installation.
     import micropip
 
-    await micropip.install("aiolimiter ~=1.2")
+    await micropip.install(
+        [
+            {"httpx": "httpx ~=0.25", "httpx2": "httpx2 ~=2.10"}[backend],
+            "aiolimiter ~=1.2",
+        ],
+    )
 
+    from httpx_limiter import Rate
     from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 
-    def handler(request: httpx.Request) -> httpx.Response:  # noqa: ARG001
-        return httpx.Response(200, text="OK")
+    http = import_module(backend)
+    integration = import_module(f"httpx_limiter.{backend}")
+
+    def handler(request):  # noqa: ARG001, ANN001, ANN202
+        return http.Response(200, text="OK")
 
     limiter = AiolimiterAsyncLimiter.create(Rate.create(magnitude=10, duration=1))
-    async with httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport(
+    async with http.AsyncClient(
+        transport=integration.AsyncRateLimitedTransport(
             limiter=limiter,
-            transport=httpx.MockTransport(handler=handler),
+            transport=http.MockTransport(handler=handler),
         ),
     ) as client:
         response = await client.get("http://example.com")
         assert response.status_code == 200
+        assert response.text == "OK"
+        assert type(response).__module__.split(".")[0] == backend
 
 
 @pytest.mark.xfail(
@@ -63,33 +74,42 @@ async def test_aiolimiter_backend(selenium_standalone):  # noqa: ARG001, ANN001
     "pyodide compatible.",
     strict=True,
 )
+@pytest.mark.parametrize("backend", ["httpx", "httpx2"])
 @copy_files_to_pyodide(
     file_list=DISTRIBUTION_PATHS,
     install_wheels=True,
     recurse_directories=False,
 )
-@run_in_pyodide(packages=["ssl", "micropip", "httpx", "sqlite3"])
-async def test_pyrate_backend(selenium_standalone):  # noqa: ARG001, ANN001
+@run_in_pyodide(packages=["micropip"])
+async def test_pyrate_backend(selenium_standalone, backend):  # noqa: ARG001, ANN001
     """Test that we can import and use the pyrate backend in Pyodide."""
-    import httpx
-    from httpx_limiter import AsyncRateLimitedTransport, Rate
+    from importlib import import_module
 
     # We need to replicate optional dependency installation in Pyodide,
     # unfortunately, since we cannot specify extras during the wheel installation.
     import micropip
 
-    await micropip.install("pyrate-limiter ~=4.0")
+    await micropip.install(
+        [
+            {"httpx": "httpx ~=0.25", "httpx2": "httpx2 ~=2.10"}[backend],
+            "pyrate-limiter ~=4.0",
+        ],
+    )
 
+    from httpx_limiter import Rate
     from httpx_limiter.pyrate import PyrateAsyncLimiter
 
-    def handler(request: httpx.Request) -> httpx.Response:  # noqa: ARG001
-        return httpx.Response(200, text="OK")
+    http = import_module(backend)
+    integration = import_module(f"httpx_limiter.{backend}")
+
+    def handler(request):  # noqa: ARG001, ANN001, ANN202
+        return http.Response(200, text="OK")
 
     limiter = PyrateAsyncLimiter.create(Rate.create(magnitude=10, duration=1))
-    async with httpx.AsyncClient(
-        transport=AsyncRateLimitedTransport(
+    async with http.AsyncClient(
+        transport=integration.AsyncRateLimitedTransport(
             limiter=limiter,
-            transport=httpx.MockTransport(handler=handler),
+            transport=http.MockTransport(handler=handler),
         ),
     ) as client:
         response = await client.get("http://example.com")

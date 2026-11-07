@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Moritz E. Beber
+# Copyright (c) 2026 Moritz E. Beber
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
 # use this file except in compliance with the License. You may obtain a copy of
@@ -19,15 +19,16 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Unpack
 
-import httpx
+import httpx2
 
 
 if TYPE_CHECKING:  # pragma: no cover
-    from .abstract_async_limiter import AbstractAsyncLimiter
+    from httpx_limiter.abstract_async_limiter import AbstractAsyncLimiter
+
     from .types import HTTPXAsyncHTTPTransportKeywordArguments
 
 
-class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
+class AsyncRateLimitedTransport(httpx2.AsyncBaseTransport):
     """
     Define the asynchronous rate-limited transport.
 
@@ -41,7 +42,7 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         self,
         *,
         limiter: AbstractAsyncLimiter,
-        transport: httpx.AsyncBaseTransport,
+        transport: httpx2.AsyncBaseTransport,
         **kwargs: dict[str, object],
     ) -> None:
         super().__init__(**kwargs)
@@ -58,13 +59,13 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         Create an instance of asynchronous rate-limited transport.
 
         This factory method constructs the instance with an underlying
-        `httpx.AsyncHTTPTransport`.
+        `httpx2.AsyncHTTPTransport`.
         That transport is passed any additional keyword arguments.
 
         Args:
             limiter: A concrete instance of an asynchronous limiter.
             **kwargs: Additional keyword arguments are used in the construction of an
-                `httpx.AsyncHTTPTransport`.
+                `httpx2.AsyncHTTPTransport`.
 
         Returns:
             A default instance of the class created from the given arguments.
@@ -72,13 +73,13 @@ class AsyncRateLimitedTransport(httpx.AsyncBaseTransport):
         """
         return cls(
             limiter=limiter,
-            transport=httpx.AsyncHTTPTransport(**kwargs),
+            transport=httpx2.AsyncHTTPTransport(**kwargs),
         )
 
     async def handle_async_request(
         self,
-        request: httpx.Request,
-    ) -> httpx.Response:
+        request: httpx2.Request,
+    ) -> httpx2.Response:
         """Handle an asynchronous request with rate limiting."""
         async with self._limiter:
             return await self._transport.handle_async_request(request)

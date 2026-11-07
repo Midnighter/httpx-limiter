@@ -67,7 +67,11 @@ async def test_aiolimiter_async_limiter_init(rate: Rate):
     AiolimiterAsyncLimiter.create(rate)
 
 
-@pytest.fixture(scope="module", params=[PyrateAsyncLimiter, AiolimiterAsyncLimiter])
+@pytest.fixture(
+    scope="module",
+    params=[PyrateAsyncLimiter, AiolimiterAsyncLimiter],
+    ids=["pyrate", "aiolimiter"],
+)
 async def limiter(
     anyio_backend: tuple[str, dict[str, bool]],  # noqa: ARG001
     request: pytest.FixtureRequest,

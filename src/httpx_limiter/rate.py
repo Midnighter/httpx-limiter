@@ -22,6 +22,7 @@ from typing import NamedTuple
 
 
 Number = float | int
+"""A real number, such as a duration in seconds passed to `Rate.create`."""
 
 
 class Rate(NamedTuple):

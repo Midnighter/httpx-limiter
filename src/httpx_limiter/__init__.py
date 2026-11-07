@@ -13,19 +13,13 @@
 # the License.
 
 
-"""Provide top level symbols."""
+"""
+Provide top level symbols.
 
-from .types import (
-    HTTPXAsyncHTTPTransportKeywordArguments as HTTPXAsyncHTTPTransportKeywordArguments,
-)
+This package does not import any HTTP client. Select an integration explicitly via
+`httpx_limiter.httpx` or `httpx_limiter.httpx2`.
+
+"""
+
 from .rate import Number as Number, Rate as Rate
 from .abstract_async_limiter import AbstractAsyncLimiter as AbstractAsyncLimiter
-from .async_rate_limited_transport import (
-    AsyncRateLimitedTransport as AsyncRateLimitedTransport,
-)
-from .abstract_rate_limiter_repository import (
-    AbstractRateLimiterRepository as AbstractRateLimiterRepository,
-)
-from .async_multi_rate_limited_transport import (
-    AsyncMultiRateLimitedTransport as AsyncMultiRateLimitedTransport,
-)

@@ -23,62 +23,62 @@ that allows an average of twenty requests per second.
 
 """
 
+from __future__ import annotations
+
 from collections import Counter
 from time import perf_counter
+from typing import TYPE_CHECKING
 
 import anyio
-import httpx
 import pytest
 
-from httpx_limiter import (
-    AbstractAsyncLimiter,
-    AbstractRateLimiterRepository,
-    AsyncMultiRateLimitedTransport,
-    Rate,
-)
+from httpx_limiter import AbstractAsyncLimiter, Rate
 from httpx_limiter.aiolimiter import AiolimiterAsyncLimiter
 from httpx_limiter.pyrate import PyrateAsyncLimiter
 
 
-class HostBasedRepository(AbstractRateLimiterRepository):
-    """A concrete implementation of the abstract repository for testing."""
-
-    def get_identifier(self, request: httpx.Request) -> str:
-        """Return a host-based identifier for testing."""
-        return request.url.host
-
-    def _get_rate(self, request: httpx.Request) -> Rate:
-        """Return a host-dependent rate."""
-        match self.get_identifier(request):
-            case "httpbin.localhost":
-                return Rate.create(duration=1 / 20)
-            case "fast.localhost":
-                return Rate.create(duration=1 / 40)
-            case _:
-                return Rate.create()
+if TYPE_CHECKING:  # pragma: no cover
+    from httpx_limiter_test_types import (
+        AsyncClient,
+        HTTPBackend,
+        RateLimiterRepository,
+        Request,
+    )
 
 
-class AiolimiterRepository(HostBasedRepository):
-    """A concrete implementation of the abstract repository for testing."""
+def make_repository(
+    http: HTTPBackend,
+    limiter_class: type[AbstractAsyncLimiter],
+) -> RateLimiterRepository:
+    """Return a host-based repository of the selected backend and limiter."""
 
-    def create(self, request: httpx.Request) -> AbstractAsyncLimiter:
-        """Return a rate-limited transport based on the request."""
-        return AiolimiterAsyncLimiter.create(self._get_rate(request))
+    class HostBasedRepository(http.integration.AbstractRateLimiterRepository):
+        """A concrete implementation of the abstract repository for testing."""
 
+        def get_identifier(self, request: Request) -> str:
+            """Return a host-based identifier for testing."""
+            return request.url.host
 
-class PyrateRepository(HostBasedRepository):
-    """A concrete implementation of the abstract repository for testing."""
+        def create(self, request: Request) -> AbstractAsyncLimiter:
+            """Return a rate limiter based on the request."""
+            match self.get_identifier(request):
+                case "httpbin.localhost":
+                    rate = Rate.create(duration=1 / 20)
+                case "fast.localhost":
+                    rate = Rate.create(duration=1 / 40)
+                case _:
+                    rate = Rate.create()
 
-    def create(self, request: httpx.Request) -> AbstractAsyncLimiter:
-        """Return a rate-limited transport based on the request."""
-        return PyrateAsyncLimiter.create(
-            self._get_rate(request),
-            buffer_ms=1,
-        )
+            if limiter_class is PyrateAsyncLimiter:
+                return PyrateAsyncLimiter.create(rate, buffer_ms=1)
+
+            return AiolimiterAsyncLimiter.create(rate)
+
+    return HostBasedRepository()
 
 
 async def _record_response(
-    client: httpx.AsyncClient,
+    client: AsyncClient,
     url: str,
     counter: Counter[int],
 ) -> None:
@@ -87,12 +87,7 @@ async def _record_response(
 
 
 @pytest.mark.anyio
-@pytest.mark.parametrize(
-    "repository",
-    [AiolimiterRepository(), PyrateRepository()],
-    ids=["aiolimiter", "pyrate"],
-)
-async def test_limits(repository: HostBasedRepository):
+async def test_limits(http: HTTPBackend, limiter_class: type[AbstractAsyncLimiter]):
     """Test that an API's rate limit is maintained."""
     slow_rate_codes: Counter[int] = Counter()
     fast_rate_codes: Counter[int] = Counter()
@@ -100,8 +95,10 @@ async def test_limits(repository: HostBasedRepository):
     start = perf_counter()
 
     async with (
-        httpx.AsyncClient(
-            transport=AsyncMultiRateLimitedTransport.create(repository=repository),
+        http.client.AsyncClient(
+            transport=http.integration.AsyncMultiRateLimitedTransport.create(
+                repository=make_repository(http, limiter_class),
+            ),
         ) as client,
         anyio.create_task_group() as group,
     ):
@@ -125,8 +122,8 @@ async def test_limits(repository: HostBasedRepository):
     assert 2.5 <= duration < 6, f"Requests took {duration=} seconds."
 
     assert slow_rate_codes.total() == 100
-    assert slow_rate_codes[httpx.codes.OK] in range(95, 101)
+    assert slow_rate_codes[http.client.codes.OK] in range(95, 101)
 
     assert fast_rate_codes.total() == 100
     # Surprisingly, aiolimiter is less predictable.
-    assert fast_rate_codes[httpx.codes.OK] in range(90, 101)
+    assert fast_rate_codes[http.client.codes.OK] in range(90, 101)

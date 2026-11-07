@@ -1,4 +1,4 @@
-# Copyright (c) 2025 Moritz E. Beber
+# Copyright (c) 2026 Moritz E. Beber
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
 # use this file except in compliance with the License. You may obtain a copy of
@@ -13,39 +13,29 @@
 # the License.
 
 
-"""Provide additional type definitions."""
+"""Provide additional type definitions for the HTTPX2 integration."""
 
 import ssl
 from collections.abc import Iterable
 from typing import TypeAlias, TypedDict
 
-import httpx
+import httpx2
+
+from httpx_limiter._types import CertTypes, SocketOption
 
 
-# Fallback for Pyodide HTTPX. See: https://github.com/Midnighter/httpx-limiter/pull/10#issuecomment-3241566927
-SocketOption: TypeAlias = (
-    tuple[int, int, int]
-    | tuple[int, int, bytes | bytearray]
-    | tuple[int, int, None, int]
-)
-
-# We redefine the following types from httpx._types to avoid a dependency on the
-# private module. It would be better if HTTPX exposed these types publicly, but
-# they are unlikely to change often. Thus we consider it acceptable to redefine
-# them here for type hinting purposes.
-CertTypes: TypeAlias = str | tuple[str, str] | tuple[str, str, str]
-ProxyTypes: TypeAlias = httpx.URL | str | httpx.Proxy
+ProxyTypes: TypeAlias = httpx2.URL | str | httpx2.Proxy
 
 
 class HTTPXAsyncHTTPTransportKeywordArguments(TypedDict, total=False):
-    """Keyword arguments for the httpx.AsyncHTTPTransport constructor."""
+    """Keyword arguments for the httpx2.AsyncHTTPTransport constructor."""
 
     verify: ssl.SSLContext | str | bool
     cert: CertTypes | None
     trust_env: bool
     http1: bool
     http2: bool
-    limits: httpx.Limits
+    limits: httpx2.Limits
     proxy: ProxyTypes | None
     uds: str | None
     local_address: str | None

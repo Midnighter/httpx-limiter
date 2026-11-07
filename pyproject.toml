@@ -13,7 +13,7 @@ requires = ["hatchling", "hatch-vcs"]
 [project]
 name = "httpx-limiter"
 dynamic = ["version"]
-description = "A lightweight package that provides rate-limited httpx transports."
+description = "A lightweight package that provides rate-limited httpx and httpx2 transports."
 authors = [{ name = "Moritz E. Beber", email = "midnighter@posteo.net" }]
 license = "Apache-2.0"
 readme = { "file" = "README.md", "content-type" = "text/markdown" }
@@ -35,10 +35,8 @@ classifiers = [
     "Topic :: Internet :: WWW/HTTP",
     "Typing :: Typed",
 ]
-keywords = ["httpx", "limiter", "rate-limit", "leaky bucket"]
-dependencies = [
-    "httpx ~=0.25",
-]
+keywords = ["httpx", "httpx2", "limiter", "rate-limit", "leaky bucket"]
+dependencies = []
 
 [project.urls]
 Homepage = "https://github.com/Midnighter/httpx-limiter"
@@ -48,6 +46,8 @@ Documentation = "https://midnighter.github.io/httpx-limiter/"
 Download = "https://pypi.org/project/httpx-limiter/#files"
 
 [project.optional-dependencies]
+httpx = ["httpx ~=0.25"]
+httpx2 = ["httpx2 ~=2.10"]
 aiolimiter = ["aiolimiter ~=1.2"]
 pyrate = ["pyrate-limiter ~=4.0"]
 
@@ -60,7 +60,7 @@ docs = [
     "mkdocs-awesome-pages-plugin ~=2.9",
     "mike ~=2.1",
 ]
-tests = ["anyio", "pytest", "pytest-cov", "pytest-httpx", "pytest-raises"]
+tests = ["anyio", "pytest", "pytest-cov", "pytest-raises"]
 
 ################################################################################
 # Tool Configuration
@@ -80,6 +80,9 @@ source = "vcs"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Shared test helpers. Replace with a Hatch workspace member once hatch-pip-compile
+# supports workspaces.
+pythonpath = ["test-helpers"]
 markers = ["raises"]
 
 [tool.coverage.paths]
@@ -122,6 +125,9 @@ exclude = ["src/httpx_limiter/_version.py"]
     "ANN201",  # 'Missing type annotation for {return}' ignored because all tests return `None`.
     "PLR2004", # Magic numbers are okay in tests.
 ]
+"test-helpers/*.py" = [
+    "INP001", # The helpers are a plain module on the pytest `pythonpath`, not a package.
+]
 "tests/pyodide/**/*.py" = [
     "PLC0415", # We explicitly need imports inside function and ignore the '`import` should be at the top-level of a file' rule.
     "I001",    # 'Import block is un-sorted or un-formatted' ignored because we may have to import in a particular, not-alphabetical order.
@@ -129,7 +135,7 @@ exclude = ["src/httpx_limiter/_version.py"]
 
 [tool.ruff.lint.isort]
 case-sensitive = true
-known-first-party = ["src", "httpx_limiter"]
+known-first-party = ["src", "httpx_limiter", "httpx_limiter_test_types"]
 lines-after-imports = 2
 
 [tool.pydoclint]
@@ -164,7 +170,7 @@ pip-compile-constraint = "dev"
 pip-compile-hashes = true
 pip-compile-resolver = "uv"
 pip-compile-installer = "uv"
-features = ["aiolimiter", "pyrate"]
+features = ["httpx", "httpx2", "aiolimiter", "pyrate"]
 
 [tool.hatch.envs.no-install]
 description = """A base environment for use cases that do not install the project."""
@@ -185,7 +191,7 @@ template = "no-install"
 dependency-groups = ["style"]
 
 [tool.hatch.envs.style.scripts]
-docstrings = ["pydoclint src", "pydoclint tests"]
+docstrings = ["pydoclint src", "pydoclint tests", "pydoclint test-helpers"]
 code = "ruff check {args}"
 format = "ruff format {args}"
 fix = "ruff check --fix {args}"
@@ -221,11 +227,18 @@ dependencies = ["pip", "twine"]
 builder = true
 
 [tool.hatch.envs.distribution.scripts]
-check = ["pip check", "hatch build {args:--clean}", "twine check dist/*"]
+check = [
+    "pip check",
+    "hatch build {args:--clean}",
+    "twine check dist/*",
+    "python {root}/tests/distribution/check_wheel_metadata.py dist",
+]
 
 [tool.hatch.envs.unit-tests]
 description = """Run the unit tests."""
 dependency-groups = ["tests"]
+# The typing tests run mypy through its Python API.
+extra-dependencies = ["mypy"]
 
 [tool.hatch.envs.unit-tests.env-vars]
 PYTHONDEVMODE = "1"
