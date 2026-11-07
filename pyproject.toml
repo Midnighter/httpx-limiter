@@ -231,7 +231,7 @@ check = [
     "pip check",
     "hatch build {args:--clean}",
     "twine check dist/*",
-    "python {root}/tests/distribution/check_wheel_metadata.py dist/*.whl",
+    "python {root}/tests/distribution/check_wheel_metadata.py dist",
 ]
 
 [tool.hatch.envs.unit-tests]
