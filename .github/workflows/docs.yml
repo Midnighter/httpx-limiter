@@ -45,7 +45,8 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # mike pushes to the gh-pages branch, which needs the persisted credentials.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1 # zizmor: ignore[artipacked]
 
       - name: Fetch gh-pages branch
         run: git fetch --depth=1 origin gh-pages
@@ -67,8 +68,13 @@ jobs:
 
       - name: Build documentation with alias
         if: inputs.alias != ''
-        run: hatch run docs:deploy -- --update-aliases --push "${{ inputs.version }}" "${{ inputs.alias }}"
+        env:
+          VERSION: ${{ inputs.version }}
+          ALIAS: ${{ inputs.alias }}
+        run: hatch run docs:deploy -- --update-aliases --push "$VERSION" "$ALIAS"
 
       - name: Build documentation without alias
         if: inputs.alias == ''
-        run: hatch run docs:deploy -- --push "${{ inputs.version }}"
+        env:
+          VERSION: ${{ inputs.version }}
+        run: hatch run docs:deploy -- --push "$VERSION"

@@ -1,7 +1,9 @@
 name: Export OTel
 
 on:
-  workflow_run:
+  # The job checks out no code, runs a single pinned action with minimal permissions,
+  # and only handles runs from this repository.
+  workflow_run: # zizmor: ignore[dangerous-triggers]
     workflows:
       - "CI"
       - "CD"
