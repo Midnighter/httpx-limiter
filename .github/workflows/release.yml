@@ -57,17 +57,14 @@ jobs:
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
 
-      # Kept as an action rather than a `gh release` script so that the release step
-      # stays declarative.
       - name: GH release
-        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3 # zizmor: ignore[superfluous-actions]
-        with:
-          body: >
-            Please see
-            https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md
-            for the full release notes.
-          draft: false
-          prerelease: false
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release create "$TAG" --verify-tag --title "$TAG" \
+            --notes "Please see https://github.com/$GH_REPO/blob/$TAG/CHANGELOG.md for the full release notes."
 
   documentation:
     needs: [release]
