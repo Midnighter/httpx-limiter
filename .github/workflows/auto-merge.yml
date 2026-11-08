@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Verify Dependabot PR
         id: verify
-        uses: Midnighter/verify-dependabot-pr@4cba4d52b24bed45b73b95d92297594694e21ac8 # v0.2.0
+        uses: Midnighter/verify-dependabot-pr@4cba4d52b24bed45b73b95d92297594694e21ac8 # 0.2.0
 
   merge:
     permissions:
