@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   prerequisites:
-    uses: ./.github/workflows/test.yml
+    uses: $/.github/workflows/test.yml
     permissions:
       contents: read
       actions: read
@@ -23,7 +23,7 @@ jobs:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   pyodide:
-    uses: ./.github/workflows/pyodide.yml
+    uses: $/.github/workflows/pyodide.yml
     permissions:
       contents: read
       actions: read
@@ -35,6 +35,6 @@ jobs:
     permissions:
       contents: write
       actions: read
-    uses: ./.github/workflows/docs.yml
+    uses: $/.github/workflows/docs.yml
     with:
       version: latest

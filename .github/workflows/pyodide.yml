@@ -45,7 +45,7 @@ jobs:
 
   test:
     needs: build
-    uses: ./.github/workflows/pyodide_test.yml
+    uses: $/.github/workflows/pyodide_test.yml
     with:
       build-artifact-name: pyodide_wheel
       build-artifact-path: dist

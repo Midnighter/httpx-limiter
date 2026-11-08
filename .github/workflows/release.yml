@@ -11,12 +11,12 @@ permissions:
 
 jobs:
   prerequisites:
-    uses: ./.github/workflows/test.yml
+    uses: $/.github/workflows/test.yml
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   pyodide:
-    uses: ./.github/workflows/pyodide.yml
+    uses: $/.github/workflows/pyodide.yml
 
   release:
     needs: [prerequisites, pyodide]
@@ -71,7 +71,7 @@ jobs:
     needs: [release]
     permissions:
       contents: write
-    uses: ./.github/workflows/docs.yml
+    uses: $/.github/workflows/docs.yml
     with:
       version: ${{ github.ref_name }}
       alias: stable
