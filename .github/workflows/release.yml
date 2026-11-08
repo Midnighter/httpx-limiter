@@ -72,7 +72,13 @@ jobs:
           GH_REPO: ${{ github.repository }}
           TAG: ${{ github.ref_name }}
         run: |
-          gh release create "$TAG" --verify-tag --title "$TAG" \
+          # PEP 440 pre-releases (a, b, rc, dev) are flagged as such; final and post releases are not.
+          case "$TAG" in
+            *post*) flags=() ;;
+            *[a-z]*) flags=(--prerelease) ;;
+            *) flags=() ;;
+          esac
+          gh release create "$TAG" --verify-tag --title "$TAG" "${flags[@]}" \
             --notes "Please see https://github.com/$GH_REPO/blob/$TAG/CHANGELOG.md for the full release notes."
 
   documentation:
