@@ -151,7 +151,11 @@ hatch run +py=3.15 documentation-tests:run
 hatch run docs:build                       # mkdocs build --strict
 hatch run distribution:check               # build + twine check + wheel extras check
 hatch run audit:check                      # pip-audit
+hatch run workflows:check                  # zizmor, pinned in pyproject.toml
 ```
+
+The zizmor workflow runs only on pull requests to `main` that change
+`.github/workflows/`.
 
 CI runs unit tests on Python 3.11 and 3.15 on Linux, macOS, and Windows. Pass
 arguments to pytest after `--`, for example
