@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: "daily"
     cooldown:
-      default-days: 5
+      default-days: 7
       semver-major-days: 10
 
   - package-ecosystem: "github-actions"
@@ -13,11 +13,11 @@ updates:
     schedule:
       interval: "weekly"
     cooldown:
-      default-days: 5
+      default-days: 7
 
   - package-ecosystem: "docker-compose"
     directory: "/"
     schedule:
       interval: "weekly"
     cooldown:
-      default-days: 5
+      default-days: 7

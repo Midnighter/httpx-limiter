@@ -15,7 +15,7 @@ jobs:
       pull-requests: read
     runs-on: ubuntu-slim
     # Only run for Dependabot PRs — avoids wasting API quota on human PRs.
-    if: github.actor == 'dependabot[bot]'
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
       - name: Verify Dependabot PR
         id: verify

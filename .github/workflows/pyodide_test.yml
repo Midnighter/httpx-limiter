@@ -72,10 +72,12 @@ jobs:
 
       - name: Install playwright
         if: ${{ inputs.runner == 'playwright' }}
+        env:
+          PLAYWRIGHT_VERSION: ${{ inputs.playwright-version }}
         run: |
-          if [ -n "${{ inputs.playwright-version }}" ]
+          if [ -n "$PLAYWRIGHT_VERSION" ]
           then
-            python -m pip install "playwright==${{ inputs.playwright-version }}"
+            python -m pip install "playwright==$PLAYWRIGHT_VERSION"
           else
             python -m pip install playwright
           fi
@@ -108,18 +110,25 @@ jobs:
           python-version: "3.14" # pyodide-py 314 requires Python 3.14
 
       - name: install pyodide-py
+        env:
+          PYODIDE_VERSION: ${{ inputs.pyodide-version }}
         run: |
-          python -m pip install "pyodide-py==${{ inputs.pyodide-version }}"
+          python -m pip install "pyodide-py==$PYODIDE_VERSION"
 
       - name: Install pytest-pyodide
         run: |
           python -m pip install "pytest-pyodide>=0.59"
 
       - name: Run tests
+        env:
+          RUNNER: ${{ inputs.runner }}
+          BROWSER: ${{ inputs.browser }}
+          PYTEST_EXTRA_ARGS: ${{ inputs.pytest-extra-args }}
         run: |
+          # The extra arguments are deliberately unquoted so that they split into words.
           python -m pytest -vra \
             --dist-dir=./pyodide-dist/ \
-            --runner="${{ inputs.runner }}" \
-            --rt="${{ inputs.browser }}" \
-            ${{ inputs.pytest-extra-args }} \
+            --runner="$RUNNER" \
+            --rt="$BROWSER" \
+            $PYTEST_EXTRA_ARGS \
             tests/pyodide
