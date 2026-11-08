@@ -61,6 +61,8 @@ docs = [
     "mike ~=2.1",
 ]
 tests = ["anyio", "pytest", "pytest-cov", "pytest-raises"]
+# Pinned exactly so that CI and local development audit with the same zizmor.
+workflows = ["zizmor ==1.32.0"]
 
 ################################################################################
 # Tool Configuration
@@ -196,6 +198,14 @@ code = "ruff check {args}"
 format = "ruff format {args}"
 fix = "ruff check --fix {args}"
 check = ["docstrings", "code"]
+
+[tool.hatch.envs.workflows]
+description = """Audit the GitHub workflows for security issues."""
+template = "no-install"
+dependency-groups = ["workflows"]
+
+[tool.hatch.envs.workflows.scripts]
+check = "zizmor {args} ."
 
 [tool.hatch.envs.audit]
 description = """Check dependencies for security vulnerabilities."""

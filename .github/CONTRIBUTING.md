@@ -104,6 +104,14 @@ update`](https://hatch.pypa.io/dev/cli/reference/#hatch-self-update) or whatever
     hatch run docs:build
     ```
 
+    If you change a GitHub workflow, also audit it with
+    [zizmor](https://docs.zizmor.sh/). The version is pinned in `pyproject.toml`, so
+    you run the same one as CI.
+
+    ```shell
+    hatch run workflows:check
+    ```
+
     The acceptance tests (`hatch run +py=3.15 acceptance-tests:run`) need the
     services from `compose.yaml` to be running (`docker compose up -d`).
 
