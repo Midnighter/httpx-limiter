@@ -28,6 +28,9 @@ jobs:
     needs: [prerequisites, pyodide]
     strategy:
       matrix:
+        # Do not switch to ubuntu-slim: the PyPI publish action runs as a Docker
+        # container action, which needs the Docker daemon that only the larger
+        # runner image provides. ubuntu-slim is an unprivileged container without one.
         os: [ubuntu-latest]
         python-version: ["3.15"]
     runs-on: ${{ matrix.os }}
