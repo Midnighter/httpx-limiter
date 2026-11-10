@@ -47,9 +47,9 @@ backrefs==8.2 \
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocs-material
-bracex==3.2 \
-    --hash=sha256:0a3d40bfae4caae4d3bfd0ea715874799fab711c38fd4012cc35343e815405cd \
-    --hash=sha256:8f3e908a452f66707e1d6d91b3d7d7d4c649d248df18537c0dc710aeb9c30d87
+bracex==3.2.1 \
+    --hash=sha256:07a9b2100ceecc0c24afa1a1714bf8d4a6abb43d592939455f662b682ac9baa4 \
+    --hash=sha256:e8622d46b60ef6062b4091033f97a304e1b205e70c0285743c5038b73886a47e
     # via
     #   -c requirements/requirements-dev.txt
     #   wcmatch
