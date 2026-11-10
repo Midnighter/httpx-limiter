@@ -60,7 +60,7 @@ jobs:
       - name: Install hatch
         uses: pypa/hatch@f647ed70d49adb885f53a27d1c7f5bdaeacf2c60 # install
         with:
-          version: 1.17.1
+          version: 1.18.2
 
       - name: Configure git user
         run: |
