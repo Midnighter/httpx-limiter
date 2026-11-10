@@ -52,6 +52,7 @@ jobs:
         run: git fetch --depth=1 origin gh-pages
 
       - name: Set up Python ${{ matrix.python-version }}
+        id: setup-python
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: ${{ matrix.python-version }}
@@ -69,6 +70,7 @@ jobs:
       - name: Build documentation with alias
         if: inputs.alias != ''
         env:
+          HATCH_PYTHON: ${{ steps.setup-python.outputs.python-path }}
           VERSION: ${{ inputs.version }}
           ALIAS: ${{ inputs.alias }}
         run: hatch run docs:deploy -- --update-aliases --push "$VERSION" "$ALIAS"
@@ -76,5 +78,6 @@ jobs:
       - name: Build documentation without alias
         if: inputs.alias == ''
         env:
+          HATCH_PYTHON: ${{ steps.setup-python.outputs.python-path }}
           VERSION: ${{ inputs.version }}
         run: hatch run docs:deploy -- --push "$VERSION"
