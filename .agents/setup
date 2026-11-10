@@ -5,7 +5,7 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
-# CI pins 1.17.1, but hatch only knows how to download Python 3.15 since 1.18.
+# Match the hatch version CI pins; it can download Python 3.15 since 1.18.
 HATCH_VERSION="1.18.2"
 
 step() {
