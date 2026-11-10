@@ -35,6 +35,8 @@ jobs:
         python-version: ["3.15"]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    outputs:
+      prerelease: ${{ steps.gh-release.outputs.prerelease }}
     permissions:
       # Write permissions are needed to create OIDC tokens.
       id-token: write
@@ -67,6 +69,7 @@ jobs:
         uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
 
       - name: GH release
+        id: gh-release
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
@@ -74,11 +77,12 @@ jobs:
         run: |
           # PEP 440 pre-releases (a, b, rc, dev) are flagged as such; final and post releases are not.
           case "$TAG" in
-            *post*) flags=() ;;
-            *[a-z]*) flags=(--prerelease) ;;
-            *) flags=() ;;
+            *post*) prerelease=false ;;
+            *[a-z]*) prerelease=true ;;
+            *) prerelease=false ;;
           esac
-          gh release create "$TAG" --verify-tag --title "$TAG" "${flags[@]}" \
+          echo "prerelease=$prerelease" >> "$GITHUB_OUTPUT"
+          gh release create "$TAG" --verify-tag --title "$TAG" --prerelease="$prerelease" \
             --notes "Please see https://github.com/$GH_REPO/blob/$TAG/CHANGELOG.md for the full release notes."
 
   documentation:
@@ -88,4 +92,5 @@ jobs:
     uses: $/.github/workflows/docs.yml
     with:
       version: ${{ github.ref_name }}
-      alias: stable
+      # Pre-releases get their own docs version but must not move the stable alias.
+      alias: ${{ needs.release.outputs.prerelease != 'true' && 'stable' || '' }}
