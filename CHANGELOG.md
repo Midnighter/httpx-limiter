@@ -78,6 +78,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed a flaky acceptance test by raising the burst of the Traefik rate limit in
   `compose.yaml` from 1 to 5, so that small timing jitter no longer causes spurious
   429 responses.
+- Fixed pre-release tags such as `1.0.0rc1` moving the `stable` documentation alias.
+  Pre-releases now get their own documentation version, and `stable` keeps pointing
+  at the latest final release.
 
 ## [0.6.1] - (2026-05-01)
 
