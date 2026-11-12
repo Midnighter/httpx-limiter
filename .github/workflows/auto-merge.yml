@@ -13,6 +13,7 @@ jobs:
       contents: read
       pull-requests: read
     runs-on: ubuntu-slim
+    timeout-minutes: 10
     # Only run for Dependabot PRs — avoids wasting API quota on human PRs.
     if: github.event.pull_request.user.login == 'dependabot[bot]'
     steps:
@@ -25,6 +26,7 @@ jobs:
       contents: write
       pull-requests: write
     runs-on: ubuntu-slim
+    timeout-minutes: 20
     needs: [verify]
     steps:
       - name: Dependabot metadata
