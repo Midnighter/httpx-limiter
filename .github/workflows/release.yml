@@ -21,24 +21,17 @@ jobs:
     permissions:
       contents: read
 
-  release:
+  build:
     needs: [prerequisites, pyodide]
     strategy:
       matrix:
-        # Do not switch to ubuntu-slim: the PyPI publish action runs as a Docker
-        # container action, which needs the Docker daemon that only the larger
-        # runner image provides. ubuntu-slim is an unprivileged container without one.
-        os: [ubuntu-latest]
+        os: [ubuntu-slim]
         python-version: ["3.15"]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
-    outputs:
-      prerelease: ${{ steps.gh-release.outputs.prerelease }}
+    # Builds without any write permissions; the publish job only receives the artifact.
     permissions:
-      # Write permissions are needed to create OIDC tokens.
-      id-token: write
-      # Write permissions are needed to make GitHub releases.
-      contents: write
+      contents: read
 
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -60,11 +53,45 @@ jobs:
       - name: Build package
         run: hatch build
 
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
+          # Only hands the distributions to the publish job.
+          retention-days: 1
+
+  publish:
+    needs: [build]
+    # The PyPI publish action runs in a Docker container, which ubuntu-slim cannot run.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      # Write permissions are needed to create OIDC tokens.
+      id-token: write
+
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist/
+
       # We rely on a trusted publisher configuration being present on PyPI,
       # see https://docs.pypi.org/trusted-publishers/.
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
 
+  github-release:
+    needs: [publish]
+    runs-on: ubuntu-slim
+    timeout-minutes: 10
+    outputs:
+      prerelease: ${{ steps.gh-release.outputs.prerelease }}
+    permissions:
+      # Write permissions are needed to make GitHub releases.
+      contents: write
+
+    steps:
       - name: GH release
         id: gh-release
         env:
@@ -83,11 +110,11 @@ jobs:
             --notes "Please see https://github.com/$GH_REPO/blob/$TAG/CHANGELOG.md for the full release notes."
 
   documentation:
-    needs: [release]
+    needs: [github-release]
     permissions:
       contents: write
     uses: $/.github/workflows/docs.yml
     with:
       version: ${{ github.ref_name }}
       # Pre-releases get their own docs version but must not move the stable alias.
-      alias: ${{ needs.release.outputs.prerelease != 'true' && 'stable' || '' }}
+      alias: ${{ needs.github-release.outputs.prerelease != 'true' && 'stable' || '' }}
