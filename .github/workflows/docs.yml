@@ -24,8 +24,7 @@ on:
         type: string
         default: ""
 
-permissions:
-  contents: read
+permissions: {}
 
 # Ensure that only one documentation deployment to the gh-pages branch runs at a time.
 concurrency:

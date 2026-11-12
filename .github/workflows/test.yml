@@ -8,13 +8,14 @@ on:
         description: Long-lived token for submitting code coverage reports to Codecov.
         required: false
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   lint:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -45,6 +46,8 @@ jobs:
   documentation:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -75,6 +78,8 @@ jobs:
   unit-tests:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -124,6 +129,8 @@ jobs:
   acceptance-tests:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
@@ -163,6 +170,8 @@ jobs:
   documentation-tests:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:

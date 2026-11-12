@@ -37,8 +37,7 @@ on:
         required: false
         type: string
         default: ""
-permissions:
-  contents: read
+permissions: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}-${{ inputs.os }}-${{ inputs.runner }}-${{ inputs.browser }}-${{ inputs.browser-version }}-${{ inputs.pyodide-version }}-${{ inputs.playwright-version }}
@@ -49,6 +48,8 @@ jobs:
     name: test (${{ inputs.pyodide-version}},${{ inputs.browser }},${{ inputs.runner }})
     runs-on: ${{ inputs.os }}
     timeout-minutes: 15
+    permissions:
+      contents: read
     env:
       DISPLAY: :99
       FORCE_COLOR: 3

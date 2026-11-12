@@ -7,13 +7,14 @@ on:
     paths:
       - ".github/workflows/**"
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   zizmor:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
+    permissions:
+      contents: read
     strategy:
       fail-fast: false
       matrix:
