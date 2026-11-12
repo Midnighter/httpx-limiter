@@ -1,0 +1,8 @@
+# Configures the notes GitHub generates for each release
+# (`gh release create --generate-notes` in workflows/release.yml), see
+# https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes
+changelog:
+  exclude:
+    authors:
+      # Bot logins need the [bot] suffix; plain `dependabot` matches nothing.
+      - dependabot[bot]

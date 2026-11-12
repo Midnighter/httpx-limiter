@@ -106,7 +106,7 @@ jobs:
             *) prerelease=false ;;
           esac
           echo "prerelease=$prerelease" >> "$GITHUB_OUTPUT"
-          gh release create "$TAG" --verify-tag --title "$TAG" --prerelease="$prerelease" \
+          gh release create "$TAG" --verify-tag --title "$TAG" --prerelease="$prerelease" --generate-notes \
             --notes "Please see https://github.com/$GH_REPO/blob/$TAG/CHANGELOG.md for the full release notes."
 
   documentation:
