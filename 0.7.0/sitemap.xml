@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/</loc>
+      </url>
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/adr/</loc>
+      </url>
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/adr/adr001-use-composition-over-inheritance/</loc>
+      </url>
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/adr/adr002-provide-one-integration-per-http-client/</loc>
+      </url>
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/adr/adr003-define-the-limiter-and-repository-interfaces-as-abstract-base-classes/</loc>
+      </url>
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/api/</loc>
+      </url>
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/how-to/adapt-rate-limit/</loc>
+      </url>
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/how-to/combine-retries/</loc>
+      </url>
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/how-to/per-domain-limit/</loc>
+      </url>
+      <url>
+        <loc>https://midnighter.github.io/httpx-limiter/0.7.0/tutorial/</loc>
+      </url>
+</urlset>
