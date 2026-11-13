@@ -55,10 +55,9 @@ pyrate = ["pyrate-limiter ~=4.0"]
 style = ["pydoclint", "ruff"]
 types = ["mypy", "ty", "pyrefly"]
 docs = [
-    "mkdocs-material ~=9.5",
-    "mkdocstrings[python] ~=1.0",
-    "mkdocs-awesome-pages-plugin ~=2.9",
-    "mike ~=2.1",
+    "zensical ~=0.1.1",
+    "mkdocstrings-python ~=2.0",
+    "mike @ git+https://github.com/squidfunk/mike.git",
 ]
 tests = ["anyio", "pytest", "pytest-cov", "pytest-raises"]
 # Pinned exactly so that CI and local development audit with the same zizmor.
@@ -226,8 +225,8 @@ description = """Build or serve the documentation."""
 dependency-groups = ["docs"]
 
 [tool.hatch.envs.docs.scripts]
-build = "mkdocs build {args:--clean --strict}"
-serve = "mkdocs serve {args}"
+build = "zensical build {args:--clean --strict}"
+serve = "zensical serve {args}"
 deploy = "mike deploy {args}"
 
 [tool.hatch.envs.distribution]

@@ -1,0 +1,5 @@
+title: How-To Guides
+nav:
+  - adapt-rate-limit.md
+  - per-domain-limit.md
+  - combine-retries.md

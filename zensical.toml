@@ -1,0 +1,70 @@
+[project]
+site_name = "HTTPX Limiter"
+site_description = "A lightweight package that provides rate-limited httpx and httpx2 transports."
+site_author = "Moritz E. Beber"
+site_url = "https://midnighter.github.io/httpx-limiter/"
+copyright = "Copyright &copy 2024, 2025 Moritz E. Beber"
+repo_url = "https://github.com/Midnighter/httpx-limiter"
+repo_name = "Midnighter/httpx-limiter"
+watch = ["src/httpx_limiter"]
+
+[project.theme]
+variant = "classic"
+features = [
+    "content.code.annotate",
+    "navigation.indexes",
+    "navigation.instant",
+    "navigation.tracking",
+    "navigation.top",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "deep purple"
+accent = "teal"
+toggle.icon = "material/weather-night"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "deep purple"
+accent = "teal"
+toggle.icon = "material/weather-sunny"
+toggle.name = "Switch to light mode"
+
+[project.markdown_extensions]
+admonition = {}
+toc.permalink = true
+"pymdownx.highlight".anchor_linenums = true
+"pymdownx.inlinehilite" = {}
+"pymdownx.superfences" = {}
+"pymdownx.tabbed".alternate_style = true
+"pymdownx.emoji".emoji_index = "zensical.extensions.emoji.twemoji"
+"pymdownx.emoji".emoji_generator = "zensical.extensions.emoji.to_svg"
+
+[project.plugins.mkdocstrings]
+default_handler = "python"
+
+[project.plugins.mkdocstrings.handlers.python]
+paths = ["src"]
+
+[project.plugins.mkdocstrings.handlers.python.options]
+show_submodules = true
+show_if_no_docstring = true
+show_signature_annotations = true
+show_root_heading = true
+show_source = false
+
+[project.plugins.awesome-nav]
+
+[project.extra.version]
+provider = "mike"
+default = "stable"
+alias = true
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/Midnighter"
+name = "Moritz E. Beber"
