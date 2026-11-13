@@ -1,6 +1,0 @@
-nav:
-    - Welcome: index.md
-    - Tutorial: tutorial.md
-    - how-to
-    - Reference API: api.md
-    - Architecture Decision Log: adr
