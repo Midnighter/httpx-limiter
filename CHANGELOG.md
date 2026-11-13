@@ -42,8 +42,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   process.
 - Added the `httpx` extra for the HTTPX integration `httpx_limiter.httpx`.
 - Documented both integrations with side-by-side examples, and run the documentation
-  examples for both HTTP clients in the documentation tests. The retry recipe stays
-  HTTPX-only until `httpx-tenacity` supports HTTPX2.
+  examples for both HTTP clients in the documentation tests. The retry recipe uses
+  `httpx-tenacity` 0.3, which also provides one integration per HTTP client.
 - Added support for Python 3.15.
 
 ### Changed

@@ -48,14 +48,13 @@ EXAMPLES = [
     for document in DOCS
     for index, block in enumerate(grab_code_blocks(document.read_text()))
 ]
-# The documents that must show examples for each HTTP client. The retry recipe is
-# HTTPX-only until `httpx-tenacity` supports HTTPX2.
+# The documents that must show examples for each HTTP client.
 BACKENDS_PER_DOCUMENT = {
     "README.md": {"httpx", "httpx2"},
     "docs/tutorial.md": {"httpx", "httpx2"},
     "docs/how-to/adapt-rate-limit.md": {"httpx", "httpx2"},
     "docs/how-to/per-domain-limit.md": {"httpx", "httpx2"},
-    "docs/how-to/combine-retries.md": {"httpx"},
+    "docs/how-to/combine-retries.md": {"httpx", "httpx2"},
 }
 
 

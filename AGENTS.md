@@ -132,8 +132,7 @@ through the `httpx` or `httpx2` extra, and normally also a limiter extra
   runnable blocks an async `main()`. On the documentation site, show each example
   for both clients in `=== "HTTPX"` / `=== "HTTPX2"` tabs. The README shows HTTPX
   examples only, explains the HTTPX2 differences in prose, and keeps one example
-  that uses both clients together. The `httpx-tenacity` retry recipe is HTTPX-only
-  until upstream supports HTTPX2.
+  that uses both clients together.
 
 ## Commands
 
