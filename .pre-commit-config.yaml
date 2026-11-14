@@ -32,3 +32,12 @@ repos:
       - id: check-github-workflows
 
       - id: check-readthedocs
+  # Optional: checks the code health of staged changes when the CodeScene CLI is
+  # installed and signed in, and does nothing otherwise.
+  - repo: local
+    hooks:
+      - id: codescene-delta
+        name: CodeScene code health
+        entry: sh -c 'command -v cs >/dev/null 2>&1 || exit 0; exec cs delta --git-hook --staged'
+        language: system
+        pass_filenames: false

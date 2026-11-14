@@ -156,6 +156,12 @@ hatch run workflows:check                  # zizmor, pinned in pyproject.toml
 The zizmor workflow runs only on pull requests to `main` that change
 `.github/workflows/`.
 
+CodeScene measures code health. Its GitHub App reviews pull requests, so CI runs no
+CodeScene job. When the `cs` CLI is installed and signed in (`cs auth login` or
+`CS_ACCESS_TOKEN`), run `cs review <file>` for a file's score and findings and
+`cs delta origin/main` for the branch's impact. Custom code health rules, if any, go
+in `.codescene/code-health-rules.json`.
+
 CI runs unit tests on Python 3.11 and 3.15 on Linux, macOS, and Windows. Pass
 arguments to pytest after `--`, for example
 `hatch run +py=3.15 unit-tests:run -- -k multi`.
