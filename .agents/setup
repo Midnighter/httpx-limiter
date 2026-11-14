@@ -45,6 +45,10 @@ if [[ "$locks_clean" == true ]]; then
   git checkout --quiet -- requirements/
 fi
 
+# The CodeScene CLI for code health checks. It needs no token to install; the
+# CS_ACCESS_TOKEN Amp secret activates it at run time.
+step .codescene/install-cli.sh
+
 # Docker Engine with the Compose and Buildx plugins from Docker's Debian repo.
 # The orb image may already ship the engine without the plugins.
 docker_packages=(docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin)
@@ -129,5 +133,9 @@ cat >> "$guidance" <<'EOF'
   `hatch run +py=3.15 acceptance-tests:run` works directly. Inspect it with
   `docker compose ps` or `journalctl -u httpx-limiter-compose`; after changing
   `compose.yaml`, run `sudo systemctl restart httpx-limiter-compose`.
+- The CodeScene CLI `cs` is installed, pinned by `.codescene/install-cli.sh`. When
+  the `CS_ACCESS_TOKEN` secret is set, use `cs review <file>` for a file's code
+  health score and findings, and `cs delta origin/main` for the branch's impact
+  before pushing.
 <!-- end httpx-limiter orb notes -->
 EOF
