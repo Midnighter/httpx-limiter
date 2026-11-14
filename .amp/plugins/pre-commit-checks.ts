@@ -2,7 +2,7 @@ import type { PluginAPI } from '@ampcode/plugin'
 import path from 'node:path'
 
 export const description =
-	'Runs the style, type, docs, distribution, and test checks before every agent `git commit` and blocks the commit when any check fails.'
+	'Runs the style, type, docs, distribution, test, and CodeScene code health checks before every agent `git commit` and blocks the commit when any check fails.'
 
 const repoRoot = path.resolve(import.meta.dir, '..', '..')
 
@@ -18,6 +18,12 @@ const checks = [
 	'hatch run +py=3.15 acceptance-tests:run',
 	'hatch run +py=3.15 documentation-tests:run',
 ]
+
+// CodeScene's delta analysis of all uncommitted changes against HEAD; it fails on new
+// code health issues and prints them. Not `--staged`: the checks run before git does,
+// so files the same command stages are not staged yet. It runs only when the CLI and
+// its token are present.
+const codeHealthCheck = 'cs delta --git-hook'
 
 // `git commit`, also with global options such as `git -C dir commit`, but not
 // `git commit-tree` or a `commit` argument after a command separator.
@@ -41,9 +47,14 @@ export default function (amp: PluginAPI) {
 		// were clean so the checks cannot sneak changes into the commit.
 		const script = `
 			cd "$1" || exit 1
+			shift
+			if command -v cs >/dev/null 2>&1 && [ -n "\${CS_ACCESS_TOKEN:-}" ]; then
+				set -- "$@" "${codeHealthCheck}"
+				export CS_DISABLE_VERSION_CHECK=1
+			fi
 			git diff --quiet -- requirements/ && locks_clean=true
 			failed=0
-			for check in "\${@:2}"; do
+			for check in "$@"; do
 				if ! output="$($check 2>&1)"; then
 					printf 'FAILED: %s\n%s\n\n' "$check" "$output"
 					failed=1
