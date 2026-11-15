@@ -2,7 +2,7 @@ import type { PluginAPI } from '@ampcode/plugin'
 import path from 'node:path'
 
 export const description =
-	'Runs the style, type, docs, distribution, test, and CodeScene code health checks before every agent `git commit` and blocks the commit when any check fails.'
+	'Runs the style, type, docs, distribution, test, and CodeScene code health checks, plus the zizmor workflow audit when a workflow changed, before every agent `git commit` and blocks the commit when any check fails.'
 
 const repoRoot = path.resolve(import.meta.dir, '..', '..')
 
@@ -24,6 +24,11 @@ const checks = [
 // so files the same command stages are not staged yet. It runs only when the CLI and
 // its token are present.
 const codeHealthCheck = 'cs delta --git-hook'
+
+// The zizmor audit from the Workflow Security CI job. It runs only when a file under
+// `.github/workflows/` differs from HEAD (staged, unstaged, or untracked), for the
+// same reason the code health check does not use `--staged`.
+const workflowCheck = 'hatch run workflows:check'
 
 // `git commit`, also with global options such as `git -C dir commit`, but not
 // `git commit-tree` or a `commit` argument after a command separator.
@@ -51,6 +56,9 @@ export default function (amp: PluginAPI) {
 			if command -v cs >/dev/null 2>&1 && [ -n "\${CS_ACCESS_TOKEN:-}" ]; then
 				set -- "$@" "${codeHealthCheck}"
 				export CS_DISABLE_VERSION_CHECK=1
+			fi
+			if [ -n "$(git status --porcelain -- .github/workflows)" ]; then
+				set -- "$@" "${workflowCheck}"
 			fi
 			git diff --quiet -- requirements/ && locks_clean=true
 			failed=0
