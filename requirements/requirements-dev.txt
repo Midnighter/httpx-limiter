@@ -625,9 +625,9 @@ mkdocstrings==1.0.8 \
     --hash=sha256:4b03ed2b863009f1153f0d04aacb22a85b92afc28a0636d85717c92eecca638c \
     --hash=sha256:b50fc326230906425c82ee9ec59b80e5db00892b2b593d4d0b841a0d4acf537b
     # via mkdocstrings-python
-mkdocstrings-python==2.0.10 \
-    --hash=sha256:4a3aaeebb25ba5ae57a8f9e75432fe4571984889602f2b2f7d672faa760e9062 \
-    --hash=sha256:5e34ae56b2f20a57807ee479d603ddc5ec7cc6d2252c4c177754627ef2d3b833
+mkdocstrings-python==2.0.11 \
+    --hash=sha256:12d9b8bb1ccdb160a220a771a169300b788e8af5ad6456a0b8aeabbb103d42b2 \
+    --hash=sha256:86ba14ea584a838e144b40d131b0780452e8abee57d90db6c84c9a9ac114c527
     # via hatch.envs.dev
 mypy==2.4.1 \
     --hash=sha256:01b7718552d017f88d1151f3cc9d6556d778a90bd58060a2c3d87d070f9099fb \
