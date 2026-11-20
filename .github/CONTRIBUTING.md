@@ -147,3 +147,16 @@ Before you submit a pull request, check that it meets these guidelines:
    new functionality into a function with a docstring.
 3. Your pull request will automatically be checked by the full test suite.
    It needs to pass all of them before it can be considered for merging.
+
+### Dependabot Pull Requests
+
+Patch and minor updates from Dependabot are approved and merged automatically, but
+only after the `verify` job in `.github/workflows/auto-merge.yml` confirms that the
+pull request really comes from Dependabot. Part of that check is that Dependabot made
+the newest push to the branch. Please do not push to a Dependabot branch yourself,
+and do not use the **Update branch** button on its pull request: either one makes
+`verify` fail.
+
+`verify` also fails when a pull request has been open so long that its last push is no
+longer in the repository's activity. In both cases, comment `@dependabot recreate` on
+the pull request, and Dependabot pushes the branch again.
