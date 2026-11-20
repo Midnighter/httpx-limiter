@@ -40,6 +40,23 @@ The same applies to `AsyncMultiRateLimitedTransport`, `AbstractRateLimiterReposi
 and `HTTPXAsyncHTTPTransportKeywordArguments`. For HTTPX2, import them from
 `httpx_limiter.httpx2` instead.
 
+### Verifying a release
+
+Each release attests that its wheel and source distribution were built by this
+repository's release workflow from a commit on `main`. Download a distribution from
+PyPI and check it with the [GitHub CLI](https://cli.github.com/), with `VERSION` set to
+the release you want to check:
+
+```sh
+pip download --no-deps --only-binary :all: "httpx-limiter==${VERSION}"
+gh attestation verify "httpx_limiter-${VERSION}-py3-none-any.whl" \
+  --repo Midnighter/httpx-limiter \
+  --signer-workflow Midnighter/httpx-limiter/.github/workflows/release.yml
+```
+
+The command exits with status 0 when the file verifies. Add `--format json` to see the
+tag and commit it was built from. Releases up to 0.7.0 have no such attestation.
+
 ## Rate Limiter Backends
 
 This package provides two different asynchronous rate limiter implementations to choose

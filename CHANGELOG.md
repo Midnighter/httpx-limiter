@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Releases attest the build provenance of the wheel and the source distribution on
+  GitHub. Check a downloaded file with
+  `gh attestation verify <file> --repo Midnighter/httpx-limiter`; see "Verifying a
+  release" in the README.
+
+### Security
+
+- The release workflow refuses a tag that points to a commit that is not on `main`,
+  before it runs any tests or builds anything.
+
 ## [0.7.0] - (2026-11-13)
 
 ### Breaking Changes
