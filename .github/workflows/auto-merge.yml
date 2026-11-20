@@ -13,20 +13,23 @@ jobs:
       contents: read
       pull-requests: read
     runs-on: ubuntu-slim
-    timeout-minutes: 10
+    timeout-minutes: 5
     # Only run for Dependabot PRs — avoids wasting API quota on human PRs.
     if: github.event.pull_request.user.login == 'dependabot[bot]'
+    outputs:
+      head-sha: ${{ steps.verify.outputs.head-sha }}
     steps:
       - name: Verify Dependabot PR
         id: verify
-        uses: Midnighter/verify-dependabot-pr@4cba4d52b24bed45b73b95d92297594694e21ac8 # 0.2.0
+        # The release commit that the immutable 0.4.0 tag points to.
+        uses: Midnighter/verify-dependabot-pr@78b332efb96437b9bf2f54830d5830972d8dfd52 # 0.4.0
 
   merge:
     permissions:
       contents: write
       pull-requests: write
     runs-on: ubuntu-slim
-    timeout-minutes: 20
+    timeout-minutes: 5
     needs: [verify]
     steps:
       - name: Dependabot metadata
@@ -39,16 +42,23 @@ jobs:
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
           steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr merge --auto --rebase "$PR_URL"
+        # Fails if the PR head is no longer the verified commit. The main ruleset
+        # allows only rebase and squash merges.
+        run: gh pr merge --auto --rebase --match-head-commit "$HEAD_SHA" "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
+          HEAD_SHA: ${{ needs.verify.outputs.head-sha }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Approve PR
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
           steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr review --approve "$PR_URL"
+        # Approves the verified commit, not whatever the head is by now.
+        run: |
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/reviews" \
+            -f commit_id="$HEAD_SHA" -f event=APPROVE --silent
         env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ needs.verify.outputs.head-sha }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
