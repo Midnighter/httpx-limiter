@@ -180,3 +180,6 @@ changes unless the task is to update dependencies.
 - Versions come from git tags through hatch-vcs. Never edit the generated
   `src/httpx_limiter/_version.py`. Pushing a tag such as `1.2.3` publishes to PyPI
   and deploys the `stable` docs, so do not create or push tags unless asked.
+- A release tag must point to a commit on `main`. The release workflow's
+  `check-tag` job refuses any other commit, and its `attest` job records build
+  provenance for the distributions before they are published.
