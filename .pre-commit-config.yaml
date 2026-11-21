@@ -1,13 +1,17 @@
+# Hygiene checks run as remote hooks because they need nothing but the staged files.
+# Everything that depends on the project's tools runs through hatch, so the hooks use
+# the versions locked in `requirements/` and run the same commands as CI. Hooks that
+# can check files independently receive only the changed files; the rest are
+# whole-project checks that run when a relevant file changed.
+default_install_hook_types: [pre-commit, pre-push]
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: check-case-conflict
       - id: check-ast
-      - id: check-docstring-first
       - id: check-executables-have-shebangs
       - id: check-added-large-files
-      - id: check-case-conflict
       - id: check-merge-conflict
       - id: check-json
       - id: check-toml
@@ -15,27 +19,83 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: trailing-whitespace
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.4
-    hooks:
-      - id: ruff
-        args: ["--fix", "--exit-non-zero-on-fix"]
-      - id: ruff-format
-  - repo: https://github.com/jsh9/pydoclint
-    rev: 0.6.0
-    hooks:
-      - id: pydoclint
-  - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.31.1
-    hooks:
-
-      - id: check-github-workflows
-
-      - id: check-readthedocs
-  # Optional: checks the code health of staged changes when the CodeScene CLI is
-  # installed and signed in, and does nothing otherwise.
   - repo: local
     hooks:
+      # Per-file checks: pre-commit appends the changed file names to the command.
+      - id: hatch-style-docstrings
+        name: Hatch docstrings
+        entry: hatch run style:docstrings
+        language: system
+        types: [python]
+        files: ^(src|tests|test-helpers)/
+        exclude: _version\.py$
+      - id: hatch-style-fix
+        name: Hatch ruff check
+        entry: hatch run style:fix --force-exclude --exit-non-zero-on-fix
+        language: system
+        types: [python]
+      - id: hatch-style-format
+        name: Hatch ruff format
+        entry: hatch run style:format --force-exclude
+        language: system
+        types: [python]
+      # Whole-project checks: they run once, when a file they depend on changed.
+      - id: hatch-types-check
+        name: Hatch types check
+        entry: hatch run types:check
+        language: system
+        files: ^(src/|pyproject\.toml$|requirements/requirements-types\.txt$)
+        pass_filenames: false
+      - id: hatch-unit-tests
+        name: Hatch unit tests
+        entry: hatch run +py=3.15 unit-tests:run
+        language: system
+        files: ^(src/|tests/(unit|typing)/|tests/conftest\.py$|test-helpers/|pyproject\.toml$)
+        pass_filenames: false
+      - id: hatch-docs-build
+        name: Hatch docs build
+        entry: hatch run docs:build
+        language: system
+        files: ^(docs/|src/|README\.md$|zensical\.toml$|pyproject\.toml$)
+        pass_filenames: false
+      # Slower checks run before pushing.
+      - id: hatch-acceptance-tests
+        name: Hatch acceptance tests
+        entry: hatch run +py=3.15 acceptance-tests:run
+        language: system
+        files: ^(src/|tests/(acceptance|conftest)|test-helpers/|pyproject\.toml$)
+        pass_filenames: false
+        stages: [pre-push]
+      - id: hatch-documentation-tests
+        name: Hatch documentation tests
+        entry: hatch run +py=3.15 documentation-tests:run
+        language: system
+        files: ^(docs/|src/|README\.md$|tests/(documentation/|conftest\.py$)|pyproject\.toml$)
+        pass_filenames: false
+        stages: [pre-push]
+      - id: hatch-distribution-check
+        name: Hatch distribution check
+        entry: hatch run distribution:check
+        language: system
+        files: ^(src/|tests/distribution/|pyproject\.toml$)
+        pass_filenames: false
+        stages: [pre-push]
+      - id: hatch-workflows-check
+        name: Hatch workflows audit
+        entry: hatch run workflows:check
+        language: system
+        files: ^\.github/workflows/
+        pass_filenames: false
+        stages: [pre-push]
+      - id: hatch-audit-check
+        name: Hatch audit check
+        entry: hatch run audit:check
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+      # Optional: checks the code health of staged changes when the CodeScene CLI is
+      # installed and signed in, and does nothing otherwise.
       - id: codescene-delta
         name: CodeScene code health
         entry: sh -c 'command -v cs >/dev/null 2>&1 || exit 0; exec cs delta --git-hook --staged'

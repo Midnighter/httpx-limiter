@@ -192,7 +192,7 @@ template = "no-install"
 dependency-groups = ["style"]
 
 [tool.hatch.envs.style.scripts]
-docstrings = ["pydoclint src", "pydoclint tests", "pydoclint test-helpers"]
+docstrings = "pydoclint {args:src tests test-helpers}"
 code = "ruff check {args}"
 format = "ruff format {args}"
 fix = "ruff check --fix {args}"
