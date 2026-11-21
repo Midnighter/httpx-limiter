@@ -60,7 +60,7 @@ project and everybody has limited time.
 Ready to contribute? Here's how to set up HTTPX Limiter for
 local development.
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > This project makes use of [PEP-735
 > `dependency-groups`](https://peps.python.org/pep-0735/) which are only
 > supported in versions of hatch [greater than
@@ -79,6 +79,15 @@ update`](https://hatch.pypa.io/dev/cli/reference/#hatch-self-update) or whatever
     ```
 
 3. [Install hatch](https://hatch.pypa.io/latest/install/) `> 1.16`.
+   Optionally, install [pre-commit](https://pre-commit.com/) and enable the hooks.
+   Style hooks check only the files you changed. Type checks, unit tests, and
+   the docs build run on commit when relevant files changed. The slower
+   acceptance tests, documentation tests, distribution check, workflow audit, and
+   dependency audit run on push. All of them run through hatch.
+
+    ```shell
+    pre-commit install
+    ```
 
 4. Create a branch for local development using the default branch (typically `main`)
    as a starting
