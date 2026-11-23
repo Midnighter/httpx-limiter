@@ -153,7 +153,7 @@ jobs:
           version: 1.18.2
 
       - name: Start rate-limited APIs
-        uses: hoverkraft-tech/compose-action@b659c744ee9bed25aea2307c017ad849bd104433 # v3.2.0
+        uses: hoverkraft-tech/compose-action@cdaf49f2d715a87c3387e86cb35c772b14f0efe0 # v3.2.1
         with:
           compose-file: "compose.yaml"
 
