@@ -7,6 +7,12 @@ updates:
     cooldown:
       default-days: 7
       semver-major-days: 10
+    # These packages pin each other exactly, so they must be updated together.
+    groups:
+      httpx2:
+        patterns: ["httpx2", "httpcore2"]
+      zensical:
+        patterns: ["zensical", "zensical-ui"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
