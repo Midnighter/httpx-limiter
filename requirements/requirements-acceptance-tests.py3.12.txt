@@ -186,9 +186,9 @@ httpx==0.28.1 \
     # via
     #   -c requirements/requirements-dev.txt
     #   hatch.envs.acceptance-tests.py3.12
-httpx2==2.16.0 \
-    --hash=sha256:0d54c98128e8f2ff7fbbde0fca8c359e5f032edeaaaac443cdb7f31f685bcd7f \
-    --hash=sha256:fd2c5d7909e8d86fe92d53020c310ca0e4e431b838c207c5754b9bbf0308d49a
+httpx2==2.16.2 \
+    --hash=sha256:748b615678f07d8e3b183efe81ad13b655ca88bfc56ce4589219b2d442860574 \
+    --hash=sha256:f05c13aade4c45dbf1c9060647a1058f0acad62398fad96e741269edb33d46f5
     # via
     #   -c requirements/requirements-dev.txt
     #   hatch.envs.acceptance-tests.py3.12
