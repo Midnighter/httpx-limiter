@@ -154,7 +154,22 @@ hatch run workflows:check                  # zizmor, pinned in pyproject.toml
 ```
 
 The zizmor workflow runs only on pull requests to `main` that change
-`.github/workflows/`.
+`.github/workflows/`. Without a token zizmor skips its online audits, which CI
+runs, so check workflow changes with `GH_TOKEN=$(gh auth token) hatch run
+workflows:check`. Any finding fails CI. Ask before suppressing one with
+`# zizmor: ignore[...]`. When editing workflows, a calling workflow must grant every
+permission that its reusable workflows request (otherwise the run ends in
+`startup_failure`), and tag filters are globs, not regular expressions.
+
+Other command pitfalls:
+
+- `hatch run style:format` also reformats Python blocks in `README.md` and `docs/`.
+  Check `git diff --stat` afterwards and revert changes outside your task.
+- Run one-off tools in the repository with `uv run --no-project --with <pkg>`;
+  without `--no-project`, uv leaves a stray `uv.lock`.
+- pre-commit is not installed: use `uvx pre-commit`. It refuses to run while
+  `.pre-commit-config.yaml` has unstaged changes.
+- The Pyodide tests load the wheel from `dist/`, so run `pyodide build` before them.
 
 CodeScene measures code health. Its GitHub App reviews pull requests, so CI runs no
 CodeScene job. When the `cs` CLI is installed and signed in (`cs auth login` or
@@ -172,9 +187,22 @@ changes unless the task is to update dependencies.
 ## Changes and releases
 
 - Add a user-facing entry under `## [Unreleased]` in `CHANGELOG.md` (Keep a
-  Changelog format) for every change in behavior, API, or supported versions.
-- Use Conventional Commit messages (`fix: ...`, `feat: ...`, `docs: ...`) and
-  `fix/...` or `feat/...` branch names.
+  Changelog format) for every change in behavior, API, or supported versions. CI,
+  build, tooling, and test-only changes get no entry.
+- Use Conventional Commit messages (`fix: ...`, `feat: ...`, `docs: ...`) and name
+  branches after the commit type, such as `fix/...`, `feat/...`, `ci/...`, or
+  `chore/...`.
+- Get approval for each remote step separately: approval to commit does not cover
+  pushing, and approval to push does not cover tagging. Push directly to `main` only
+  when asked; the branch rules let such a push skip the required checks. The
+  maintainer merges pull requests himself with rebase or squash merges, so merged
+  commits get new SHAs.
+- Pull request bodies follow `.github/PULL_REQUEST_TEMPLATE.md`. Write `Fixes #N`
+  for the issue a pull request resolves, so that GitHub closes it.
+- httpx-tenacity (`midnighter/httpx-tenacity`) shares this repository's template,
+  so tooling changes are often ported between them; `git format-patch` with
+  `git apply --check` usually applies cleanly. Port each upstream commit as its own
+  commit with the same message, changing only the `Amp-Thread-ID` trailer.
 - Record significant design decisions as ADRs in `docs/adr/` with the `adr` skill,
   and link them in `docs/adr/index.md`.
 - Versions come from git tags through hatch-vcs. Never edit the generated
@@ -183,3 +211,9 @@ changes unless the task is to update dependencies.
 - A release tag must point to a commit on `main`. The release workflow's
   `check-tag` job refuses any other commit, and its `attest` job records build
   provenance for the distributions before they are published.
+- Tags are lightweight and have no `v` prefix, such as `0.7.0` or `0.7.0rc1`.
+  Pre-release tags publish GitHub pre-releases. TestPyPI and PyPI never accept a
+  version twice, so each trial release needs a new tag.
+- To release, add `## [X.Y.Z] - (YYYY-MM-DD)` below a new, empty `## [Unreleased]`
+  heading, commit it as `docs: prepare release vX.Y.Z`, and tag that commit only
+  after its CI passes on `main`.

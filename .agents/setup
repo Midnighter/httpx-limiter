@@ -137,5 +137,11 @@ cat >> "$guidance" <<'EOF'
   the `CS_ACCESS_TOKEN` secret is set, use `cs review <file>` for a file's code
   health score and findings, and `cs delta origin/main` for the branch's impact
   before pushing.
+- `.amp/plugins/pre-commit-checks.ts` runs the CI checks before each agent
+  `git commit` and blocks the commit when one fails. It does not run in external
+  agent threads such as Claude Code; run the checks yourself there.
+- `tests/acceptance/test_async_multi_rate_limit.py::test_limits` can fail on the
+  first run after the orb resumes, while Traefik warms up. Rerun it before
+  investigating.
 <!-- end httpx-limiter orb notes -->
 EOF
