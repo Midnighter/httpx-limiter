@@ -157,9 +157,7 @@ The zizmor workflow runs only on pull requests to `main` that change
 `.github/workflows/`. Without a token zizmor skips its online audits, which CI
 runs, so check workflow changes with `GH_TOKEN=$(gh auth token) hatch run
 workflows:check`. Any finding fails CI. Ask before suppressing one with
-`# zizmor: ignore[...]`. When editing workflows, a calling workflow must grant every
-permission that its reusable workflows request (otherwise the run ends in
-`startup_failure`), and tag filters are globs, not regular expressions.
+`# zizmor: ignore[...]`.
 
 Other command pitfalls:
 
@@ -168,8 +166,16 @@ Other command pitfalls:
 - Run one-off tools in the repository with `uv run --no-project --with <pkg>`;
   without `--no-project`, uv leaves a stray `uv.lock`.
 - pre-commit is not installed: use `uvx pre-commit`. It refuses to run while
-  `.pre-commit-config.yaml` has unstaged changes.
+  `.pre-commit-config.yaml` has unstaged changes. Hooks that need the project's
+  tools are local hooks that call `hatch run`, so they use the locked versions. Do
+  not add `default_language_version`; pre-commit cannot download Python 3.15.
+- `.amp/plugins/pre-commit-checks.ts` runs the checks before every agent
+  `git commit`. Keep it a plain allow or reject check; do not make it rewrite the
+  commit command or install git hooks.
 - The Pyodide tests load the wheel from `dist/`, so run `pyodide build` before them.
+- Zensical silently ignores MkDocs plugins it does not support, even with `--strict`.
+  Check that it supports a plugin before adding one. Navigation lives in
+  `docs/.nav.yml` and `docs/adr/.nav.yml`.
 
 CodeScene measures code health. Its GitHub App reviews pull requests, so CI runs no
 CodeScene job. When the `cs` CLI is installed and signed in (`cs auth login` or
@@ -182,7 +188,33 @@ arguments to pytest after `--`, for example
 `hatch run +py=3.15 unit-tests:run -- -k multi`.
 
 Running hatch may rewrite the headers of `requirements/*.txt`. Do not commit those
-changes unless the task is to update dependencies.
+changes unless the task is to update dependencies. Python 3.15 is set once in
+`[tool.hatch.envs.default]` and the test matrices override it; do not add
+`python = ...` to individual environments. To regenerate locks, run
+`hatch env prune` first, because `hatch env create` does nothing for an existing
+environment. `dev` is the `pip-compile-constraint` of every other environment, so
+changing it rewrites the headers of all lock files. `hatch-pip-compile --all` leaves
+an untracked `requirements/requirements-default.txt`; delete it.
+
+## CI workflows
+
+- `main.yml` runs CI on pushes to `main` and on pull requests, but deploys the docs
+  through `docs.yml` only on `main`. `release.yml` runs only on tag pushes, so a
+  pull request never runs `docs.yml` or `release.yml`.
+- Pin actions by full commit SHA. Each workflow starts with `permissions: {}`, each
+  job grants only what it needs, and a calling workflow must grant every permission
+  that its reusable workflows request (otherwise the run ends in `startup_failure`).
+- Jobs that call a reusable workflow cannot set `timeout-minutes`. Docker-based
+  actions, such as the PyPI publish, need `ubuntu-latest`, not `ubuntu-slim`.
+- Tag filters are globs, not regular expressions.
+- The hatch version appears in 8 places in `test.yml`, `docs.yml`, `release.yml`,
+  and `zizmor.yml`; bump them together. The unit-tests job installs hatch with
+  `pip install hatch==X hatch-pip-compile` instead of the `pypa/hatch` action, which
+  breaks `distribution:check` on macOS and Windows. Keep `hatch-pip-compile` on that
+  line: without it hatch fails on macOS with "unknown type: pip-compile".
+- Packages that pin each other exactly (`httpx2` and `httpcore2`, `zensical` and
+  `zensical-ui`) need a `groups:` entry in `.github/dependabot.yml`, or their
+  separate updates fail.
 
 ## Changes and releases
 
