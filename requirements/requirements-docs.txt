@@ -332,9 +332,9 @@ pathspec==1.1.1 \
     #   -c requirements/requirements-dev.txt
     #   mkdocs
     #   zensical
-platformdirs==4.14.5 \
-    --hash=sha256:32e9921db7385aa8169bee4fe9501923e5715ba9fb7ea3b9c69b0d8e0639f7a1 \
-    --hash=sha256:8e778c6fa421516f4d3369449f8df3b0e1b72c0e0005fe88e3ec772d0a14e750
+platformdirs==4.14.6 \
+    --hash=sha256:2fabae4441a016e262d87ef88f677c0d76c1999227e068eba2e8a81cf6fb4b30 \
+    --hash=sha256:57d7bbea7c41e86b2063409934372f3ea3a396ec5e4bad595c6cb50cbc5449bd
     # via
     #   -c requirements/requirements-dev.txt
     #   mkdocs-get-deps
